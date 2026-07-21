@@ -84,10 +84,7 @@ const About = () => {
           </div>
           
           <div style={{ textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '4px', textTransform: 'none' }}>Divyansh Chandra</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--accent-secondary)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px' }}>
-              SEO Strategist & Growth Marketer
-            </p>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0', textTransform: 'none' }}>Divyansh Chandra</h3>
           </div>
         </motion.div>
 
