@@ -8,13 +8,6 @@ const highlights = [
   { value: '3+', label: 'Internships' },
 ];
 
-const strengths = [
-  { title: 'Growth', desc: 'Organic traffic scaling, funnel optimization, A/B testing' },
-  { title: 'Technical', desc: 'SEO auditing, Core Web Vitals, schema markup, Python automation' },
-  { title: 'Data', desc: 'GA4 advanced analysis, attribution modeling, cohort analysis' },
-  { title: 'AI', desc: 'Content generation pipelines, prompt engineering, NLP systems' },
-];
-
 const About = () => {
   return (
     <section className="section" id="about">
@@ -50,55 +43,85 @@ const About = () => {
       </motion.div>
 
       <div className="about-grid">
-        {/* Left column — main content */}
+        {/* Left column — Profile photo & description card */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="about-content"
+          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
         >
-          <div className="about-lead">
-            <ScrollReveal
-              baseOpacity={0.1}
-              enableBlur={true}
-              baseRotation={3}
-              blurStrength={4}
-              textClassName="about-lead-text"
-            >
-              I'm a data-driven marketer specializing in organic growth, marketing automation, and AI-powered content systems. My approach combines keyword research and technical SEO with Python automation and analytics to deliver measurable results.
-            </ScrollReveal>
+          <div style={{
+            position: 'relative',
+            borderRadius: '24px',
+            overflow: 'hidden',
+            border: '1px solid var(--glass-border)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+            aspectRatio: '1/1',
+            width: '100%',
+            maxWidth: '320px',
+            margin: '0 auto'
+          }}>
+            <img 
+              src="/profile.png" 
+              alt="Divyansh Chandra" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }} 
+            />
+            {/* Subtle gradient overlay */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(to bottom, transparent 70%, rgba(5,5,5,0.9) 100%)',
+              pointerEvents: 'none'
+            }} />
           </div>
-
-          <div className="about-body">
-            <p>
-              <strong style={{ color: 'var(--text-primary)' }}>Recent Focus:</strong> Building scalable content pipelines for 1page.info across <strong style={{ color: 'var(--accent-color)' }}>12 industry verticals</strong> (healthcare, food & agriculture, metal/steel, education). Implemented AI-powered content generation with sub-20% AI detection scores, internal linking via keyword registries, and image placement logic optimizing for visual engagement.
-            </p>
-            <p>
-              I'm an <strong style={{ color: 'var(--text-primary)' }}>MBA Tech student</strong> (graduating 2027) with 3+ internships applying these frameworks across diverse industries. I learn fast and love solving problems at the intersection of marketing and engineering.
+          
+          <div style={{ textAlign: 'center' }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '4px', textTransform: 'none' }}>Divyansh Chandra</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--accent-secondary)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+              SEO Strategist & Growth Marketer
             </p>
           </div>
         </motion.div>
 
-        {/* Right column — core strengths */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="about-strengths"
-        >
-          {strengths.map((item, i) => (
-            <motion.div
-              key={i}
-              className="strength-card glass-card"
-              whileHover={{ borderColor: 'rgba(59, 130, 246, 0.35)' }}
-            >
-              <h4 className="strength-card__title">{item.title}</h4>
-              <p className="strength-card__desc">{item.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Right column — content */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="about-content"
+          >
+            <div className="about-lead" style={{ borderBottom: 'none', paddingBottom: '0', marginBottom: '20px' }}>
+              <ScrollReveal
+                baseOpacity={0.1}
+                enableBlur={true}
+                baseRotation={3}
+                blurStrength={4}
+                textClassName="about-lead-text"
+              >
+                I'm a data-driven marketer specializing in organic growth, marketing automation, and AI-powered content systems. My approach combines keyword research and technical SEO with Python automation and analytics to deliver measurable results.
+              </ScrollReveal>
+            </div>
+
+            <div className="about-body">
+              <p>
+                <strong style={{ color: 'var(--text-primary)' }}>Recent Focus:</strong> Building scalable content pipelines for 1page.info across <strong style={{ color: 'var(--accent-color)' }}>12 industry verticals</strong> (healthcare, food & agriculture, metal/steel, education). Implemented AI-powered content generation with sub-20% AI detection scores, internal linking via keyword registries, and image placement logic optimizing for visual engagement.
+              </p>
+              <p>
+                I'm an <strong style={{ color: 'var(--text-primary)' }}>MBA Tech student</strong> (graduating 2027) with 3+ internships applying these frameworks across diverse industries. I learn fast and love solving problems at the intersection of marketing and engineering.
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

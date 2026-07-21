@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import SplitText from './SplitText';
-import DarkVeil from './DarkVeil';
+import { Link } from 'react-router-dom';
 
 interface HeroProps {
   onConnectClick: () => void;
@@ -9,16 +9,6 @@ interface HeroProps {
 const Hero = ({ onConnectClick }: HeroProps) => {
   return (
     <section className="section" id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '100px' }}>
-      <div id="canvas-container">
-        <DarkVeil 
-          hueShift={-30} 
-          noiseIntensity={0.08} 
-          scanlineIntensity={0.2} 
-          speed={1.5} 
-          warpAmount={0.5} 
-        />
-      </div>
-
       <div className="content-wrapper" style={{ maxWidth: '800px' }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -105,10 +95,8 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                 Let's Connect
               </motion.button>
 
-              <motion.a
-                href="#projects"
-                whileHover={{ scale: 1.05, color: 'var(--text-primary)' }}
-                whileTap={{ scale: 0.95 }}
+              <Link
+                to="/projects"
                 style={{
                   color: 'var(--text-secondary)',
                   fontWeight: 600,
@@ -118,8 +106,13 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                   marginLeft: '10px'
                 }}
               >
-                View My Work →
-              </motion.a>
+                <motion.span
+                  whileHover={{ color: 'var(--text-primary)' }}
+                  style={{ display: 'inline-block' }}
+                >
+                  View My Work →
+                </motion.span>
+              </Link>
 
               <motion.a
                 href="/resume.pdf"

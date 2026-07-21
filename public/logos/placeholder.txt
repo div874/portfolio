@@ -1,0 +1,3 @@
+Place your client logo images (PNG, JPG, JPEG, SVG, WebP) in this folder.
+They will be automatically detected and displayed on the Home page.
+Filename format: "client-name.png" (e.g., "1page.info.png", "brandloom.png").

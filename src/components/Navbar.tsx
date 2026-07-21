@@ -1,11 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 const navItems = [
-  { label: 'About', id: 'about' },
-  { label: 'Experience', id: 'experience' },
-  { label: 'Projects', id: 'projects' },
-  { label: 'Skills', id: 'skills' },
+  { label: 'Home', path: '/' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Clients & Experience', path: '/experience' },
+  { label: 'Tech Skills', path: '/skills' },
 ];
 
 const Navbar = () => {
@@ -18,11 +19,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleScroll = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setMobileOpen(false);
-  };
-
   return (
     <>
       <motion.nav 
@@ -31,26 +27,34 @@ const Navbar = () => {
         transition={{ duration: 0.5 }}
         className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}
       >
-        <div 
-          className="navbar__logo"
-          onClick={() => handleScroll('home')}
+        <Link 
+          to="/" 
+          className="navbar__logo" 
+          onClick={() => setMobileOpen(false)}
+          style={{ textDecoration: 'none' }}
         >
           DC<span className="accent-text">.</span>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="navbar__links">
           {navItems.map(item => (
-            <button key={item.id} onClick={() => handleScroll(item.id)} className="nav-link">
+            <NavLink 
+              key={item.path} 
+              to={item.path} 
+              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+              style={{ textDecoration: 'none' }}
+            >
               {item.label}
-            </button>
+            </NavLink>
           ))}
-          <button 
-            onClick={() => handleScroll('cv-section')}
+          <Link 
+            to="/cv"
             className="glow-button"
+            style={{ textDecoration: 'none' }}
           >
             Explore My CV
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -77,28 +81,25 @@ const Navbar = () => {
           >
             <div className="mobile-drawer__content">
               {navItems.map((item, i) => (
-                <motion.button
-                  key={item.id}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  onClick={() => handleScroll(item.id)}
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
                   className="mobile-drawer__link"
+                  style={{ textDecoration: 'none' }}
                 >
                   <span className="mobile-drawer__number">0{i + 1}</span>
                   {item.label}
-                </motion.button>
+                </NavLink>
               ))}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                onClick={() => handleScroll('cv-section')}
+              <Link
+                to="/cv"
+                onClick={() => setMobileOpen(false)}
                 className="glow-button"
-                style={{ marginTop: '20px', width: '100%', textAlign: 'center' }}
+                style={{ marginTop: '20px', width: '100%', textAlign: 'center', textDecoration: 'none' }}
               >
                 Explore My CV
-              </motion.button>
+              </Link>
             </div>
           </motion.div>
         )}
