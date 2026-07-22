@@ -396,7 +396,24 @@ const Home = ({ onConnectClick }: HomeProps) => {
           ))}
         </div>
 
-        <div style={{ marginTop: '30px', textAlign: 'right' }}>
+        <div style={{ 
+          marginTop: '20px', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          flexWrap: 'wrap',
+          gap: '16px'
+        }}>
+          <p style={{ 
+            color: 'var(--text-secondary)', 
+            fontSize: '0.85rem', 
+            fontStyle: 'italic', 
+            margin: 0,
+            maxWidth: '600px',
+            lineHeight: '1.4'
+          }}>
+            * Note: Some of these clients were collaborated with during internship/agency roles, not as direct private personal clients.
+          </p>
           <Link to="/experience" style={{ color: 'var(--accent-secondary)', fontWeight: 600, textDecoration: 'none', fontSize: '0.95rem' }}>
             View Full Experience & Campaign Timelines →
           </Link>
