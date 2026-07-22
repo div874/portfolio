@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Download } from 'lucide-react';
 
 const certs = [
   { title: 'Search Engine Optimization (SEO)', issuer: 'HubSpot Academy', date: 'Jan 2026 – Feb 2026' },
@@ -30,9 +31,10 @@ const Certifications = () => {
           href="/Divyansh_Chandra_CV.pdf"
           download="Divyansh_Chandra_CV.pdf"
           className="glow-button"
-          style={{ display: 'inline-block', textDecoration: 'none' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
         >
-          Download PDF Resume
+          <span>Download PDF Resume</span>
+          <Download size={16} />
         </a>
       </motion.div>
 

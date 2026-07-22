@@ -1,0 +1,4 @@
+Place screenshots of your client websites in this folder.
+They will be displayed as previews in the case study modal popup.
+Filename format: "client-name.png" (e.g. "1page.info.png", "brandloom.png", "soulcare.png").
+Recommended size: 800x600 pixels (aspect ratio 4:3 or similar).

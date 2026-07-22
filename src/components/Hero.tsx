@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import SplitText from './SplitText';
 import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
 
 interface HeroProps {
   onConnectClick: () => void;
@@ -126,10 +127,14 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                   fontSize: '1rem',
                   cursor: 'pointer',
                   textDecoration: 'none',
-                  marginLeft: '10px'
+                  marginLeft: '10px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
                 }}
               >
-                Download Resume 📄
+                <span>Download Resume</span>
+                <Download size={18} />
               </motion.a>
             </div>
           </div>
