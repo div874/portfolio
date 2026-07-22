@@ -43,24 +43,33 @@ const About = () => {
       </motion.div>
 
       <div className="about-grid">
-        {/* Left column — Profile photo & description card */}
+        {/* Left column — Profile Card */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+          className="glass-card"
+          style={{
+            padding: '24px',
+            borderRadius: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '16px',
+            maxWidth: '320px',
+            width: '100%',
+            margin: '0 auto',
+            border: '1px solid var(--glass-border)'
+          }}
         >
           <div style={{
             position: 'relative',
-            borderRadius: '24px',
+            borderRadius: '16px',
             overflow: 'hidden',
-            border: '1px solid var(--glass-border)',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-            aspectRatio: '1/1',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
             width: '100%',
-            maxWidth: '320px',
-            margin: '0 auto'
+            aspectRatio: '1/1'
           }}>
             <img 
               src="/profile.png" 
@@ -78,13 +87,23 @@ const About = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'linear-gradient(to bottom, transparent 70%, rgba(5,5,5,0.9) 100%)',
+              background: 'linear-gradient(to bottom, transparent 70%, rgba(5,5,5,0.8) 100%)',
               pointerEvents: 'none'
             }} />
           </div>
           
           <div style={{ textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0', textTransform: 'none' }}>Divyansh Chandra</h3>
+            <h3 style={{ 
+              fontSize: '1.35rem', 
+              color: 'var(--text-primary)', 
+              margin: 0, 
+              textTransform: 'none',
+              fontWeight: 700,
+              letterSpacing: '-0.3px',
+              fontFamily: '"Outfit", sans-serif'
+            }}>
+              Divyansh Chandra
+            </h3>
           </div>
         </motion.div>
 
