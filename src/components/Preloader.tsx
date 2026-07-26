@@ -17,17 +17,17 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const duration = 3000; // Exactly 3.0 seconds loading preloader
+    const duration = 4000; // Exactly 4.0 seconds loading preloader
 
     const timer = setTimeout(() => {
       setIsFinished(true);
       if (onComplete) onComplete();
     }, duration);
 
-    // Continuous smooth word rotation timer (rotates every 1000ms for 3 words over 3s)
+    // Continuous smooth word rotation timer (rotates every 1333ms for 3 words over 4s)
     const wordTimer = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % welcomeWords.length);
-    }, 1000);
+    }, 1333);
 
     return () => {
       clearTimeout(timer);
@@ -76,7 +76,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             <div className="preloader-signature-container">
               <ShinyText
                 text="Divyansh Chandra"
-                speed={3.0}
+                speed={3.8}
                 delay={0}
                 color="#7B7D91"
                 shineColor="#ffffff"
