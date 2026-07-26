@@ -29,6 +29,7 @@ body {
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -42,6 +43,10 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(59, 130, 246, 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-color);
 }
 
 /* Selection highlight */

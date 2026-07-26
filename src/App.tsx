@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -17,6 +17,17 @@ import CVPage from './pages/CVPage';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isLoading]);
+
   const handlePreloaderComplete = () => {
     window.scrollTo(0, 0);
     setIsLoading(false);
@@ -31,8 +42,15 @@ function App() {
       <Preloader onComplete={handlePreloaderComplete} />
       <ScrollToTop />
       <div className="portfolio-container font-inter">
-        {/* Global Persistent WebGL Background */}
-        <div id="canvas-container">
+        {/* Global Persistent WebGL Background (hidden during preloader to prevent blue shader/scrollbar leaks) */}
+        <div 
+          id="canvas-container"
+          style={{ 
+            opacity: isLoading ? 0 : 1, 
+            transition: 'opacity 0.8s ease',
+            pointerEvents: 'none'
+          }}
+        >
           <DarkVeil 
             hueShift={0} 
             noiseIntensity={0.08} 
