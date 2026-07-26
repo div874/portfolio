@@ -17,6 +17,15 @@ import CVPage from './pages/CVPage';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
+  // Manual scroll restoration & scroll to top immediately on initial mount
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Lock scroll overflow while preloader is active
   useEffect(() => {
     if (isLoading) {
       document.body.style.overflow = 'hidden';
@@ -29,7 +38,6 @@ function App() {
   }, [isLoading]);
 
   const handlePreloaderComplete = () => {
-    window.scrollTo(0, 0);
     setIsLoading(false);
   };
 
@@ -42,7 +50,7 @@ function App() {
       <Preloader onComplete={handlePreloaderComplete} />
       <ScrollToTop />
       <div className="portfolio-container font-inter">
-        {/* Global Persistent WebGL Background (hidden during preloader to prevent blue shader/scrollbar leaks) */}
+        {/* Global Persistent WebGL Background */}
         <div 
           id="canvas-container"
           style={{ 
@@ -60,7 +68,7 @@ function App() {
           />
         </div>
 
-        {/* Clean, Sharp Crisp Fade Reveal into Home Page (No blur, no scale zoom) */}
+        {/* Clean, Sharp Crisp Fade Reveal into Home Page */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{
