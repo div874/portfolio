@@ -9,7 +9,7 @@ interface HeroProps {
 
 const Hero = ({ onConnectClick }: HeroProps) => {
   return (
-    <section className="section" id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '100px' }}>
+    <section className="section" id="home" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', paddingTop: '80px', paddingBottom: '40px' }}>
       <div className="content-wrapper" style={{ maxWidth: '800px' }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -16,13 +17,18 @@ import CVPage from './pages/CVPage';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
+  const handlePreloaderComplete = () => {
+    window.scrollTo(0, 0);
+    setIsLoading(false);
+  };
+
   const handleConnectClick = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <BrowserRouter>
-      <Preloader onComplete={() => setIsLoading(false)} />
+      <Preloader onComplete={handlePreloaderComplete} />
       <ScrollToTop />
       <div className="portfolio-container font-inter">
         {/* Global Persistent WebGL Background */}
@@ -36,8 +42,15 @@ function App() {
           />
         </div>
 
-        {/* Main Website Content (Hidden during preloader so only WebGL wavy background + preloader is visible) */}
-        <div style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.6s ease', pointerEvents: isLoading ? 'none' : 'auto' }}>
+        {/* Smooth Fade Reveal into Home Page (no layout jump/y-shift) */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: isLoading ? 0 : 1
+          }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+        >
           <Navbar />
           
           <main>
@@ -52,7 +65,7 @@ function App() {
           </main>
 
           <Footer />
-        </div>
+        </motion.div>
       </div>
     </BrowserRouter>
   );
