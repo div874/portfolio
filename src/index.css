@@ -1180,20 +1180,28 @@ canvas {
 
 .preloader-welcome-wrapper {
   height: 36px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-15px);
+  margin-top: -15px;
   margin-bottom: -15px;
+  position: relative;
 }
 
 .preloader-welcome-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
   font-family: 'Outfit', 'Inter', sans-serif;
   font-size: 1.15rem;
   font-weight: 500;
   letter-spacing: 4.5px;
   color: #7B7D91;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .preloader-signature-container {

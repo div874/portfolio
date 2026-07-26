@@ -17,17 +17,17 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const duration = 2500; // 2.5 seconds loading preloader
+    const duration = 3000; // Exactly 3.0 seconds loading preloader
 
     const timer = setTimeout(() => {
       setIsFinished(true);
       if (onComplete) onComplete();
     }, duration);
 
-    // Multilingual word rotation timer (rotates every 830ms for 3 languages)
+    // Continuous smooth word rotation timer (rotates every 1000ms for 3 words over 3s)
     const wordTimer = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % welcomeWords.length);
-    }, 830);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
@@ -56,15 +56,15 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             }}
             className="preloader-center-content"
           >
-            {/* Multilingual Welcome Subtitle (ABOVE the name) */}
+            {/* Multilingual Welcome Subtitle (Smooth Crossfade without blank pause) */}
             <div className="preloader-welcome-wrapper">
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                 <motion.span
                   key={wordIndex}
-                  initial={{ opacity: 0, y: 3 }}
+                  initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 0.85, y: 0 }}
-                  exit={{ opacity: 0, y: -3 }}
-                  transition={{ duration: 0.35 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
                   className="preloader-welcome-text"
                 >
                   {welcomeWords[wordIndex]}
@@ -76,7 +76,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             <div className="preloader-signature-container">
               <ShinyText
                 text="Divyansh Chandra"
-                speed={3.2}
+                speed={3.0}
                 delay={0}
                 color="#7B7D91"
                 shineColor="#ffffff"
