@@ -1146,8 +1146,14 @@ canvas {
 /* ─── Preloader Screen ────────────────────────────── */
 .preloader-overlay {
   position: fixed;
-  inset: 0;
-  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 999999;
   background-color: #050505;
   display: flex;
   align-items: center;
@@ -1210,19 +1216,19 @@ canvas {
 
   .preloader-welcome-wrapper {
     transform: none;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     height: auto;
   }
 
   .preloader-shiny-name {
     font-family: "Great Vibes", "Alex Brush", "Pinyon Script", cursive;
-    font-size: clamp(34px, 9.2vw, 64px);
+    font-size: clamp(42px, 11vw, 76px);
     white-space: nowrap;
     line-height: 1.2;
   }
 
   .preloader-welcome-text {
-    font-size: 0.95rem;
-    letter-spacing: 3.2px;
+    font-size: 1.15rem;
+    letter-spacing: 3.5px;
   }
 }

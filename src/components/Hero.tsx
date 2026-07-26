@@ -5,15 +5,17 @@ import { Download } from 'lucide-react';
 
 interface HeroProps {
   onConnectClick: () => void;
+  isLoading?: boolean;
 }
 
-const Hero = ({ onConnectClick }: HeroProps) => {
+const Hero = ({ onConnectClick, isLoading = false }: HeroProps) => {
   return (
     <section className="section" id="home" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', paddingTop: '80px', paddingBottom: '40px' }}>
       <div className="content-wrapper" style={{ maxWidth: '800px' }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          key={isLoading ? 'hero-loading' : 'hero-ready'}
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 25 : 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <div style={{ zIndex: 10, position: 'relative' }}>
@@ -29,28 +31,34 @@ const Hero = ({ onConnectClick }: HeroProps) => {
               letterSpacing: '-0.02em',
               marginBottom: '20px'
             }}>
-              <SplitText
-                text="DIVYANSH"
-                tag="span"
-                splitType="chars"
-                textAlign="left"
-                delay={80}
-                duration={1.5}
-                from={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
-                to={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-              />
-              <br />
-              <SplitText
-                text="CHANDRA"
-                tag="span"
-                className="accent-split-text"
-                splitType="chars"
-                textAlign="left"
-                delay={80}
-                duration={1.5}
-                from={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
-                to={{ opacity: 1, filter: 'blur(0px)', y: 0, delay: 0.5 }}
-              />
+              {!isLoading && (
+                <>
+                  <SplitText
+                    key="hero-divyansh"
+                    text="DIVYANSH"
+                    tag="span"
+                    splitType="chars"
+                    textAlign="left"
+                    delay={60}
+                    duration={1.2}
+                    from={{ opacity: 0, filter: 'blur(10px)', y: 25 }}
+                    to={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                  />
+                  <br />
+                  <SplitText
+                    key="hero-chandra"
+                    text="CHANDRA"
+                    tag="span"
+                    className="accent-split-text"
+                    splitType="chars"
+                    textAlign="left"
+                    delay={60}
+                    duration={1.2}
+                    from={{ opacity: 0, filter: 'blur(10px)', y: 25 }}
+                    to={{ opacity: 1, filter: 'blur(0px)', y: 0, delay: 0.4 }}
+                  />
+                </>
+              )}
             </h1>
 
             <h2 style={{ 

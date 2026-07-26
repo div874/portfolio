@@ -42,20 +42,21 @@ function App() {
           />
         </div>
 
-        {/* Smooth Fade Reveal into Home Page (no layout jump/y-shift) */}
+        {/* Luxury Smooth Zoom & Fade Reveal into Home Page */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0, scale: 1.02 }}
           animate={{
-            opacity: isLoading ? 0 : 1
+            opacity: isLoading ? 0 : 1,
+            scale: isLoading ? 1.02 : 1
           }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
         >
           <Navbar />
           
           <main>
             <Routes>
-              <Route path="/" element={<Home onConnectClick={handleConnectClick} />} />
+              <Route path="/" element={<Home onConnectClick={handleConnectClick} isLoading={isLoading} />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/experience" element={<ExperiencePage />} />
               <Route path="/skills" element={<SkillsPage />} />

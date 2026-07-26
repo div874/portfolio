@@ -8,6 +8,7 @@ import { X, ExternalLink, TrendingUp, Bot, Zap, BarChart3 } from 'lucide-react';
 
 interface HomeProps {
   onConnectClick: () => void;
+  isLoading?: boolean;
 }
 
 const expertiseData = [
@@ -243,7 +244,7 @@ const getClientDetails = (name: string) => {
   return clientDetailsMap[normKey] || defaultDetails;
 };
 
-const Home = ({ onConnectClick }: HomeProps) => {
+const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
   const [selectedClient, setSelectedClient] = useState<any>(null);
 
   const closeModal = () => setSelectedClient(null);
@@ -272,7 +273,7 @@ const Home = ({ onConnectClick }: HomeProps) => {
   return (
     <div className="page-home">
       {/* Hero Header */}
-      <Hero onConnectClick={onConnectClick} />
+      <Hero onConnectClick={onConnectClick} isLoading={isLoading} />
 
       {/* About & Stats */}
       <About />

@@ -18,17 +18,17 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const duration = 2000; // 2 seconds loading preloader
+    const duration = 2500; // Exactly 2.5 seconds loading preloader
 
     const timer = setTimeout(() => {
       setIsFinished(true);
       if (onComplete) onComplete();
     }, duration);
 
-    // Multilingual word rotation timer (rotates every 500ms for 4 languages)
+    // Multilingual word rotation timer (rotates every 625ms for 4 languages)
     const wordTimer = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % welcomeWords.length);
-    }, 500);
+    }, 625);
 
     return () => {
       clearTimeout(timer);
@@ -41,16 +41,22 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       {!isFinished && (
         <motion.div
           key="preloader"
-          initial={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.04,
-            filter: 'blur(8px)',
-            transition: { duration: 0.85, ease: [0.76, 0, 0.24, 1] }
+            transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] }
           }}
           className="preloader-overlay"
         >
-          <div className="preloader-center-content">
+          <motion.div
+            initial={{ scale: 1 }}
+            exit={{
+              scale: 0.96,
+              filter: 'blur(8px)',
+              transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] }
+            }}
+            className="preloader-center-content"
+          >
             {/* Multilingual Welcome Subtitle (ABOVE the name) */}
             <div className="preloader-welcome-wrapper">
               <AnimatePresence mode="wait">
@@ -80,7 +86,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
                 className="preloader-shiny-name"
               />
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
