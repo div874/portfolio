@@ -47,7 +47,7 @@ function App() {
           id="canvas-container"
           style={{ 
             opacity: isLoading ? 0 : 1, 
-            transition: 'opacity 0.8s ease',
+            transition: 'opacity 0.5s ease',
             pointerEvents: 'none'
           }}
         >
@@ -60,14 +60,13 @@ function App() {
           />
         </div>
 
-        {/* Luxury Smooth Zoom & Fade Reveal into Home Page */}
+        {/* Clean, Sharp Crisp Fade Reveal into Home Page (No blur, no scale zoom) */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.02 }}
+          initial={{ opacity: 0 }}
           animate={{
-            opacity: isLoading ? 0 : 1,
-            scale: isLoading ? 1.02 : 1
+            opacity: isLoading ? 0 : 1
           }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
         >
           <Navbar />
