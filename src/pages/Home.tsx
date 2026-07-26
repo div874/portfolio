@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import About from '../components/About';
+import TechMarquee from '../components/TechMarquee';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { X, ExternalLink, TrendingUp, Bot, Zap, BarChart3 } from 'lucide-react';
@@ -316,6 +317,9 @@ const Home = ({ onConnectClick }: HomeProps) => {
           ))}
         </div>
       </section>
+
+      {/* Tech Stack Sliding Icons Marquee */}
+      <TechMarquee />
 
       {/* 2. Clients I've Worked With (Logos Only) */}
       <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
