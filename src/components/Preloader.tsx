@@ -9,8 +9,7 @@ interface PreloaderProps {
 const welcomeWords = [
   'WELCOME',        // English
   'स्वागत है',       // Hindi
-  'SWAGAT HAI',     // Hinglish
-  'BIENVENUE'       // French
+  'SWAGAT HAI'      // Hinglish
 ];
 
 const Preloader = ({ onComplete }: PreloaderProps) => {
@@ -18,17 +17,17 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const duration = 2500; // Exactly 2.5 seconds loading preloader
+    const duration = 2500; // 2.5 seconds loading preloader
 
     const timer = setTimeout(() => {
       setIsFinished(true);
       if (onComplete) onComplete();
     }, duration);
 
-    // Multilingual word rotation timer (rotates every 625ms for 4 languages)
+    // Multilingual word rotation timer (rotates every 830ms for 3 languages)
     const wordTimer = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % welcomeWords.length);
-    }, 625);
+    }, 830);
 
     return () => {
       clearTimeout(timer);
@@ -65,7 +64,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
                   initial={{ opacity: 0, y: 3 }}
                   animate={{ opacity: 0.85, y: 0 }}
                   exit={{ opacity: 0, y: -3 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.35 }}
                   className="preloader-welcome-text"
                 >
                   {welcomeWords[wordIndex]}
@@ -77,7 +76,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             <div className="preloader-signature-container">
               <ShinyText
                 text="Divyansh Chandra"
-                speed={2.2}
+                speed={3.2}
                 delay={0}
                 color="#7B7D91"
                 shineColor="#ffffff"
