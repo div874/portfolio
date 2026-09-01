@@ -43,71 +43,26 @@ const About = () => {
       </motion.div>
 
       <div className="about-grid">
-        {/* Left column — Profile Card */}
+        {/* Left column — Mascot Image */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="glass-card"
-          style={{
-            padding: '24px',
-            borderRadius: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '16px',
-            maxWidth: '320px',
-            width: '100%',
-            margin: '0 auto',
-            border: '1px solid var(--glass-border)'
-          }}
         >
-          <div style={{
-            position: 'relative',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            width: '100%',
-            aspectRatio: '1/1'
-          }}>
-            <img 
-              src="/profile.png" 
-              alt="Divyansh Chandra" 
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }} 
-            />
-            {/* Subtle gradient overlay */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'linear-gradient(to bottom, transparent 70%, rgba(5,5,5,0.8) 100%)',
-              pointerEvents: 'none'
-            }} />
-          </div>
-          
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ 
-              fontSize: '1.35rem', 
-              color: 'var(--text-primary)', 
-              margin: 0, 
-              textTransform: 'none',
-              fontWeight: 700,
-              letterSpacing: '-0.3px',
-              fontFamily: '"Outfit", sans-serif'
-            }}>
-              Divyansh Chandra
-            </h3>
-          </div>
+          <img 
+            src="/about_mascot.png" 
+            alt="Coding Mascot" 
+            style={{
+              width: '100%',
+              height: 'auto',
+              display: 'block',
+              filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.06))'
+            }} 
+          />
         </motion.div>
 
-        {/* Right column — content */}
+        {/* Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <motion.div
             initial={{ opacity: 0, x: 30 }}

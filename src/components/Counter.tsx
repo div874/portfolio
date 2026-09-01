@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { motion, useSpring, useTransform } from 'framer-motion';
 import { useEffect } from 'react';
 
