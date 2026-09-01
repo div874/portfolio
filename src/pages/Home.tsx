@@ -336,21 +336,17 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           </h2>
         </motion.div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '40px', maxWidth: '1200px', margin: '0 auto', flexWrap: 'wrap' }}>
-          {/* Left side: Grey container for logos */}
-          <div style={{
-            flex: 1,
-            minWidth: '300px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '16px',
-            flexWrap: 'wrap',
-            background: 'var(--border-hover)',
-            border: '1px solid var(--glass-border)',
-            borderRadius: '20px',
-            padding: '30px 20px'
-          }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '24px',
+          flexWrap: 'wrap',
+          background: 'var(--border-hover)',
+          border: '1px solid var(--glass-border)',
+          borderRadius: '20px',
+          padding: '50px 30px'
+        }}>
           {clientLogos.map((client, idx) => (
             <motion.div
               key={client.name}
@@ -364,9 +360,9 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '200px',
-                height: '80px',
-                padding: '12px',
+                width: '275px',
+                height: '100px',
+                padding: '16px',
                 borderRadius: '12px',
                 background: 'var(--border-hover)',
                 border: '1px solid var(--glass-border)',
@@ -403,21 +399,6 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
               </span>
             </motion.div>
           ))}
-          </div>
-
-          {/* Right side: Mascot Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            style={{ width: '350px', flexShrink: 0, margin: '0 auto' }}
-          >
-            <img 
-              src="/clients_mascot.png" 
-              alt="Mascot Handshake" 
-              style={{ width: '100%', height: 'auto', display: 'block', filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.1))' }} 
-            />
-          </motion.div>
         </div>
 
         <div style={{ 
