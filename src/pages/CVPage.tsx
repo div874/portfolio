@@ -20,7 +20,8 @@ const CVPage = () => {
           </p>
 
           <a 
-            href="/resume.pdf" 
+            href="/Divyansh_Chandra_Resume.pdf" 
+            download="Divyansh_Chandra_Resume.pdf"
             target="_blank" 
             rel="noopener noreferrer" 
             className="glow-button"

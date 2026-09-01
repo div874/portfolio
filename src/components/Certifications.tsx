@@ -28,8 +28,8 @@ const Certifications = () => {
           A deeper look into my certifications and extracurricular activities that shape my holistic approach to marketing and tech.
         </p>
         <a
-          href="/Divyansh_Chandra_CV.pdf"
-          download="Divyansh_Chandra_CV.pdf"
+          href="/Divyansh_Chandra_Resume.pdf"
+          download="Divyansh_Chandra_Resume.pdf"
           className="glow-button"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
         >

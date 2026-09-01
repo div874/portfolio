@@ -1212,7 +1212,9 @@ canvas {
 }
 
 .preloader-shiny-name {
-  font-family: "Bickham Script Pro", "Edwardian Script ITC", "Monsieur La Doulaise", "Pinyon Script", "Alex Brush", "Great Vibes", cursive;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  letter-spacing: 4px;
   font-size: clamp(40px, 9vw, 115px);
   line-height: 1.25;
   text-align: center;
@@ -1233,7 +1235,8 @@ canvas {
   }
 
   .preloader-shiny-name {
-    font-family: "Great Vibes", "Alex Brush", "Pinyon Script", cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
     font-size: clamp(42px, 11vw, 76px);
     white-space: nowrap;
     line-height: 1.2;

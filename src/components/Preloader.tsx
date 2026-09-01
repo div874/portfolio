@@ -6,12 +6,6 @@ interface PreloaderProps {
   onComplete?: () => void;
 }
 
-const welcomeWords = [
-  'WELCOME',        // English
-  'स्वागत है',       // Hindi
-  'SWAGAT HAI'      // Hinglish
-];
-
 const Preloader = ({ onComplete }: PreloaderProps) => {
   const [wordIndex, setWordIndex] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
@@ -24,14 +18,8 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       if (onComplete) onComplete();
     }, duration);
 
-    // Continuous smooth word rotation timer (rotates every 1333ms for 3 words over 4s)
-    const wordTimer = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % welcomeWords.length);
-    }, 1333);
-
     return () => {
       clearTimeout(timer);
-      clearInterval(wordTimer);
     };
   }, [onComplete]);
 
@@ -56,22 +44,6 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             }}
             className="preloader-center-content"
           >
-            {/* Multilingual Welcome Subtitle (Smooth Crossfade without blank pause) */}
-            <div className="preloader-welcome-wrapper">
-              <AnimatePresence>
-                <motion.span
-                  key={wordIndex}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 0.85, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.35, ease: "easeInOut" }}
-                  className="preloader-welcome-text"
-                >
-                  {welcomeWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-
             {/* Signature Name rendered with ShinyText */}
             <div className="preloader-signature-container">
               <ShinyText

@@ -90,7 +90,8 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             </Link>
 
             <a
-              href="https://divyanshchandra.online/Divyansh%20Chandra%20Resume.pdf"
+              href="/Divyansh_Chandra_Resume.pdf"
+              download="Divyansh_Chandra_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               style={{
