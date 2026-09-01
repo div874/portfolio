@@ -126,7 +126,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                 padding={0}
                 gap={5}
                 textColor="var(--text-primary)"
-                fontWeight={800}
+                fontWeight="800"
               />
               <span style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em' }}>SECONDS</span>
             </div>
