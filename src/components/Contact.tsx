@@ -17,23 +17,8 @@ const Contact = () => {
 
     setStatus('sending');
 
-    const formspreeKey = import.meta.env.VITE_FORMSPREE_KEY;
-
-    if (!formspreeKey || formspreeKey === 'your_formspree_key_here') {
-      // Simulate submission during local testing if no key is configured
-      setTimeout(() => {
-        setStatus('success');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setMessage('');
-        setTimeout(() => setStatus('idle'), 5000);
-      }, 1000);
-      return;
-    }
-
     try {
-      const response = await fetch(`https://formspree.io/f/${formspreeKey}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/divyansh.chandra.work@gmail.com`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +90,7 @@ const Contact = () => {
 
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
             <motion.a
-              href="mailto:divyansh12dc@gmail.com"
+              href="mailto:divyansh.chandra.work@gmail.com"
               whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
               className="social-icon-link"
               title="Email"
@@ -114,7 +99,7 @@ const Contact = () => {
             </motion.a>
 
             <motion.a
-              href="https://linkedin.com/in/divyansh-chandra"
+              href="https://www.linkedin.com/in/div08/"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
@@ -125,7 +110,7 @@ const Contact = () => {
             </motion.a>
 
             <motion.a
-              href="https://github.com/divyansh-chandra"
+              href="https://github.com/div874"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}

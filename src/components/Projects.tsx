@@ -168,7 +168,7 @@ const Projects = () => {
         <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', marginBottom: '24px' }}>Interested in similar work?</h3>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <a href="#contact" className="glow-button" style={{ textDecoration: 'none' }}>Contact Me</a>
-          <a href="https://github.com/divyansh-chandra" target="_blank" rel="noopener noreferrer" className="social-icon-link" style={{ width: 'auto', padding: '0 20px', borderRadius: '30px', display: 'flex', gap: '8px' }}>
+          <a href="https://github.com/div874" target="_blank" rel="noopener noreferrer" className="social-icon-link" style={{ width: 'auto', padding: '0 20px', borderRadius: '30px', display: 'flex', gap: '8px' }}>
             <FaGithub size={18} /> Explore GitHub
           </a>
         </div>
