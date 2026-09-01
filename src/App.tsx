@@ -15,6 +15,7 @@ import SkillsPage from './pages/SkillsPage';
 import CVPage from './pages/CVPage';
 import AboutPage from './pages/AboutPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -84,6 +85,7 @@ function App() {
               <Route path="/experience" element={<ExperiencePage />} />
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/cv" element={<CVPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <Contact />
           </main>
