@@ -60,35 +60,36 @@ function Digit({ place, value, height, digitStyle }) {
   );
 }
 
-export default function Counter({
-  value,
-  fontSize = 100,
-  padding = 0,
-  places = [...value.toString()].map((ch, i, a) => {
-    ch == '.';
-    if (ch === '.') {
-      return '.';
-    } else {
-      return (
-        10 **
-        (a.indexOf('.') === -1 ? a.length - i - 1 : i < a.indexOf('.') ? a.indexOf('.') - i - 1 : -(i - a.indexOf('.')))
-      );
-    }
-  }),
-  gap = 8,
-  borderRadius = 4,
-  horizontalPadding = 8,
-  textColor = 'inherit',
-  fontWeight = 'inherit',
-  containerStyle,
-  counterStyle,
-  digitStyle,
-  gradientHeight = 16,
-  gradientFrom = 'transparent',
-  gradientTo = 'transparent',
-  topGradientStyle,
-  bottomGradientStyle
-}: any) {
+export default function Counter(props: any) {
+  const {
+    value,
+    fontSize = 100,
+    padding = 0,
+    places = [...value.toString()].map((ch, i, a) => {
+      ch == '.';
+      if (ch === '.') {
+        return '.';
+      } else {
+        return (
+          10 **
+          (a.indexOf('.') === -1 ? a.length - i - 1 : i < a.indexOf('.') ? a.indexOf('.') - i - 1 : -(i - a.indexOf('.')))
+        );
+      }
+    }),
+    gap = 8,
+    borderRadius = 4,
+    horizontalPadding = 8,
+    textColor = 'inherit',
+    fontWeight = 'inherit',
+    containerStyle,
+    counterStyle,
+    digitStyle,
+    gradientHeight = 16,
+    gradientFrom = 'transparent',
+    gradientTo = 'transparent',
+    topGradientStyle,
+    bottomGradientStyle
+  } = props;
   const height = fontSize + padding;
   const defaultCounterStyle = {
     fontSize,
