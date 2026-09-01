@@ -88,7 +88,7 @@ export default function Counter({
   gradientTo = 'transparent',
   topGradientStyle,
   bottomGradientStyle
-}) {
+}: any) {
   const height = fontSize + padding;
   const defaultCounterStyle = {
     fontSize,
