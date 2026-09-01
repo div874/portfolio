@@ -107,7 +107,6 @@ h4 {
   gap: 16px;
   margin-bottom: 50px;
 }
-
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -115,6 +114,14 @@ h4 {
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.about-mascot {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.06));
+  transform: scale(1.3) translateX(-10%);
 }
 
 .about-content {
@@ -793,6 +800,11 @@ canvas {
   .about-grid {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+  .about-mascot {
+    transform: scale(1) translateX(0);
+    max-width: 320px;
+    margin: 0 auto;
   }
 
   .stats-row {

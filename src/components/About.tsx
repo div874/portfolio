@@ -53,13 +53,7 @@ const About = () => {
           <img 
             src="/about_mascot.png" 
             alt="Coding Mascot" 
-            style={{
-              width: '100%',
-              height: 'auto',
-              display: 'block',
-              filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.06))',
-              transform: 'scale(1.3) translateX(-10%)'
-            }} 
+            className="about-mascot"
           />
         </motion.div>
 
