@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import ScrollReveal from './ScrollReveal';
 
 const highlights = [
@@ -89,6 +90,27 @@ const About = () => {
                 With 3+ internships and hands-on projects across AI, digital marketing, SEO, automation, and technology, I'm developing a multidisciplinary profile focused on using AI and technology to build, automate, and grow.
               </p>
             </div>
+
+            <Link
+              to="/about"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                marginTop: '24px',
+                color: 'var(--text-primary)',
+                fontWeight: 600,
+                fontSize: '1rem',
+                textDecoration: 'none',
+                borderBottom: '2px solid var(--text-primary)',
+                paddingBottom: '2px',
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.65')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              Know More →
+            </Link>
           </motion.div>
         </div>
       </div>
