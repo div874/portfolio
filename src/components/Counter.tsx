@@ -113,7 +113,7 @@ export default function Counter(props: any) {
     <span className="counter-container" style={containerStyle}>
       <span className="counter-counter" style={{ ...defaultCounterStyle, ...counterStyle }}>
         {places.map((place, idx) => (
-          <Digit key={`${place}-${idx}`} place={place} value={value} height={height} digitStyle={digitStyle} />
+          <Digit key={place} place={place} value={value} height={height} digitStyle={digitStyle} />
         ))}
       </span>
       <span className="gradient-container">

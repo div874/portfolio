@@ -121,7 +121,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
               <Counter
                 value={seconds}
-                places={[100, 10, 1]}
+                places={seconds >= 1000 ? [1000, 100, 10, 1] : [100, 10, 1]}
                 fontSize={80}
                 padding={0}
                 gap={5}
