@@ -73,7 +73,7 @@ const Contact = () => {
         transform: 'translate(-50%, -50%)',
         width: '800px',
         height: '800px',
-        background: 'radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(161, 161, 170, 0.06) 0%, transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0
       }} />

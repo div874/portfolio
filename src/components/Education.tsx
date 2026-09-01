@@ -51,8 +51,8 @@ const Education = () => {
                 fontWeight: 600,
                 fontSize: '0.85rem',
                 padding: '4px 14px',
-                background: 'rgba(59, 130, 246, 0.1)',
-                border: '1px solid rgba(59, 130, 246, 0.25)',
+                background: 'rgba(82, 82, 91, 0.1)',
+                border: '1px solid rgba(82, 82, 91, 0.25)',
                 borderRadius: '20px',
                 whiteSpace: 'nowrap'
               }}>

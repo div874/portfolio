@@ -342,7 +342,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           alignItems: 'center',
           gap: '24px',
           flexWrap: 'wrap',
-          background: 'rgba(255, 255, 255, 0.01)',
+          background: 'var(--border-hover)',
           border: '1px solid var(--glass-border)',
           borderRadius: '20px',
           padding: '50px 30px'
@@ -355,7 +355,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.08, duration: 0.4 }}
               onClick={() => setSelectedClient(client)}
-              whileHover={{ scale: 1.02, borderColor: 'rgba(59, 130, 246, 0.25)' }}
+              whileHover={{ scale: 1.02, borderColor: 'var(--border-hover)' }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -364,9 +364,9 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
                 height: '100px',
                 padding: '16px',
                 borderRadius: '12px',
-                background: 'rgba(255, 255, 255, 0.025)',
+                background: 'var(--border-hover)',
                 border: '1px solid var(--glass-border)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                boxShadow: '0 8px 24px var(--border-hover)',
                 cursor: 'pointer'
               }}
             >
@@ -474,8 +474,8 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           viewport={{ once: true }}
           className="glass-card"
           style={{
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%)',
-            border: '1px solid rgba(59, 130, 246, 0.25)',
+            background: 'var(--card-bg) 0%, var(--border-hover) 100%)',
+            border: '1px solid var(--border-hover)',
             textAlign: 'center',
             padding: '60px 30px',
             borderRadius: '24px'

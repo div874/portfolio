@@ -31,18 +31,31 @@ import {
 import { TbBrandGoogleAnalytics } from 'react-icons/tb';
 import { FaChartLine, FaAws, FaCss3Alt } from 'react-icons/fa6';
 
+const SiLangchain = () => (
+  <svg 
+    fill="currentColor" 
+    viewBox="0 0 24 24" 
+    width="1em"
+    height="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>LangChain</title>
+    <path d="M7.531 15.976a7.534 7.534 0 000-10.651L2.206 0A7.537 7.537 0 000 5.326c0 1.996.794 3.913 2.206 5.325l5.325 5.325zM18.674 16.469a7.535 7.535 0 00-10.65 0l5.325 5.325a7.536 7.536 0 0010.651 0l-5.326-5.325zM2.218 21.782a7.536 7.536 0 005.326 2.206v-7.531H.012c0 1.996.795 3.914 2.206 5.325zM20.73 8.595a7.534 7.534 0 00-10.651.001l5.325 5.326 5.326-5.327z"></path>
+  </svg>
+);
+
 const slidingTechSkillsRow1 = [
   { name: 'Python', icon: <SiPython />, color: '#3776AB' },
   { name: 'JavaScript', icon: <SiJavascript />, color: '#F7DF1E' },
   { name: 'TypeScript', icon: <SiTypescript />, color: '#3178C6' },
   { name: 'React', icon: <SiReact />, color: '#61DAFB' },
-  { name: 'Next.js', icon: <SiNextdotjs />, color: '#FFFFFF' },
+  { name: 'Next.js', icon: <SiNextdotjs />, color: '#171717' },
   { name: 'Node.js', icon: <SiNodedotjs />, color: '#5FA04E' },
   { name: 'HTML5', icon: <SiHtml5 />, color: '#E34F26' },
   { name: 'CSS3', icon: <FaCss3Alt />, color: '#1572B6' },
-  { name: 'Tailwind CSS', icon: <SiTailwindcss />, color: '#06B6D4' },
+  { name: 'Tailwind CSS', icon: <SiTailwindcss />, color: '#71717a' },
   { name: 'Git', icon: <SiGit />, color: '#F05032' },
-  { name: 'GitHub', icon: <SiGithub />, color: '#FFFFFF' },
+  { name: 'GitHub', icon: <SiGithub />, color: '#171717' },
   { name: 'Docker', icon: <SiDocker />, color: '#2496ED' },
   { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#4169E1' },
   { name: 'MySQL', icon: <SiMysql />, color: '#4479A1' },
@@ -51,6 +64,7 @@ const slidingTechSkillsRow1 = [
 
 const slidingTechSkillsRow2 = [
   { name: 'OpenAI / LLMs', icon: <SiOpenai />, color: '#10A37F' },
+  { name: 'LangChain', icon: <SiLangchain />, color: '#38A3F1' },
   { name: 'Pandas', icon: <SiPandas />, color: '#150458' },
   { name: 'Scikit-Learn', icon: <SiScikitlearn />, color: '#F7931E' },
   { name: 'TensorFlow', icon: <SiTensorflow />, color: '#FF6F00' },
@@ -64,7 +78,7 @@ const slidingTechSkillsRow2 = [
   { name: 'Figma', icon: <SiFigma />, color: '#F24E1E' },
   { name: 'AWS Cloud', icon: <FaAws />, color: '#FF9900' },
   { name: 'Google Cloud', icon: <SiGooglecloud />, color: '#4285F4' },
-  { name: 'Vercel', icon: <SiVercel />, color: '#FFFFFF' },
+  { name: 'Vercel', icon: <SiVercel />, color: '#171717' },
   { name: 'Selenium', icon: <SiSelenium />, color: '#43B02A' },
   { name: 'FastAPI', icon: <SiFastapi />, color: '#009688' }
 ];

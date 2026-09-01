@@ -27,46 +27,48 @@ const Navbar = () => {
         transition={{ duration: 0.5 }}
         className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}
       >
-        <Link 
-          to="/" 
-          className="navbar__logo" 
-          onClick={() => setMobileOpen(false)}
-          style={{ textDecoration: 'none' }}
-        >
-          DC<span className="accent-text">.</span>
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="navbar__links">
-          {navItems.map(item => (
-            <NavLink 
-              key={item.path} 
-              to={item.path} 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-              style={{ textDecoration: 'none' }}
-            >
-              {item.label}
-            </NavLink>
-          ))}
+        <div className="content-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Link 
-            to="/cv"
-            className="glow-button"
+            to="/" 
+            className="navbar__logo" 
+            onClick={() => setMobileOpen(false)}
             style={{ textDecoration: 'none' }}
           >
-            Explore My CV
+            DC<span className="accent-text">.</span>
           </Link>
-        </div>
 
-        {/* Mobile Hamburger */}
-        <button 
-          className="navbar__hamburger"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`hamburger-line ${mobileOpen ? 'open' : ''}`} />
-          <span className={`hamburger-line ${mobileOpen ? 'open' : ''}`} />
-          <span className={`hamburger-line ${mobileOpen ? 'open' : ''}`} />
-        </button>
+          {/* Desktop Nav */}
+          <div className="navbar__links">
+            {navItems.map(item => (
+              <NavLink 
+                key={item.path} 
+                to={item.path} 
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                style={{ textDecoration: 'none' }}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <Link 
+              to="/cv"
+              className="glow-button"
+              style={{ textDecoration: 'none' }}
+            >
+              Explore My CV
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button 
+            className="navbar__hamburger"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            <span className={`hamburger-line ${mobileOpen ? 'open' : ''}`} />
+            <span className={`hamburger-line ${mobileOpen ? 'open' : ''}`} />
+            <span className={`hamburger-line ${mobileOpen ? 'open' : ''}`} />
+          </button>
+        </div>
       </motion.nav>
 
       {/* Mobile Drawer */}

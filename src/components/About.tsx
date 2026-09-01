@@ -33,7 +33,7 @@ const About = () => {
           <motion.div
             key={i}
             className="about-stat glass-card"
-            whileHover={{ scale: 1.05, borderColor: 'rgba(59, 130, 246, 0.4)' }}
+            whileHover={{ scale: 1.05, borderColor: 'rgba(82, 82, 91, 0.4)' }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
             <span className="about-stat__value">{item.value}</span>

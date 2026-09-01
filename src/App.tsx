@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import DarkVeil from './components/DarkVeil';
 import ScrollToTop from './components/ScrollToTop';
 import Preloader from './components/Preloader';
+import ShapeGrid from './components/ShapeGrid';
 
 import Home from './pages/Home';
 import ProjectsPage from './pages/ProjectsPage';
@@ -50,23 +50,6 @@ function App() {
       <Preloader onComplete={handlePreloaderComplete} />
       <ScrollToTop />
       <div className="portfolio-container font-inter">
-        {/* Global Persistent WebGL Background */}
-        <div 
-          id="canvas-container"
-          style={{ 
-            opacity: isLoading ? 0 : 1, 
-            transition: 'opacity 0.5s ease',
-            pointerEvents: 'none'
-          }}
-        >
-          <DarkVeil 
-            hueShift={0} 
-            noiseIntensity={0.08} 
-            scanlineIntensity={0.2} 
-            speed={1.5} 
-            warpAmount={0.5} 
-          />
-        </div>
 
         {/* Clean, Sharp Crisp Fade Reveal into Home Page */}
         <motion.div
@@ -77,6 +60,17 @@ function App() {
           transition={{ duration: 0.4, ease: "easeOut" }}
           style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
         >
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1 }}>
+            <ShapeGrid 
+              speed={0.5} 
+              squareSize={50}
+              direction='diagonal'
+              borderColor='#F0F0F0'
+              hoverFillColor='#F9F9F9'
+              shape='square'
+              hoverTrailAmount={5}
+            />
+          </div>
           <Navbar />
           
           <main>

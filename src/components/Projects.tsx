@@ -3,9 +3,9 @@ import { ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 
 const projectColors = [
-  'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-  'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
-  'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)',
+  'linear-gradient(135deg, #52525b 0%, #3f3f46 100%)',
+  'linear-gradient(135deg, #71717a 0%, #52525b 100%)',
+  'linear-gradient(135deg, #3f3f46 0%, #ec4899 100%)',
 ];
 
 const projectsData = [
