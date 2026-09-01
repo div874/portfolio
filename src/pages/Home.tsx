@@ -21,19 +21,19 @@ const expertiseData = [
   {
     icon: <TrendingUp size={32} style={{ color: 'var(--accent-secondary)' }} />,
     title: 'DIGITAL MARKETING & SEO',
-    description: 'Using SEO, keyword research, content strategy, and digital marketing to improve organic visibility and audience growth.',
+    description: 'Using SEO, content strategy, keyword research, and analytics to build scalable organic growth systems.',
     tags: ['SEO', 'Keyword Research', 'Content Strategy', 'Digital Marketing']
   },
   {
     icon: <Zap size={32} style={{ color: 'var(--accent-secondary)' }} />,
     title: 'AUTOMATION & INTEGRATION',
-    description: 'Building automated workflows that connect data, APIs, Python, and marketing processes to reduce repetitive work.',
+    description: 'Designing automated workflows that connect APIs, data, Python, and business processes to eliminate repetitive work.',
     tags: ['Python Automation', 'API Integration', 'Google Search Console', 'GA4']
   },
   {
     icon: <BarChart3 size={32} style={{ color: 'var(--accent-secondary)' }} />,
     title: 'DATA & PERFORMANCE ANALYTICS',
-    description: 'Using search, website, and campaign data to understand performance, identify opportunities, and support data-driven decisions.',
+    description: 'Turning search, website, and campaign data into insights that improve performance and guide better decisions.',
     tags: ['Web Analytics', 'Search Analytics', 'Performance Tracking', 'Data Analysis']
   }
 ];
@@ -42,16 +42,22 @@ const featuredProjects = [
   {
     title: 'Wallcurry AI Recommendation Model',
     category: 'AI & Recommendation Engine',
-    desc: 'Built an ML-powered recommendation engine using ResNet-50 visual feature extraction (512-dim embeddings) and collaborative filtering.',
+    desc: 'Built an ML-powered product recommendation engine combining ResNet-50 visual feature extraction, 512-dimensional embeddings, and collaborative filtering to generate personalized recommendations.',
     metric: '88% recommendation accuracy & 30% increase in mural purchases',
-    tags: ['Python', 'TensorFlow', 'FAISS', 'React']
+    tags: ['Python', 'TensorFlow', 'FAISS', 'React'],
+    slug: 'wallcurry-ai-recommendation',
+    role: 'AI/ML Developer',
+    type: 'Personal Project'
   },
   {
     title: 'SEO Reporting Automation Dashboard',
     category: 'Automation & Data Engineering',
-    desc: 'Automated workflow pulling Search Console & GA4 API data to calculate MoM trends and generate client PDF reports automatically.',
+    desc: 'Built an automated SEO reporting system that pulls Google Search Console and GA4 API data, calculates month-over-month trends, and generates client PDF reports automatically.',
     metric: 'Saved 6 hrs/week reporting time across 3 client accounts',
-    tags: ['Python', 'Google APIs', 'Pandas', 'Flask']
+    tags: ['Python', 'Search Console API · GA4 API', 'Pandas', 'Flask'],
+    slug: 'seo-reporting-automation',
+    role: 'Automation Developer',
+    type: 'Professional Project'
   }
 ];
 
@@ -330,9 +336,9 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           viewport={{ once: true }}
           style={{ marginBottom: '40px', textAlign: 'center' }}
         >
-          <span className="section-label">TRUSTED BY</span>
+          <span className="section-label">SELECTED EXPERIENCE</span>
           <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Clients I've Worked With
+            Organizations I've Worked With
           </h2>
         </motion.div>
 
@@ -340,12 +346,12 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '24px',
+          gap: '20px',
           flexWrap: 'wrap',
-          background: 'var(--border-hover)',
-          border: '1px solid var(--glass-border)',
-          borderRadius: '20px',
-          padding: '50px 30px'
+          background: 'rgba(255,255,255,0.6)',
+          border: '1px solid rgba(0,0,0,0.08)',
+          borderRadius: '16px',
+          padding: '40px 30px'
         }}>
           {clientLogos.map((client, idx) => (
             <motion.div
@@ -360,13 +366,13 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '275px',
-                height: '100px',
+                width: '220px',
+                height: '90px',
                 padding: '16px',
-                borderRadius: '12px',
-                background: 'var(--border-hover)',
-                border: '1px solid var(--glass-border)',
-                boxShadow: '0 8px 24px var(--border-hover)',
+                borderRadius: '10px',
+                background: '#ffffff',
+                border: '1px solid rgba(0,0,0,0.08)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 cursor: 'pointer'
               }}
             >
@@ -413,7 +419,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
             maxWidth: '600px',
             lineHeight: '1.4'
           }}>
-            * Note: Some of these clients were collaborated with during internship/agency roles, not as direct private personal clients.
+            Some organizations were worked with through internship or agency roles and were not direct personal clients.
           </p>
         </div>
       </section>
@@ -441,6 +447,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
               className="glass-card"
+              style={{ display: 'flex', flexDirection: 'column' }}
             >
               <div style={{ fontSize: '0.8rem', color: 'var(--accent-color)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '10px' }}>
                 {proj.category}
@@ -451,15 +458,50 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '16px' }}>
                 {proj.desc}
               </p>
-              
+
               <div className="impact-badge" style={{ marginBottom: '20px' }}>
                 ⚡ {proj.metric}
               </div>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
                 {proj.tags.map(t => (
                   <span key={t} className="tech-tag">{t}</span>
                 ))}
+              </div>
+
+              {/* Role & Type metadata */}
+              <div style={{ display: 'flex', gap: '24px', marginBottom: '20px' }}>
+                <div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '3px' }}>Role</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600 }}>{proj.role}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '3px' }}>Type</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600 }}>{proj.type}</div>
+                </div>
+              </div>
+
+              {/* Case Study CTA */}
+              <div style={{ marginTop: 'auto' }}>
+                <Link
+                  to={`/projects/${proj.slug}`}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    color: 'var(--text-primary)',
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
+                    textDecoration: 'none',
+                    borderBottom: '1.5px solid var(--text-primary)',
+                    paddingBottom: '2px',
+                    transition: 'opacity 0.2s ease',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.6')}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                >
+                  View Case Study →
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -483,10 +525,10 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
         >
           <span className="section-label" style={{ opacity: 0.9 }}>LET'S COLLABORATE</span>
           <h2 style={{ fontFamily: '"Outfit", sans-serif', fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: 'var(--text-primary)', marginBottom: '16px', fontWeight: 800 }}>
-            Ready to scale your organic search growth?
+            READY TO BUILD SOMETHING SMARTER?
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto 36px', lineHeight: '1.7' }}>
-            Whether you need data-driven SEO strategy, AI pipeline automation, or performance optimization, let's connect and build something impactful.
+            Whether you're looking to build an AI-powered application, automate a workflow, or solve a business problem with technology, let's connect and build something impactful.
           </p>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -514,7 +556,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
                 alignItems: 'center'
               }}
             >
-              Explore Full CV →
+              Explore My CV →
             </Link>
           </div>
         </motion.div>

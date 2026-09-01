@@ -14,6 +14,7 @@ import ExperiencePage from './pages/ExperiencePage';
 import SkillsPage from './pages/SkillsPage';
 import CVPage from './pages/CVPage';
 import AboutPage from './pages/AboutPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +80,7 @@ function App() {
               <Route path="/" element={<Home onConnectClick={handleConnectClick} isLoading={isLoading} />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/:slug" element={<ProjectDetailPage />} />
               <Route path="/experience" element={<ExperiencePage />} />
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/cv" element={<CVPage />} />

@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from './ScrollReveal';
 
 const highlights = [
-  { value: '10,000+', label: 'Keywords Researched' },
-  { value: '15+', label: 'Projects Worked On' },
-  { value: '10+', label: 'Campaigns & Content' },
+  { value: '15+', label: 'Projects Built' },
   { value: '3+', label: 'Internships' },
+  { value: '12+', label: 'Industry Verticals' },
+  { value: '10,000+', label: 'Keywords Analyzed' },
 ];
 
 const About = () => {
@@ -51,9 +51,9 @@ const About = () => {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <img 
-            src="/about_mascot.png" 
-            alt="Coding Mascot" 
+          <img
+            src="/about_mascot.png"
+            alt="Coding Mascot"
             className="about-mascot"
           />
         </motion.div>
@@ -75,19 +75,22 @@ const About = () => {
                 blurStrength={4}
                 textClassName="about-lead-text"
               >
-                I work at the intersection of AI, marketing, and automation — building systems that make digital growth smarter and more scalable.
+                I work at the intersection of AI, automation, and digital marketing - building practical systems that make businesses smarter, faster, and more scalable.
               </ScrollReveal>
             </div>
 
             <div className="about-body">
               <p>
-                My work combines SEO, content strategy, marketing automation, Python, analytics, and generative AI to solve real-world marketing and business problems. From researching thousands of keywords and developing scalable content systems to building AI applications and automated reporting workflows, I focus on turning ideas into practical solutions.
+                My work combines Generative AI, Python, LLMs, automation, analytics, and digital marketing to solve real-world business problems. I've worked on everything from AI-powered applications and automated reporting systems to SEO, content strategy, and scalable marketing workflows.
+              </p>
+              <p>
+                I enjoy turning repetitive processes into automated systems, connecting data with intelligent tools, and using technology to make marketing and business operations more efficient.
               </p>
               <p>
                 Currently, I'm building AI-powered content and SEO workflows for <strong style={{ color: 'var(--text-primary)' }}>1page.info</strong> across <strong style={{ color: 'var(--accent-color)' }}>12+ industry verticals</strong>, working on content generation, keyword-driven internal linking, optimization, and visual content systems.
               </p>
               <p>
-                With 3+ internships and hands-on projects across AI, digital marketing, SEO, automation, and technology, I'm developing a multidisciplinary profile focused on using AI and technology to build, automate, and grow.
+                With 3+ internships and hands-on projects across AI, automation, digital marketing, and technology, I'm building a multidisciplinary career focused on one thing: using technology to build better systems.
               </p>
             </div>
 
@@ -96,20 +99,21 @@ const About = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px',
+                gap: '8px',
                 marginTop: '24px',
-                color: 'var(--text-primary)',
+                padding: '14px 32px',
+                borderRadius: '50px',
+                background: '#171717',
+                color: '#ffffff',
                 fontWeight: 600,
                 fontSize: '1rem',
                 textDecoration: 'none',
-                borderBottom: '2px solid var(--text-primary)',
-                paddingBottom: '2px',
                 transition: 'opacity 0.2s ease',
               }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.65')}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
               onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
             >
-              Know More →
+              More About My Journey →
             </Link>
           </motion.div>
         </div>

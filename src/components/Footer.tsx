@@ -22,7 +22,7 @@ const Footer = () => {
             DC<span className="accent-text">.</span>
           </div>
           <p className="footer__tagline">
-            Let's build something together. Data-driven marketing, SEO, and intelligent automation.
+            Building practical solutions at the intersection of AI, automation, and digital marketing.
           </p>
         </div>
 

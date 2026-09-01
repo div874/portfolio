@@ -81,11 +81,11 @@ const Contact = () => {
         >
           <span className="section-label">07 / CONTACT</span>
           <h2 className="accent-text" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', marginBottom: '20px', lineHeight: 1.2 }}>
-            Let's Build Something <br /> That Grows
+            LET'S BUILD SOMETHING SMARTER
           </h2>
           
           <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', marginBottom: '40px', maxWidth: '500px', lineHeight: 1.7 }}>
-            Whether you need a data-driven SEO strategy, custom marketing automation pipelines, or website speed audits — reach out to build something impactful.
+            Whether you want to build an AI-powered application, automate a workflow, improve your marketing systems, or solve a business problem with technology — let's talk.
           </p>
 
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
@@ -211,7 +211,7 @@ const Contact = () => {
                   className="minimalist-input"
                   style={{ resize: 'none' }}
                 />
-                <label className="minimalist-label">How can I help you? *</label>
+                <label className="minimalist-label">What are you looking to build or solve? *</label>
               </div>
 
               {status === 'error' && (

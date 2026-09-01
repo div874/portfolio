@@ -59,7 +59,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             color: 'var(--text-primary)',
             marginBottom: '10px'
           }}>
-            <span className="accent-text">AI, Automation & Growth</span>
+            <span className="accent-text">AI, AUTOMATION & DIGITAL MARKETING</span>
           </h2>
           <p style={{
             color: 'var(--text-secondary)',
@@ -69,11 +69,11 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             lineHeight: 1.5,
             maxWidth: '90%'
           }}>
-            Where AI, technology and marketing come together to build smarter ways of working and growing.
+            I build AI-powered applications, automate workflows, and use data-driven marketing to solve real business problems.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
-            {['Generative AI', 'Python', 'LLMs', 'AI Automation', 'SEO', 'Analytics'].map((tag) => (
+            {['Generative AI', 'LLMs', 'Python', 'AI Automation', 'SEO', 'Analytics'].map((tag) => (
               <span
                 key={tag}
                 style={{
@@ -117,7 +117,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                 gap: '8px'
               }}
             >
-              View My Work →
+              Explore My Work →
             </Link>
 
             <a
@@ -136,7 +136,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                 marginLeft: '10px'
               }}
             >
-              Download Resume <Download size={16} />
+              Download CV <Download size={16} />
             </a>
           </div>
         </div>
@@ -158,7 +158,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
         >
           <div style={{ marginBottom: '50px' }}>
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', marginBottom: '10px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-              YOU SPENT
+              You've spent
             </p>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
               <Counter
@@ -173,7 +173,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
               <span style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em' }}>SECONDS</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', marginTop: '0', fontWeight: 500 }}>
-              to know about me.
+              Getting to know me.
             </p>
           </div>
 
