@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
 
 const highlights = [
-  { value: '200+', label: 'Keywords Researched' },
-  { value: '35%', label: 'Avg. Traffic Lift' },
-  { value: '50+', label: 'Pages Audited' },
+  { value: '10,000+', label: 'Keywords Researched' },
+  { value: '15+', label: 'Projects Worked On' },
+  { value: '10+', label: 'Campaigns & Content' },
   { value: '3+', label: 'Internships' },
 ];
 
@@ -74,16 +74,19 @@ const About = () => {
                 blurStrength={4}
                 textClassName="about-lead-text"
               >
-                I'm a data-driven marketer specializing in organic growth, marketing automation, and AI-powered content systems. My approach combines keyword research and technical SEO with Python automation and analytics to deliver measurable results.
+                I work at the intersection of AI, marketing, and automation — building systems that make digital growth smarter and more scalable.
               </ScrollReveal>
             </div>
 
             <div className="about-body">
               <p>
-                <strong style={{ color: 'var(--text-primary)' }}>Recent Focus:</strong> Building scalable content pipelines for 1page.info across <strong style={{ color: 'var(--accent-color)' }}>12 industry verticals</strong> (healthcare, food & agriculture, metal/steel, education). Implemented AI-powered content generation with sub-20% AI detection scores, internal linking via keyword registries, and image placement logic optimizing for visual engagement.
+                My work combines SEO, content strategy, marketing automation, Python, analytics, and generative AI to solve real-world marketing and business problems. From researching thousands of keywords and developing scalable content systems to building AI applications and automated reporting workflows, I focus on turning ideas into practical solutions.
               </p>
               <p>
-                I'm an <strong style={{ color: 'var(--text-primary)' }}>MBA Tech student</strong> (graduating 2027) with 3+ internships applying these frameworks across diverse industries. I learn fast and love solving problems at the intersection of marketing and engineering.
+                Currently, I'm building AI-powered content and SEO workflows for <strong style={{ color: 'var(--text-primary)' }}>1page.info</strong> across <strong style={{ color: 'var(--accent-color)' }}>12+ industry verticals</strong>, working on content generation, keyword-driven internal linking, optimization, and visual content systems.
+              </p>
+              <p>
+                With 3+ internships and hands-on projects across AI, digital marketing, SEO, automation, and technology, I'm developing a multidisciplinary profile focused on using AI and technology to build, automate, and grow.
               </p>
             </div>
           </motion.div>

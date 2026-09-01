@@ -57,10 +57,20 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             fontWeight: 600,
             letterSpacing: '0.02em',
             color: 'var(--text-primary)',
-            marginBottom: '30px'
+            marginBottom: '10px'
           }}>
-            <span className="accent-text">SEO Strategist & Growth Marketer</span>
+            <span className="accent-text">AI, Automation & Growth</span>
           </h2>
+          <p style={{
+            color: 'var(--text-secondary)',
+            fontSize: 'clamp(0.9rem, 1.2vw, 1.1rem)',
+            fontWeight: 400,
+            marginBottom: '30px',
+            lineHeight: 1.5,
+            maxWidth: '90%'
+          }}>
+            Where AI, technology and marketing come together to build smarter ways of working and growing.
+          </p>
 
 
           <div className="hero-buttons">

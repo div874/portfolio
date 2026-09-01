@@ -13,28 +13,28 @@ interface HomeProps {
 
 const expertiseData = [
   {
-    icon: <TrendingUp size={32} style={{ color: 'var(--accent-secondary)' }} />,
-    title: 'Data-Driven SEO Strategy',
-    description: 'Validating high-intent search keywords, auditing content structures, and executing scalable organic growth frameworks.',
-    tags: ['Keyword Research', 'Content Strategy', 'Competitor Teardowns']
+    icon: <Bot size={32} style={{ color: 'var(--accent-secondary)' }} />,
+    title: 'AI & GENERATIVE AI',
+    description: 'Building AI-powered solutions using LLMs, NLP, Python, and modern AI tools to solve practical problems.',
+    tags: ['Generative AI', 'LLM Applications', 'NLP', 'Python', 'LangChain']
   },
   {
-    icon: <Bot size={32} style={{ color: 'var(--accent-secondary)' }} />,
-    title: 'AI Content & Automation',
-    description: 'Building LLM content generation pipelines with customized humanization rulesets and Python automated reporting scripts.',
-    tags: ['Claude & OpenAI API', 'Python Automation', 'Humanization Pipelines']
+    icon: <TrendingUp size={32} style={{ color: 'var(--accent-secondary)' }} />,
+    title: 'DIGITAL MARKETING & SEO',
+    description: 'Using SEO, keyword research, content strategy, and digital marketing to improve organic visibility and audience growth.',
+    tags: ['SEO', 'Keyword Research', 'Content Strategy', 'Digital Marketing']
   },
   {
     icon: <Zap size={32} style={{ color: 'var(--accent-secondary)' }} />,
-    title: 'Technical SEO & Speed',
-    description: 'Auditing site crawlability, schema markup, indexation health, and optimizing Core Web Vitals for maximum rankings.',
-    tags: ['Core Web Vitals', 'Schema Markup', 'Site Audit']
+    title: 'AUTOMATION & INTEGRATION',
+    description: 'Building automated workflows that connect data, APIs, Python, and marketing processes to reduce repetitive work.',
+    tags: ['Python Automation', 'API Integration', 'Google Search Console', 'GA4']
   },
   {
     icon: <BarChart3 size={32} style={{ color: 'var(--accent-secondary)' }} />,
-    title: 'Growth Analytics & GA4',
-    description: 'Setting up custom GA4 tracking segments, analyzing user drop-off patterns, and optimizing conversion funnels.',
-    tags: ['GA4 Advanced', 'Cohort Analysis', 'CRO Optimization']
+    title: 'DATA & PERFORMANCE ANALYTICS',
+    description: 'Using search, website, and campaign data to understand performance, identify opportunities, and support data-driven decisions.',
+    tags: ['Web Analytics', 'Search Analytics', 'Performance Tracking', 'Data Analysis']
   }
 ];
 
@@ -286,7 +286,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           viewport={{ once: true }}
           style={{ marginBottom: '40px' }}
         >
-          <span className="section-label">SERVICES & SPECIALIZATION</span>
+          <span className="section-label">EXPERTISE & FOCUS</span>
           <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             Core Capabilities
           </h2>
