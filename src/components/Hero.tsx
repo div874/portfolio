@@ -65,13 +65,44 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             color: 'var(--text-secondary)',
             fontSize: 'clamp(0.9rem, 1.2vw, 1.1rem)',
             fontWeight: 400,
-            marginBottom: '30px',
+            marginBottom: '20px',
             lineHeight: 1.5,
             maxWidth: '90%'
           }}>
             Where AI, technology and marketing come together to build smarter ways of working and growing.
           </p>
 
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
+            {['Generative AI', 'Python', 'LLMs', 'AI Automation', 'SEO', 'Analytics'].map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  display: 'inline-block',
+                  padding: '5px 14px',
+                  borderRadius: '999px',
+                  border: '1px solid var(--text-secondary)',
+                  color: 'var(--text-secondary)',
+                  fontSize: 'clamp(0.7rem, 1vw, 0.85rem)',
+                  fontWeight: 500,
+                  letterSpacing: '0.02em',
+                  transition: 'all 0.2s ease',
+                  cursor: 'default',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLSpanElement).style.color = 'var(--text-primary)';
+                  (e.currentTarget as HTMLSpanElement).style.borderColor = 'var(--text-primary)';
+                  (e.currentTarget as HTMLSpanElement).style.background = 'rgba(0,0,0,0.05)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLSpanElement).style.color = 'var(--text-secondary)';
+                  (e.currentTarget as HTMLSpanElement).style.borderColor = 'var(--text-secondary)';
+                  (e.currentTarget as HTMLSpanElement).style.background = 'transparent';
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
 
           <div className="hero-buttons">
             <Link
