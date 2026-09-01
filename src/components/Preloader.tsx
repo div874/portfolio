@@ -7,7 +7,6 @@ interface PreloaderProps {
 }
 
 const Preloader = ({ onComplete }: PreloaderProps) => {
-  const [wordIndex, setWordIndex] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
