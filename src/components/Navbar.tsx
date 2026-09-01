@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 
 const navItems = [
   { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
   { label: 'Projects', path: '/projects' },
   { label: 'Experience', path: '/experience' },
   { label: 'Tech Skills', path: '/skills' },
