@@ -16,6 +16,7 @@ import CVPage from './pages/CVPage';
 import AboutPage from './pages/AboutPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
+import JourneyPage from './pages/JourneyPage';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -84,6 +85,7 @@ function App() {
               <Route path="/projects/:slug" element={<ProjectDetailPage />} />
               <Route path="/experience" element={<ExperiencePage />} />
               <Route path="/skills" element={<SkillsPage />} />
+              <Route path="/journey" element={<JourneyPage />} />
               <Route path="/cv" element={<CVPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

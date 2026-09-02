@@ -8,6 +8,7 @@ const navItems = [
   { label: 'Projects', path: '/projects' },
   { label: 'Experience', path: '/experience' },
   { label: 'Tech Skills', path: '/skills' },
+  { label: 'Journal', path: '/journey' },
 ];
 
 const Navbar = () => {

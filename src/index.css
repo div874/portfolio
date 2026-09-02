@@ -1351,3 +1351,137 @@ canvas {
     transform: scale(0.85);
   }
 }
+
+/* Journal Markdown Content */
+.journal-content {
+  font-family: var(--font-mono, monospace);
+  font-size: 16px;
+  line-height: 32px;
+  color: #333;
+  padding-right: 200px;
+}
+
+.journal-content p {
+  margin: 0 0 32px 0;
+  padding: 0;
+}
+
+.journal-content blockquote {
+  padding-left: 20px;
+  border-left: 3px solid #ff9999;
+  margin: 0 0 32px 0;
+}
+
+.journal-content blockquote p {
+  color: #444;
+  margin-bottom: 0;
+}
+
+.journal-content blockquote p:not(:last-child) {
+  margin-bottom: 32px;
+}
+
+/* Print to PDF Styles for Journal */
+@media screen {
+  .print-only {
+    display: none;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print, .navbar, footer, #contact, #preloader, .social-links {
+    display: none !important;
+  }
+
+  body, html {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  .page-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    display: block !important;
+    gap: 0 !important;
+  }
+  
+  @page {
+    margin: 0;
+  }
+  
+  #root, .portfolio-container, main {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .print-only {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-cover {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    page-break-after: always;
+    page-break-inside: avoid;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-notebook-page {
+    page-break-after: always;
+    page-break-inside: avoid;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff !important;
+    background-image: repeating-linear-gradient(transparent, transparent 31px, #e0e0e0 31px, #e0e0e0 32px) !important;
+    border-left: 4px solid rgba(0, 0, 0, 0.1) !important;
+    padding: 32px 40px 32px 60px !important;
+    position: relative;
+    color: #333 !important;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  .print-notebook-page h1 {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 24px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 32px !important;
+    max-width: 60% !important; /* Prevent overlap with top-right image */
+  }
+
+  .print-notebook-page .print-date {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 14px !important;
+    color: #666 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 32px !important;
+    font-style: italic !important;
+    max-width: 60% !important;
+  }
+
+  .print-margin-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 40px;
+    width: 2px;
+    background-color: rgba(255, 100, 100, 0.3) !important;
+  }
+}
