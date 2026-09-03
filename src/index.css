@@ -1202,6 +1202,9 @@ canvas {
     margin-left: auto;
     margin-right: auto;
   }
+  .hero-counter-container {
+    justify-content: center;
+  }
 }
 
 /* ─── Thought Bubble ──────────────────────────────────── */

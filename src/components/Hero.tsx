@@ -159,7 +159,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', marginBottom: '10px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
               You've spent
             </p>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
+            <div className="hero-counter-container" style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
               <Counter
                 value={seconds}
                 places={seconds >= 1000 ? [1000, 100, 10, 1] : [100, 10, 1]}
@@ -169,10 +169,9 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                 textColor="var(--text-primary)"
                 fontWeight="800"
               />
-              <span style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em' }}>SECONDS</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', marginTop: '0', fontWeight: 500 }}>
-              Getting to know me.
+              <span style={{ fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em' }}>SECONDS</span> getting to know me.
             </p>
           </div>
 
