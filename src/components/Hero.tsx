@@ -170,8 +170,11 @@ const Hero = ({ onConnectClick }: HeroProps) => {
                 fontWeight="800"
               />
             </div>
+            <p style={{ color: 'var(--text-primary)', fontSize: 'clamp(1.1rem, 2vw, 1.3rem)', marginTop: '0', marginBottom: '8px', fontWeight: 700, letterSpacing: '0.05em' }}>
+              SECONDS
+            </p>
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', marginTop: '0', fontWeight: 500 }}>
-              <span style={{ fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em' }}>SECONDS</span> getting to know me.
+              Getting to know me.
             </p>
           </div>
 
