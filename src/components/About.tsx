@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 const highlights = [
@@ -97,6 +98,7 @@ const About = () => {
             <Link
               to="/about"
               style={{
+                width: 'fit-content',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -113,7 +115,8 @@ const About = () => {
               onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
               onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
             >
-              More About My Journey →
+              <span>More About My Journey</span>
+              <ArrowRight size={18} />
             </Link>
           </motion.div>
         </div>

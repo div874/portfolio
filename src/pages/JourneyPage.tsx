@@ -25,13 +25,13 @@ const pageVariants = {
     rotateY: 0,
     opacity: 1,
     transformOrigin: 'left center',
-    transition: { duration: 0.6, ease: [0.64, 0.04, 0.35, 1] } // smooth ease in out
+    transition: { duration: 0.6, ease: [0.64, 0.04, 0.35, 1] as const } // smooth ease in out
   },
   exit: (direction: number) => ({
     rotateY: direction > 0 ? -90 : 90,
     opacity: 0,
     transformOrigin: 'left center',
-    transition: { duration: 0.6, ease: [0.64, 0.04, 0.35, 1] }
+    transition: { duration: 0.6, ease: [0.64, 0.04, 0.35, 1] as const }
   })
 };
 
@@ -45,7 +45,7 @@ const JourneyPage = () => {
       const loadedEntries: JournalEntry[] = [];
       for (const path in markdownFiles) {
         const rawContent = await markdownFiles[path]();
-        const { attributes, body } = frontMatter<any>(rawContent as string);
+        const { attributes, body } = frontMatter<Record<string, string>>(rawContent as string);
         loadedEntries.push({
           title: attributes.title || 'Untitled',
           date: attributes.date || '',

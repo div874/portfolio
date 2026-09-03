@@ -4,7 +4,7 @@ import About from '../components/About';
 import TechMarquee from '../components/TechMarquee';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { X, ExternalLink, TrendingUp, Bot, Zap, BarChart3 } from 'lucide-react';
+import { X, ExternalLink, TrendingUp, Bot, Zap, BarChart3, Star } from 'lucide-react';
 
 interface HomeProps {
   onConnectClick: () => void;
@@ -61,10 +61,10 @@ const featuredProjects = [
   }
 ];
 
-// Automatically discover all logo images in /public/logos/
-const logoModules = import.meta.glob('/public/logos/*.{png,jpg,jpeg,svg,webp,PNG,JPG,JPEG,SVG,WEBP}', { eager: true, as: 'url' });
+// Automatically discover all logo images in src/assets/logos/
+const logoModules = import.meta.glob('../assets/logos/*.{png,jpg,jpeg,svg,webp,PNG,JPG,JPEG,SVG,WEBP}', { eager: true, as: 'url' });
 
-const clientLogos = Object.keys(logoModules).map(key => {
+const clientLogos = Object.entries(logoModules).map(([key, module]) => {
   const filename = key.split('/').pop() || '';
   const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
   const cleanName = nameWithoutExt
@@ -73,7 +73,7 @@ const clientLogos = Object.keys(logoModules).map(key => {
 
   return {
     name: cleanName,
-    logo: key.replace('/public', '')
+    logo: typeof module === 'string' ? module : (module as any).default
   };
 });
 
@@ -438,6 +438,58 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
           </Link>
         </div>
 
+        {/* Paper submission highlight */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card"
+          style={{ marginBottom: '28px', padding: '24px 30px' }}
+        >
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+              <Star color="#f59e0b" fill="#f59e0b" size={24} />
+            </div>
+            <div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
+                Paper ID / Submission ID : 955
+              </div>
+              <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', fontWeight: 700, marginBottom: '12px', lineHeight: '1.4' }}>
+                Title : Multilingual E-Commerce Complaint Analysis and Automated Response Generation using Transformer Models
+              </h3>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                <p style={{ margin: 0, fontWeight: 500 }}>6th CONIT 2026</p>
+                <p style={{ margin: '4px 0 0 0' }}>KLE Institute of Technology , Hubballi</p>
+                <p style={{ margin: '4px 0 0 0' }}>Email : <a href="mailto:conitconf@gmail.com" style={{ color: 'inherit' }}>conitconf@gmail.com</a></p>
+              </div>
+
+              <div style={{ marginTop: '24px' }}>
+                <a
+                  href="https://ieeexplore.ieee.org/abstract/document/11621397"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    color: 'var(--text-primary)',
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
+                    textDecoration: 'none',
+                    borderBottom: '1.5px solid var(--text-primary)',
+                    paddingBottom: '2px',
+                    transition: 'opacity 0.2s ease',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.6')}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                >
+                  View Paper →
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
           {featuredProjects.map((proj, i) => (
             <motion.div
@@ -460,7 +512,7 @@ const Home = ({ onConnectClick, isLoading = false }: HomeProps) => {
               </p>
 
               <div className="impact-badge" style={{ marginBottom: '20px' }}>
-                ⚡ {proj.metric}
+                {proj.metric}
               </div>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
