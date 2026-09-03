@@ -1462,6 +1462,10 @@ canvas {
     width: 150px;
     opacity: 0.5;
   }
+  
+  .journal-content {
+    padding-right: 0;
+  }
 }
 
 /* Print to PDF Styles for Journal */
