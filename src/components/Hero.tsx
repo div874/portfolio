@@ -6,7 +6,6 @@ import Counter from './Counter';
 
 interface HeroProps {
   onConnectClick: () => void;
-  isLoading?: boolean;
 }
 
 const Hero = ({ onConnectClick }: HeroProps) => {
