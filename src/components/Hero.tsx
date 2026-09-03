@@ -71,7 +71,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             I build AI-powered applications, automate workflows, and use data-driven marketing to solve real business problems.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
+          <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
             {['Generative AI', 'LLMs', 'Python', 'AI Automation', 'SEO', 'Analytics'].map((tag) => (
               <span
                 key={tag}

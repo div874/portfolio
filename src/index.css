@@ -1196,6 +1196,12 @@ canvas {
   .hero-buttons {
     justify-content: center;
   }
+  .hero-tags {
+    justify-content: center;
+    max-width: 100% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* ─── Thought Bubble ──────────────────────────────────── */
