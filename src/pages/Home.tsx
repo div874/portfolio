@@ -277,7 +277,6 @@ const Home = ({ onConnectClick }: HomeProps) => {
 
   return (
     <div className="page-home">
-      <div className="home-container">
       {/* Hero Header */}
       <Hero onConnectClick={onConnectClick} />
 
