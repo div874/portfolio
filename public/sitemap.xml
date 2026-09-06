@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
-    <loc>https://divyanshchandra.online/</loc>
+    <loc>https://www.divyanshchandra.online/</loc>
   </url>
+
   <url>
-    <loc>https://divyanshchandra.online/about</loc>
+    <loc>https://www.divyanshchandra.online/about</loc>
   </url>
+
   <url>
-    <loc>https://divyanshchandra.online/experience</loc>
+    <loc>https://www.divyanshchandra.online/projects</loc>
   </url>
+
   <url>
-    <loc>https://divyanshchandra.online/projects</loc>
+    <loc>https://www.divyanshchandra.online/experience</loc>
   </url>
+
   <url>
-    <loc>https://divyanshchandra.online/projects/wallcurry-ai-recommendation</loc>
+    <loc>https://www.divyanshchandra.online/skills</loc>
   </url>
+
   <url>
-    <loc>https://divyanshchandra.online/projects/seo-reporting-automation</loc>
+    <loc>https://www.divyanshchandra.online/journey</loc>
   </url>
+
   <url>
-    <loc>https://divyanshchandra.online/skills</loc>
+    <loc>https://www.divyanshchandra.online/cv</loc>
   </url>
-  <url>
-    <loc>https://divyanshchandra.online/cv</loc>
-  </url>
+
 </urlset>
