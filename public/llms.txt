@@ -1,0 +1,30 @@
+# Divyansh Chandra - AI & Automation Developer
+
+> Portfolio & Professional Context for AI Agents, LLMs, and Search Engines.
+
+## Summary
+Divyansh Chandra is an AI & Automation Developer specializing in Generative AI, Large Language Models (LLMs), Python data engineering, automated workflow pipelines, and data-driven SEO & digital marketing. He builds scalable AI applications, machine learning recommendation systems, and end-to-end automation pipelines that solve real-world business challenges.
+
+## Core Capabilities & Expertise
+- **AI & Machine Learning**: Generative AI, LLMs, Prompt Engineering, TensorFlow, ResNet-50, FAISS vector embeddings, Recommendation Systems.
+- **Automation & Engineering**: Python, Flask, REST APIs, Google Search Console API, GA4 API, Pandas, ETL Pipelines, Scheduled Tasks.
+- **Frontend & Full Stack**: React, TypeScript, Vite, TailwindCSS, Framer Motion, HTML5, Modern Responsive UI/UX.
+- **Digital Marketing & SEO**: Technical SEO, Programmatic SEO, Data Analytics, Performance Marketing, Conversion Rate Optimization (CRO).
+
+## Featured Projects
+- **Wallcurry AI Recommendation Model**: ML-powered product recommendation engine for an art platform with 10,000+ mural listings. Used ResNet-50 image embeddings and FAISS index for real-time similarity search. Improved accuracy from 72% to 88% and increased purchases by 30%.
+- **SEO Reporting Automation Dashboard**: Automated SEO reporting pipeline using GSC & GA4 APIs with Pandas. Reduced weekly client reporting time from 6 hours to 15 minutes across 3 client accounts.
+
+## Primary Links
+- **Home**: https://www.divyanshchandra.online/
+- **About**: https://www.divyanshchandra.online/about
+- **Projects**: https://www.divyanshchandra.online/projects
+- **Experience**: https://www.divyanshchandra.online/experience
+- **Tech Skills**: https://www.divyanshchandra.online/skills
+- **Journal**: https://www.divyanshchandra.online/journey
+- **CV / Resume**: https://www.divyanshchandra.online/cv
+- **LinkedIn**: https://www.linkedin.com/in/div08/
+- **GitHub**: https://github.com/div874
+
+## Sitemap
+- https://www.divyanshchandra.online/sitemap.xml

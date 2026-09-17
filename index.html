@@ -30,27 +30,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@200;300;400&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured Data (JSON-LD) for AI & Search Engines -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "https://www.divyanshchandra.online/#person",
-      "name": "Divyansh Chandra",
-      "url": "https://www.divyanshchandra.online/",
-      "jobTitle": "AI & Automation Developer",
-      "description": "I build AI-powered applications, automate workflows, and use data-driven marketing to solve real business problems.",
-      "knowsAbout": [
-        "Generative AI",
-        "LLMs",
-        "Python",
-        "AI Automation",
-        "SEO",
-        "Analytics"
-      ],
-      "sameAs": [
-        "https://www.linkedin.com/in/div08/",
-        "https://github.com/div874"
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://www.divyanshchandra.online/#person",
+          "name": "Divyansh Chandra",
+          "url": "https://www.divyanshchandra.online/",
+          "jobTitle": "AI & Automation Developer",
+          "description": "Divyansh Chandra is an AI & Automation Developer specializing in Generative AI, LLMs, Python data engineering, automated workflow pipelines, and technical SEO.",
+          "knowsAbout": [
+            "Generative AI",
+            "LLMs & Prompt Engineering",
+            "Python Data Engineering",
+            "AI Automation & Workflow Engineering",
+            "Recommendation Systems & Vector Embeddings",
+            "Technical SEO & Analytics",
+            "React & Web Development"
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/in/div08/",
+            "https://github.com/div874"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.divyanshchandra.online/#website",
+          "url": "https://www.divyanshchandra.online/",
+          "name": "Divyansh Chandra Portfolio",
+          "description": "Portfolio of Divyansh Chandra - AI, Automation & Digital Marketing Specialist.",
+          "publisher": {
+            "@id": "https://www.divyanshchandra.online/#person"
+          }
+        }
       ]
     }
     </script>
