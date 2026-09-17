@@ -1,51 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- Main Pages -->
   <url>
     <loc>https://www.divyanshchandra.online/</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/about</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/projects</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/experience</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/skills</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/journey</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/cv</loc>
   </url>
-
-  <!-- Project Detail Pages -->
   <url>
     <loc>https://www.divyanshchandra.online/projects/wallcurry-ai-recommendation</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/projects/seo-reporting-automation</loc>
   </url>
-
-  <!-- Journal Articles -->
   <url>
     <loc>https://www.divyanshchandra.online/journey/ai-agents</loc>
   </url>
-
   <url>
     <loc>https://www.divyanshchandra.online/journey/web-dev</loc>
   </url>
-
 </urlset>
