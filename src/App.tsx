@@ -16,6 +16,7 @@ import AboutPage from './pages/AboutPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import JourneyPage from './pages/JourneyPage';
+import JourneyArticle from './pages/JourneyArticle';
 
 function App() {
   // Manual scroll restoration & scroll to top immediately on initial mount
@@ -63,6 +64,7 @@ function App() {
               <Route path="/experience" element={<ExperiencePage />} />
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/journey" element={<JourneyPage />} />
+              <Route path="/journey/:slug" element={<JourneyArticle />} />
               <Route path="/cv" element={<CVPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

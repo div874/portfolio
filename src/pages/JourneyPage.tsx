@@ -1,220 +1,148 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import frontMatter from 'front-matter';
+import { Link } from 'react-router-dom';
+import { getJournals } from '../utils/journals';
+import type { JournalEntry } from '../utils/journals';
 
-const markdownFiles = import.meta.glob('../content/journals/*.md', { query: '?raw', import: 'default' });
-
-interface JournalEntry {
-  title: string;
-  date: string;
-  tag: string;
-  image: string;
-  tags: string;
-  content: string;
-  id: string;
-}
-
-const pageVariants = {
-  initial: (direction: number) => ({
-    rotateY: direction > 0 ? 90 : -90,
-    opacity: 0,
-    transformOrigin: 'left center'
-  }),
-  animate: {
-    rotateY: 0,
-    opacity: 1,
-    transformOrigin: 'left center',
-    transition: { duration: 0.6, ease: [0.64, 0.04, 0.35, 1] as const } // smooth ease in out
-  },
-  exit: (direction: number) => ({
-    rotateY: direction > 0 ? -90 : 90,
-    opacity: 0,
-    transformOrigin: 'left center',
-    transition: { duration: 0.6, ease: [0.64, 0.04, 0.35, 1] as const }
-  })
-};
+const CATEGORIES = ['ALL', 'AI / LLMs', 'DEVELOPMENT', 'SEO', 'CAREER'];
 
 const JourneyPage = () => {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('ALL');
 
   useEffect(() => {
-    const fetchJournals = async () => {
-      const loadedEntries: JournalEntry[] = [];
-      for (const path in markdownFiles) {
-        const rawContent = await markdownFiles[path]();
-        const { attributes, body } = frontMatter<Record<string, string>>(rawContent as string);
-        loadedEntries.push({
-          title: attributes.title || 'Untitled',
-          date: attributes.date || '',
-          tag: attributes.tag || 'Journal',
-          image: attributes.image || '',
-          tags: attributes.tags || '',
-          content: body || '',
-          id: path
-        });
-      }
-      // Sort entries so the newest (highest date/id) is first
-      setEntries(loadedEntries.sort((a, b) => b.id.localeCompare(a.id)));
-    };
-
-    fetchJournals();
+    getJournals().then(setEntries);
   }, []);
 
-  const paginate = (newDirection: number) => {
-    setDirection(newDirection);
-    setCurrentIndex((prev) => prev + newDirection);
-  };
+  const filteredEntries = activeCategory === 'ALL' 
+    ? entries 
+    : entries.filter(e => e.category.toUpperCase() === activeCategory);
 
-  const currentEntry = entries[currentIndex];
+  const featuredEntry = filteredEntries[0];
+  const recentEntries = filteredEntries.slice(1);
 
   return (
     <motion.div
-      className="page-container"
+      className="page-container editorial-page"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      style={{ 
-        minHeight: '100vh', 
-        paddingTop: '120px', 
-        paddingBottom: '120px', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        position: 'relative', 
-        gap: '40px',
-        perspective: '1500px' // For the 3D flip effect
-      }}
     >
-      {/* Normal View - Hidden during print */}
-      <div className="no-print" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px' }}>
-        {entries.length > 0 && (
-          <AnimatePresence mode="wait" custom={direction}>
+      <div className="editorial-paper">
+        <div className="editorial-margin-line" />
+        
+        <div className="editorial-content">
+          <header className="editorial-header">
+            <h1 className="editorial-title">JOURNAL</h1>
+            <p className="editorial-subtitle">
+              Things I'm learning, building, breaking,<br/>
+              and finally understanding.
+            </p>
+            <div className="editorial-filters">
+              {CATEGORIES.map(cat => (
+                <button 
+                  key={cat}
+                  className={`editorial-filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  [ {cat} ]
+                </button>
+              ))}
+            </div>
+          </header>
+
+          <hr className="editorial-divider" />
+
+          <AnimatePresence mode="wait">
             <motion.div 
-              key={currentIndex}
-              custom={direction}
-              variants={pageVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="notebook-page print-notebook-page"
+              key={activeCategory}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="editorial-list-view"
             >
-              {/* Top Right Corner Image */}
-              {currentEntry.image && (
-                <img 
-                  src={currentEntry.image} 
-                  alt={currentEntry.title} 
-                  className="notebook-image"
-                />
+              {featuredEntry ? (
+                <section className="editorial-featured">
+                  <div className="editorial-section-label">FEATURED</div>
+                  
+                  <Link to={`/journey/${featuredEntry.slug}`} className="editorial-featured-card">
+                    <div className="featured-card-content">
+                      <div className="featured-card-tag">{featuredEntry.category}</div>
+                      <h2 className="featured-card-title">{featuredEntry.title}</h2>
+                      <div className="featured-card-meta">
+                        {featuredEntry.date} &middot; {featuredEntry.readingTime || '5 min read'}
+                      </div>
+                      {featuredEntry.excerpt && (
+                        <p className="featured-card-excerpt">{featuredEntry.excerpt}</p>
+                      )}
+                      <div className="read-more-btn">Read journal &rarr;</div>
+                    </div>
+                    {/* Illustration placeholder */}
+                    <div className="featured-card-visual">
+                      {featuredEntry.image ? (
+                        <img src={featuredEntry.image} alt={featuredEntry.title} />
+                      ) : (
+                        <div className={`visual-placeholder theme-${featuredEntry.category.toLowerCase().replace(/[^a-z]/g, '')}`}>
+                          {/* We can use CSS to style this nicely based on category */}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                </section>
+              ) : (
+                <div style={{ padding: '40px 0', color: '#888' }}>No entries found for this category.</div>
               )}
 
-              {/* Bookmark tab */}
-              <div className="notebook-bookmark">
-                {currentEntry.tag}
-              </div>
-
-              {/* Margin line */}
-              <div className="notebook-margin-line print-margin-line" />
-              
-              <h1 style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '24px', margin: 0, padding: 0, lineHeight: '32px' }}>{currentEntry.title}</h1>
-              <div style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '14px', color: '#666', margin: 0, padding: 0, lineHeight: '32px', fontStyle: 'italic' }}>
-                {currentEntry.date}
-              </div>
-              {/* Empty line space */}
-              <div style={{ height: '32px' }}></div>
-
-              <div className="journal-content">
-                <ReactMarkdown>{currentEntry.content}</ReactMarkdown>
-                
-                {currentEntry.tags && (
-                  <p style={{ fontSize: '14px', color: '#888', fontStyle: 'italic' }}>
-                    {currentEntry.tags}
-                  </p>
-                )}
-              </div>
+              {recentEntries.length > 0 && (
+                <section className="editorial-recent">
+                  <div className="editorial-section-label">RECENT ENTRIES</div>
+                  <ul className="editorial-recent-list">
+                    {recentEntries.map(entry => (
+                      <li key={entry.id}>
+                        <Link to={`/journey/${entry.slug}`} className="editorial-recent-item">
+                          <div className="recent-status">
+                            {entry.status && (
+                              <span className={`status-indicator ${entry.status.toLowerCase()}`}>
+                                {entry.status === 'LEARNING' && '● '}
+                                {entry.status === 'BUILDING' && '● '}
+                                {entry.status === 'UNDERSTOOD' && '✓ '}
+                                {entry.status === 'REVISITING' && '↻ '}
+                                {entry.status}
+                              </span>
+                            )}
+                          </div>
+                          <div className="recent-date">{entry.date}</div>
+                          <div className="recent-body">
+                            <span className="recent-title">{entry.title}</span>
+                            <div className="recent-tags">{entry.tags.join(' · ')}</div>
+                          </div>
+                          <div className="recent-arrow">&rarr;</div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
             </motion.div>
           </AnimatePresence>
-        )}
 
-        {/* Pagination & Download Controls */}
-        {entries.length > 0 && (
-          <div style={{ display: 'flex', gap: '20px', zIndex: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <section className="editorial-pdf-cta">
+            <h3 className="pdf-cta-title">WANT THE WHOLE NOTEBOOK?</h3>
+            <p className="pdf-cta-desc">Read through the entries online, or keep a copy of the journal.</p>
             <button 
-              onClick={() => paginate(-1)}
-              disabled={currentIndex === 0}
-              className="glow-button"
-              style={{ opacity: currentIndex === 0 ? 0.4 : 1, pointerEvents: currentIndex === 0 ? 'none' : 'auto' }}
-            >
-              &larr; Newer
-            </button>
-            
-            <button 
+              className="glow-button pdf-cta-btn"
               onClick={() => window.print()}
-              className="glow-button"
-              style={{ backgroundColor: '#ff6b6b', color: 'white', borderColor: '#ff6b6b' }}
             >
-              &#128196; Download as Book (PDF)
+              Download Journal as PDF
             </button>
+          </section>
 
-            <button 
-              onClick={() => paginate(1)}
-              disabled={currentIndex === entries.length - 1}
-              className="glow-button"
-              style={{ opacity: currentIndex === entries.length - 1 ? 0.4 : 1, pointerEvents: currentIndex === entries.length - 1 ? 'none' : 'auto' }}
-            >
-              Older &rarr;
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Hidden Print Container */}
-      <div className="print-only">
-        <div className="print-cover">
-          <img src="/journal-cover.jpg" alt="Journal Cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-        {entries.map((entry) => (
-          <div key={entry.id} className="print-notebook-page">
-            <div className="print-margin-line" />
-            
-            {/* Top Right Corner Image (optional for print, looks good!) */}
-            {entry.image && (
-              <img 
-                src={entry.image} 
-                alt={entry.title} 
-                style={{
-                  position: 'absolute',
-                  top: '25px',
-                  right: '35px',
-                  width: '280px',
-                  maxWidth: '35%',
-                  zIndex: 1,
-                  opacity: 0.9,
-                  pointerEvents: 'none',
-                  transform: 'rotate(5deg)',
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                  borderRadius: '8px'
-                }}
-              />
-            )}
-
-            <h1>{entry.title}</h1>
-            <div className="print-date">{entry.date}</div>
-            
-            <div style={{ height: '32px' }}></div>
-
-            <div className="journal-content">
-              <ReactMarkdown>{entry.content}</ReactMarkdown>
-            </div>
-          </div>
-        ))}
       </div>
-
     </motion.div>
   );
 };
 
 export default JourneyPage;
+
