@@ -9,28 +9,28 @@ interface HeroProps {
 }
 
 const Hero = ({ onConnectClick }: HeroProps) => {
-  const [seconds, setSeconds] = useState(() => {
-    const raw = sessionStorage.getItem('portfolioSiteStartTime_v2');
-    const parsed = raw ? parseInt(raw, 10) : NaN;
-    const now = Date.now();
-    if (!raw || isNaN(parsed) || parsed <= 0 || parsed > now || (now - parsed) > 86400000) {
-      sessionStorage.setItem('portfolioSiteStartTime_v2', now.toString());
-      return 0;
-    }
-    return Math.max(0, Math.floor((now - parsed) / 1000));
-  });
+  const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    const updateSeconds = () => {
-      const raw = sessionStorage.getItem('portfolioSiteStartTime_v2');
-      const parsed = raw ? parseInt(raw, 10) : NaN;
-      const now = Date.now();
-      if (!raw || isNaN(parsed) || parsed <= 0 || parsed > now || (now - parsed) > 86400000) {
-        sessionStorage.setItem('portfolioSiteStartTime_v2', now.toString());
-        setSeconds(0);
-      } else {
-        setSeconds(Math.max(0, Math.floor((now - parsed) / 1000)));
+    let startTime = Date.now();
+    try {
+      if (typeof window !== 'undefined') {
+        const raw = sessionStorage.getItem('portfolioSiteStartTime_v3');
+        const parsed = raw ? parseInt(raw, 10) : NaN;
+        const now = Date.now();
+        if (raw && !isNaN(parsed) && parsed > 0 && parsed <= now && (now - parsed) < 14400000) {
+          startTime = parsed;
+        } else {
+          sessionStorage.setItem('portfolioSiteStartTime_v3', now.toString());
+        }
       }
+    } catch {
+      // Fallback to in-memory start time
+    }
+
+    const updateSeconds = () => {
+      const elapsed = Math.max(0, Math.floor((Date.now() - startTime) / 1000));
+      setSeconds(elapsed);
     };
 
     updateSeconds();

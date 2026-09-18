@@ -45,7 +45,16 @@ function Digit({ place, value, height, digitStyle }) {
 
   useEffect(() => {
     if (!isDecimal) {
-      animatedValue.set(valueRoundedToPlace);
+      const current = animatedValue.get();
+      if (Math.abs(valueRoundedToPlace - current) > 5) {
+        if (typeof animatedValue.jump === 'function') {
+          animatedValue.jump(valueRoundedToPlace);
+        } else {
+          animatedValue.set(valueRoundedToPlace);
+        }
+      } else {
+        animatedValue.set(valueRoundedToPlace);
+      }
     }
   }, [animatedValue, valueRoundedToPlace, isDecimal]);
 
