@@ -10,23 +10,43 @@ interface HeroProps {
 
 const Hero = ({ onConnectClick }: HeroProps) => {
   const [seconds, setSeconds] = useState(() => {
-    const startTime = sessionStorage.getItem('siteStartTime');
-    if (!startTime) {
-      sessionStorage.setItem('siteStartTime', Date.now().toString());
+    const raw = sessionStorage.getItem('portfolioSiteStartTime_v2');
+    const parsed = raw ? parseInt(raw, 10) : NaN;
+    const now = Date.now();
+    if (!raw || isNaN(parsed) || parsed <= 0 || parsed > now || (now - parsed) > 86400000) {
+      sessionStorage.setItem('portfolioSiteStartTime_v2', now.toString());
       return 0;
     }
-    return Math.floor((Date.now() - parseInt(startTime, 10)) / 1000);
+    return Math.max(0, Math.floor((now - parsed) / 1000));
   });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const startTime = sessionStorage.getItem('siteStartTime');
-      if (startTime) {
-        setSeconds(Math.floor((Date.now() - parseInt(startTime, 10)) / 1000));
+    const updateSeconds = () => {
+      const raw = sessionStorage.getItem('portfolioSiteStartTime_v2');
+      const parsed = raw ? parseInt(raw, 10) : NaN;
+      const now = Date.now();
+      if (!raw || isNaN(parsed) || parsed <= 0 || parsed > now || (now - parsed) > 86400000) {
+        sessionStorage.setItem('portfolioSiteStartTime_v2', now.toString());
+        setSeconds(0);
+      } else {
+        setSeconds(Math.max(0, Math.floor((now - parsed) / 1000)));
       }
-    }, 1000);
+    };
+
+    updateSeconds();
+    const interval = setInterval(updateSeconds, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const getPlaces = (val: number) => {
+    const safeVal = Math.max(0, Math.floor(val || 0));
+    const numDigits = Math.max(3, safeVal.toString().length);
+    const placesArr = [];
+    for (let i = numDigits - 1; i >= 0; i--) {
+      placesArr.push(Math.pow(10, i));
+    }
+    return placesArr;
+  };
 
   return (
     <section className="section" id="home" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', paddingTop: '80px', paddingBottom: '40px' }}>
@@ -162,7 +182,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             <div className="hero-counter-container" style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
               <Counter
                 value={seconds}
-                places={seconds >= 1000 ? [1000, 100, 10, 1] : [100, 10, 1]}
+                places={getPlaces(seconds)}
                 fontSize={80}
                 padding={0}
                 gap={5}

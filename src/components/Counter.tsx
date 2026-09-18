@@ -6,13 +6,14 @@ import './Counter.css';
 
 function Number({ mv, number, height }) {
   let y = useTransform(mv, latest => {
-    let placeValue = latest % 10;
+    if (typeof latest !== 'number' || !isFinite(latest)) return '0px';
+    let placeValue = ((latest % 10) + 10) % 10;
     let offset = (10 + number - placeValue) % 10;
     let memo = offset * height;
     if (offset > 5) {
       memo -= 10 * height;
     }
-    return memo;
+    return `${memo}px`;
   });
   return (
     <motion.span className="counter-number" style={{ y }}>
@@ -28,6 +29,7 @@ function normalizeNearInteger(num) {
 }
 
 function getValueRoundedToPlace(value, place) {
+  if (typeof value !== 'number' || !isFinite(value) || !place) return 0;
   const scaled = value / place;
   return Math.floor(normalizeNearInteger(scaled));
 }
@@ -35,7 +37,11 @@ function getValueRoundedToPlace(value, place) {
 function Digit({ place, value, height, digitStyle }) {
   const isDecimal = place === '.';
   const valueRoundedToPlace = isDecimal ? 0 : getValueRoundedToPlace(value, place);
-  const animatedValue = useSpring(valueRoundedToPlace);
+  const animatedValue = useSpring(valueRoundedToPlace, {
+    stiffness: 200,
+    damping: 20,
+    mass: 0.8
+  });
 
   useEffect(() => {
     if (!isDecimal) {
@@ -62,11 +68,10 @@ function Digit({ place, value, height, digitStyle }) {
 
 export default function Counter(props: any) {
   const {
-    value,
+    value = 0,
     fontSize = 100,
     padding = 0,
-    places = [...value.toString()].map((ch, i, a) => {
-      ch == '.';
+    places = [...(typeof value === 'number' && isFinite(value) ? value : 0).toString()].map((ch, i, a) => {
       if (ch === '.') {
         return '.';
       } else {
