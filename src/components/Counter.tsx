@@ -2,21 +2,30 @@
 import { motion, useSpring, useTransform } from 'framer-motion';
 import { useEffect } from 'react';
 
-import './Counter.css';
-
 function Number({ mv, number, height }) {
-  let y = useTransform(mv, latest => {
+  const y = useTransform(mv, (latest) => {
     if (typeof latest !== 'number' || !isFinite(latest)) return '0px';
-    let placeValue = ((latest % 10) + 10) % 10;
+    const placeValue = ((latest % 10) + 10) % 10;
     let offset = (10 + number - placeValue) % 10;
     let memo = offset * height;
-    if (offset > 5) {
-      memo -= 10 * height;
-    }
+    if (offset > 5) memo -= 10 * height;
     return `${memo}px`;
   });
+
   return (
-    <motion.span className="counter-number" style={{ y }}>
+    <motion.span
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        y,
+      }}
+    >
       {number}
     </motion.span>
   );
@@ -34,19 +43,21 @@ function getValueRoundedToPlace(value, place) {
   return Math.floor(normalizeNearInteger(scaled));
 }
 
-function Digit({ place, value, height, digitStyle }) {
+function Digit({ place, value, height, digitStyle = {} }) {
   const isDecimal = place === '.';
   const valueRoundedToPlace = isDecimal ? 0 : getValueRoundedToPlace(value, place);
+
   const animatedValue = useSpring(valueRoundedToPlace, {
     stiffness: 200,
     damping: 20,
-    mass: 0.8
+    mass: 0.8,
   });
 
   useEffect(() => {
     if (!isDecimal) {
       const current = animatedValue.get();
-      if (Math.abs(valueRoundedToPlace - current) > 5) {
+      // Snap immediately on large jumps (e.g. initial load) to prevent infinite spinning
+      if (Math.abs(valueRoundedToPlace - current) > 3) {
         if (typeof animatedValue.jump === 'function') {
           animatedValue.jump(valueRoundedToPlace);
         } else {
@@ -60,14 +71,34 @@ function Digit({ place, value, height, digitStyle }) {
 
   if (isDecimal) {
     return (
-      <span className="counter-digit" style={{ height, ...digitStyle, width: 'fit-content' }}>
+      <span
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          height: `${height}px`,
+          width: 'fit-content',
+          overflow: 'hidden',
+          fontVariantNumeric: 'tabular-nums',
+          ...digitStyle,
+        }}
+      >
         .
       </span>
     );
   }
 
   return (
-    <span className="counter-digit" style={{ height, ...digitStyle }}>
+    <span
+      style={{
+        position: 'relative',
+        display: 'inline-block',
+        height: `${height}px`,
+        width: '0.6em',
+        overflow: 'hidden',
+        fontVariantNumeric: 'tabular-nums',
+        ...digitStyle,
+      }}
+    >
       {Array.from({ length: 10 }, (_, i) => (
         <Number key={i} mv={animatedValue} number={i} height={height} />
       ))}
@@ -80,62 +111,86 @@ export default function Counter(props: any) {
     value = 0,
     fontSize = 100,
     padding = 0,
-    places = [...(typeof value === 'number' && isFinite(value) ? value : 0).toString()].map((ch, i, a) => {
-      if (ch === '.') {
-        return '.';
-      } else {
-        return (
-          10 **
-          (a.indexOf('.') === -1 ? a.length - i - 1 : i < a.indexOf('.') ? a.indexOf('.') - i - 1 : -(i - a.indexOf('.')))
-        );
-      }
-    }),
+    places,
     gap = 8,
     borderRadius = 4,
-    horizontalPadding = 8,
+    horizontalPadding = 0,
     textColor = 'inherit',
     fontWeight = 'inherit',
-    containerStyle,
-    counterStyle,
-    digitStyle,
+    containerStyle = {},
+    counterStyle = {},
+    digitStyle = {},
     gradientHeight = 16,
     gradientFrom = 'transparent',
     gradientTo = 'transparent',
     topGradientStyle,
-    bottomGradientStyle
+    bottomGradientStyle,
   } = props;
+
   const height = fontSize + padding;
-  const defaultCounterStyle = {
-    fontSize,
-    gap: gap,
-    borderRadius: borderRadius,
-    paddingLeft: horizontalPadding,
-    paddingRight: horizontalPadding,
-    color: textColor,
-    fontWeight: fontWeight,
-    direction: "ltr"
-  };
-  const defaultTopGradientStyle = {
-    height: gradientHeight,
-    background: `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`
-  };
-  const defaultBottomGradientStyle = {
-    height: gradientHeight,
-    background: `linear-gradient(to top, ${gradientFrom}, ${gradientTo})`
-  };
+
+  const resolvedPlaces = places ?? (() => {
+    const safeVal = typeof value === 'number' && isFinite(value) ? value : 0;
+    const chars = [...safeVal.toString()];
+    return chars.map((ch, i, a) => {
+      if (ch === '.') return '.';
+      const dotIdx = a.indexOf('.');
+      if (dotIdx === -1) return 10 ** (a.length - i - 1);
+      if (i < dotIdx) return 10 ** (dotIdx - i - 1);
+      return 10 ** (-(i - dotIdx));
+    });
+  })();
+
   return (
-    <span className="counter-container" style={containerStyle}>
-      <span className="counter-counter" style={{ ...defaultCounterStyle, ...counterStyle }}>
-        {places.map((place, idx) => (
-          <Digit key={`${place}-${idx}`} place={place} value={value} height={height} digitStyle={digitStyle} />
+    <span style={{ position: 'relative', display: 'inline-block', ...containerStyle }}>
+      <span
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          overflow: 'hidden',
+          lineHeight: 1,
+          fontSize,
+          gap,
+          borderRadius,
+          paddingLeft: horizontalPadding,
+          paddingRight: horizontalPadding,
+          color: textColor,
+          fontWeight,
+          direction: 'ltr',
+          ...counterStyle,
+        }}
+      >
+        {resolvedPlaces.map((place, idx) => (
+          <Digit
+            key={`${String(place)}-${idx}`}
+            place={place}
+            value={value}
+            height={height}
+            digitStyle={digitStyle}
+          />
         ))}
       </span>
-      <span className="gradient-container">
-        <span className="top-gradient" style={topGradientStyle ? topGradientStyle : defaultTopGradientStyle}></span>
+
+      <span style={{ pointerEvents: 'none', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
         <span
-          className="bottom-gradient"
-          style={bottomGradientStyle ? bottomGradientStyle : defaultBottomGradientStyle}
-        ></span>
+          style={topGradientStyle ?? {
+            position: 'absolute',
+            top: 0,
+            width: '100%',
+            height: gradientHeight,
+            background: `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`,
+          }}
+        />
+        <span
+          style={bottomGradientStyle ?? {
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            height: gradientHeight,
+            background: `linear-gradient(to top, ${gradientFrom}, ${gradientTo})`,
+          }}
+        />
       </span>
     </span>
   );
