@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.divyanshchandra.online/</loc>
+    <loc>https://www.divyanshchandra.online</loc>
   </url>
   <url>
     <loc>https://www.divyanshchandra.online/about</loc>
@@ -28,9 +28,6 @@
     <loc>https://www.divyanshchandra.online/projects/seo-reporting-automation</loc>
   </url>
   <url>
-    <loc>https://www.divyanshchandra.online/journey/ai-agents</loc>
-  </url>
-  <url>
-    <loc>https://www.divyanshchandra.online/journey/web-dev</loc>
+    <loc>https://www.divyanshchandra.online/journey/hello-trial-journal</loc>
   </url>
 </urlset>

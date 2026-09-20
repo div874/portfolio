@@ -3,15 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { getJournals } from '../utils/journals';
 import type { JournalEntry } from '../utils/journals';
-
-const CATEGORIES = ['ALL', 'AI / LLMs', 'DEVELOPMENT', 'SEO', 'CAREER'];
+import type { Category } from './AdminDashboard';
+import { supabase } from '../supabase';
 
 const JourneyPage = () => {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState('ALL');
 
   useEffect(() => {
     getJournals().then(setEntries);
+    
+    const fetchCategories = async () => {
+      const { data, error } = await supabase.from('categories').select('*').order('name');
+      if (!error && data) {
+        setCategories(data as Category[]);
+      }
+    };
+    fetchCategories();
   }, []);
 
   const filteredEntries = activeCategory === 'ALL' 
@@ -30,23 +39,37 @@ const JourneyPage = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="editorial-paper">
+        {/* Print-only Cover Image */}
+        <div className="print-only-cover" style={{ display: 'none' }}>
+          <img src="/journal-cover.jpg" alt="Journal Cover" style={{ width: '100%', height: 'auto', pageBreakAfter: 'always' }} />
+        </div>
+
         <div className="editorial-margin-line" />
         
         <div className="editorial-content">
           <header className="editorial-header">
             <h1 className="editorial-title">JOURNAL</h1>
-            <p className="editorial-subtitle">
-              Things I'm learning, building, breaking,<br/>
-              and finally understanding.
+            <p className="editorial-subtitle" style={{ minHeight: '60px' }}>
+              {activeCategory === 'ALL' ? (
+                <>Things I'm learning, building, breaking,<br/>and finally understanding.</>
+              ) : (
+                categories.find(c => c.name === activeCategory)?.description || ''
+              )}
             </p>
             <div className="editorial-filters">
-              {CATEGORIES.map(cat => (
+              <button 
+                className={`editorial-filter-btn ${activeCategory === 'ALL' ? 'active' : ''}`}
+                onClick={() => setActiveCategory('ALL')}
+              >
+                [ ALL ]
+              </button>
+              {categories.map(cat => (
                 <button 
-                  key={cat}
-                  className={`editorial-filter-btn ${activeCategory === cat ? 'active' : ''}`}
-                  onClick={() => setActiveCategory(cat)}
+                  key={cat.id}
+                  className={`editorial-filter-btn ${activeCategory === cat.name ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(cat.name)}
                 >
-                  [ {cat} ]
+                  [ {cat.name.toUpperCase()} ]
                 </button>
               ))}
             </div>

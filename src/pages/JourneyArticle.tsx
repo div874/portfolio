@@ -101,27 +101,29 @@ const JourneyArticle = () => {
           <hr className="editorial-divider" />
 
           {/* Learning Trail */}
-          <section className="learning-trail">
-            <h3 className="learning-trail-title">LEARNING TRAIL</h3>
-            <div className="learning-trail-links">
-              <div className="trail-link-container prev-trail">
-                {previousEntry && (
-                  <Link to={`/journey/${previousEntry.slug}`} className="trail-link">
-                    <span className="trail-label">&larr; PREVIOUS</span>
-                    <span className="trail-text">{previousEntry.title}</span>
-                  </Link>
-                )}
+          {(previousEntry || nextEntry) && (
+            <section className="learning-trail">
+              <h3 className="learning-trail-title">LEARNING TRAIL</h3>
+              <div className="learning-trail-links">
+                <div className="trail-link-container prev-trail">
+                  {previousEntry && (
+                    <Link to={`/journey/${previousEntry.slug}`} className="trail-link">
+                      <span className="trail-label">&larr; PREVIOUS</span>
+                      <span className="trail-text">{previousEntry.title}</span>
+                    </Link>
+                  )}
+                </div>
+                <div className="trail-link-container next-trail">
+                  {nextEntry && (
+                    <Link to={`/journey/${nextEntry.slug}`} className="trail-link">
+                      <span className="trail-label">NEXT &rarr;</span>
+                      <span className="trail-text">{nextEntry.title}</span>
+                    </Link>
+                  )}
+                </div>
               </div>
-              <div className="trail-link-container next-trail">
-                {nextEntry && (
-                  <Link to={`/journey/${nextEntry.slug}`} className="trail-link">
-                    <span className="trail-label">NEXT &rarr;</span>
-                    <span className="trail-text">{nextEntry.title}</span>
-                  </Link>
-                )}
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* More From Category */}
           {relatedEntries.length > 0 && (

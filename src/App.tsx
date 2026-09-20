@@ -17,6 +17,67 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import JourneyPage from './pages/JourneyPage';
 import JourneyArticle from './pages/JourneyArticle';
+import { AdminLogin } from './pages/AdminLogin';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { AdminEditor } from './pages/AdminEditor';
+
+import { useLocation } from 'react-router-dom';
+
+function AppLayout() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  const handleConnectClick = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="portfolio-container font-inter">
+      {/* Clean, Sharp Crisp Fade Reveal into Home Page */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1 }}>
+          <ShapeGrid 
+            speed={0.5} 
+            squareSize={50}
+            direction='diagonal'
+            borderColor='#F0F0F0'
+            hoverFillColor='#F9F9F9'
+            shape='square'
+            hoverTrailAmount={5}
+          />
+        </div>
+        
+        {!isAdmin && <Navbar />}
+        
+        <main>
+          <Routes>
+            <Route path="/" element={<Home onConnectClick={handleConnectClick} />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="/experience" element={<ExperiencePage />} />
+            <Route path="/skills" element={<SkillsPage />} />
+            <Route path="/journey" element={<JourneyPage />} />
+            <Route path="/journey/:slug" element={<JourneyArticle />} />
+            <Route path="/cv" element={<CVPage />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/edit" element={<AdminEditor />} />
+            <Route path="/admin/edit/:id" element={<AdminEditor />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+          {!isAdmin && <Contact />}
+        </main>
+
+        {!isAdmin && <Footer />}
+      </motion.div>
+    </div>
+  );
+}
 
 function App() {
   // Manual scroll restoration & scroll to top immediately on initial mount
@@ -27,53 +88,10 @@ function App() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleConnectClick = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="portfolio-container font-inter">
-
-        {/* Clean, Sharp Crisp Fade Reveal into Home Page */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        >
-          <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1 }}>
-            <ShapeGrid 
-              speed={0.5} 
-              squareSize={50}
-              direction='diagonal'
-              borderColor='#F0F0F0'
-              hoverFillColor='#F9F9F9'
-              shape='square'
-              hoverTrailAmount={5}
-            />
-          </div>
-          <Navbar />
-          
-          <main>
-            <Routes>
-              <Route path="/" element={<Home onConnectClick={handleConnectClick} />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/projects" element={<ProjectsPage />} />
-              <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-              <Route path="/experience" element={<ExperiencePage />} />
-              <Route path="/skills" element={<SkillsPage />} />
-              <Route path="/journey" element={<JourneyPage />} />
-              <Route path="/journey/:slug" element={<JourneyArticle />} />
-              <Route path="/cv" element={<CVPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-            <Contact />
-          </main>
-
-          <Footer />
-        </motion.div>
-      </div>
+      <AppLayout />
     </BrowserRouter>
   );
 }
