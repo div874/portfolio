@@ -16,15 +16,15 @@ Divyansh Chandra is an AI & Automation Developer specializing in Generative AI, 
 - **SEO Reporting Automation Dashboard**: Automated SEO reporting pipeline using GSC & GA4 APIs with Pandas. Reduced weekly client reporting time from 6 hours to 15 minutes across 3 client accounts.
 
 ## Primary Links
-- **Home**: https://www.divyanshchandra.online/
-- **About**: https://www.divyanshchandra.online/about
-- **Projects**: https://www.divyanshchandra.online/projects
-- **Experience**: https://www.divyanshchandra.online/experience
-- **Tech Skills**: https://www.divyanshchandra.online/skills
-- **Journal**: https://www.divyanshchandra.online/journey
-- **CV / Resume**: https://www.divyanshchandra.online/cv
-- **LinkedIn**: https://www.linkedin.com/in/div08/
-- **GitHub**: https://github.com/div874
+- **Home**: [https://www.divyanshchandra.online/](https://www.divyanshchandra.online/)
+- **About**: [https://www.divyanshchandra.online/about](https://www.divyanshchandra.online/about)
+- **Projects**: [https://www.divyanshchandra.online/projects](https://www.divyanshchandra.online/projects)
+- **Experience**: [https://www.divyanshchandra.online/experience](https://www.divyanshchandra.online/experience)
+- **Tech Skills**: [https://www.divyanshchandra.online/skills](https://www.divyanshchandra.online/skills)
+- **Journal**: [https://www.divyanshchandra.online/journey](https://www.divyanshchandra.online/journey)
+- **CV / Resume**: [https://www.divyanshchandra.online/cv](https://www.divyanshchandra.online/cv)
+- **LinkedIn**: [https://www.linkedin.com/in/div08/](https://www.linkedin.com/in/div08/)
+- **GitHub**: [https://github.com/div874](https://github.com/div874)
 
 ## Sitemap
-- https://www.divyanshchandra.online/sitemap.xml
+- [https://www.divyanshchandra.online/sitemap.xml](https://www.divyanshchandra.online/sitemap.xml)

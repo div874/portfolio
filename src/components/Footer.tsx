@@ -27,7 +27,7 @@ const Footer = () => {
         </div>
 
         <div className="footer__nav">
-          <h4 className="footer__heading">Quick Links</h4>
+          <h3 className="footer__heading">Quick Links</h3>
           {navItems.map(item => (
             <button key={item.id} onClick={() => handleScroll(item.id)} className="footer__link">
               {item.label}
@@ -36,7 +36,7 @@ const Footer = () => {
         </div>
 
         <div className="footer__social">
-          <h4 className="footer__heading">Connect</h4>
+          <h3 className="footer__heading">Connect</h3>
           <div className="footer__social-row">
             <a href="https://www.linkedin.com/in/div08/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="LinkedIn">
               <FaLinkedinIn size={18} />

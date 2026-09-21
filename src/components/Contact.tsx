@@ -174,6 +174,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit}>
               <div className="minimalist-form-group">
                 <input
+                  id="contact-name"
                   type="text"
                   required
                   placeholder=" "
@@ -181,11 +182,12 @@ const Contact = () => {
                   onChange={(e) => setName(e.target.value)}
                   className="minimalist-input"
                 />
-                <label className="minimalist-label">Your Name *</label>
+                <label htmlFor="contact-name" className="minimalist-label">Your Name *</label>
               </div>
 
               <div className="minimalist-form-group">
                 <input
+                  id="contact-email"
                   type="email"
                   required
                   placeholder=" "
@@ -193,22 +195,24 @@ const Contact = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="minimalist-input"
                 />
-                <label className="minimalist-label">Your Email *</label>
+                <label htmlFor="contact-email" className="minimalist-label">Your Email *</label>
               </div>
 
               <div className="minimalist-form-group">
                 <input
+                  id="contact-phone"
                   type="tel"
                   placeholder=" "
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="minimalist-input"
                 />
-                <label className="minimalist-label">Phone Number (Optional)</label>
+                <label htmlFor="contact-phone" className="minimalist-label">Phone Number (Optional)</label>
               </div>
 
               <div className="minimalist-form-group">
                 <textarea
+                  id="contact-message"
                   required
                   placeholder=" "
                   rows={4}
@@ -217,7 +221,7 @@ const Contact = () => {
                   className="minimalist-input"
                   style={{ resize: 'none' }}
                 />
-                <label className="minimalist-label">What are you looking to build or solve? *</label>
+                <label htmlFor="contact-message" className="minimalist-label">What are you looking to build or solve? *</label>
               </div>
 
               {status === 'error' && (

@@ -104,7 +104,7 @@ const JourneyPage = () => {
                     {/* Illustration placeholder */}
                     <div className="featured-card-visual">
                       {featuredEntry.image ? (
-                        <img src={featuredEntry.image} alt={featuredEntry.title} />
+                        <img src={featuredEntry.image} alt={featuredEntry.title} loading="lazy" width="600" height="400" />
                       ) : (
                         <div className={`visual-placeholder theme-${featuredEntry.category.toLowerCase().replace(/[^a-z]/g, '')}`}>
                           {/* We can use CSS to style this nicely based on category */}

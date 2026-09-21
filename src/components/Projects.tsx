@@ -20,7 +20,7 @@ const projectsData = [
       '45% of users now discovering content via recommendations'
     ],
     tags: ['Python', 'TensorFlow', 'FAISS', 'Flask', 'React'],
-    image: '/project_1.png',
+    image: '/project_1.webp',
     links: { live: '#', code: '#' }
   },
   {
@@ -35,7 +35,7 @@ const projectsData = [
       'Client satisfaction: 4.9/5 for faster, consistent reporting'
     ],
     tags: ['Python', 'Google APIs', 'Pandas', 'Flask', 'Automation'],
-    image: '/project_2.png',
+    image: '/project_2.webp',
     links: { live: '#', code: '#' }
   },
   {
@@ -50,7 +50,7 @@ const projectsData = [
       'Support team satisfaction: 4.7/5 (less tedious work)'
     ],
     tags: ['Python', 'Hugging Face', 'FAISS', 'Flask', 'React'],
-    image: '/project_3.png',
+    image: '/project_3.webp',
     links: { live: '#', code: '#' }
   }
 ];
@@ -106,6 +106,9 @@ const Projects = () => {
               <img 
                 src={project.image} 
                 alt={project.title} 
+                loading="lazy"
+                width="400"
+                height="320"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease', position: 'relative', zIndex: 1 }} 
                 onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
                 onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}

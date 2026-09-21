@@ -7,19 +7,22 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ShapeGrid from './components/ShapeGrid';
 
+import { Suspense, lazy } from 'react';
 import Home from './pages/Home';
-import ProjectsPage from './pages/ProjectsPage';
-import ExperiencePage from './pages/ExperiencePage';
-import SkillsPage from './pages/SkillsPage';
-import CVPage from './pages/CVPage';
-import AboutPage from './pages/AboutPage';
-import ProjectDetailPage from './pages/ProjectDetailPage';
-import NotFoundPage from './pages/NotFoundPage';
-import JourneyPage from './pages/JourneyPage';
-import JourneyArticle from './pages/JourneyArticle';
-import { AdminLogin } from './pages/AdminLogin';
-import { AdminDashboard } from './pages/AdminDashboard';
-import { AdminEditor } from './pages/AdminEditor';
+
+// Lazy loaded routes
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const ExperiencePage = lazy(() => import('./pages/ExperiencePage'));
+const SkillsPage = lazy(() => import('./pages/SkillsPage'));
+const CVPage = lazy(() => import('./pages/CVPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const JourneyPage = lazy(() => import('./pages/JourneyPage'));
+const JourneyArticle = lazy(() => import('./pages/JourneyArticle'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin').then(module => ({ default: module.AdminLogin })));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
+const AdminEditor = lazy(() => import('./pages/AdminEditor').then(module => ({ default: module.AdminEditor })));
 
 import { useLocation } from 'react-router-dom';
 
@@ -54,22 +57,24 @@ function AppLayout() {
         {!isAdmin && <Navbar />}
         
         <main>
-          <Routes>
-            <Route path="/" element={<Home onConnectClick={handleConnectClick} />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-            <Route path="/experience" element={<ExperiencePage />} />
-            <Route path="/skills" element={<SkillsPage />} />
-            <Route path="/journey" element={<JourneyPage />} />
-            <Route path="/journey/:slug" element={<JourneyArticle />} />
-            <Route path="/cv" element={<CVPage />} />
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/edit" element={<AdminEditor />} />
-            <Route path="/admin/edit/:id" element={<AdminEditor />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<Home onConnectClick={handleConnectClick} />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+              <Route path="/experience" element={<ExperiencePage />} />
+              <Route path="/skills" element={<SkillsPage />} />
+              <Route path="/journey" element={<JourneyPage />} />
+              <Route path="/journey/:slug" element={<JourneyArticle />} />
+              <Route path="/cv" element={<CVPage />} />
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/edit" element={<AdminEditor />} />
+              <Route path="/admin/edit/:id" element={<AdminEditor />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
           {!isAdmin && <Contact />}
         </main>
 

@@ -378,6 +378,9 @@ const Home = ({ onConnectClick }: HomeProps) => {
               <img
                 src={client.logo}
                 alt={client.name}
+                loading="lazy"
+                width="220"
+                height="90"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   const sibling = e.currentTarget.nextSibling as HTMLElement;

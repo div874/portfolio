@@ -89,7 +89,7 @@ const JourneyArticle = () => {
           <h1 className="editorial-article-title">{entry.title}</h1>
           
           {entry.image && (
-            <img src={entry.image} alt={entry.title} className="editorial-article-image" />
+            <img src={entry.image} alt={entry.title} width="800" height="500" fetchPriority="high" className="editorial-article-image" />
           )}
 
           <div className="journal-content editorial-markdown">

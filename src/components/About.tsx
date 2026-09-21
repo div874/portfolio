@@ -53,9 +53,12 @@ const About = () => {
           transition={{ duration: 0.6 }}
         >
           <img
-            src="/about_mascot.png"
+            src="/about_mascot.webp"
             alt="Coding Mascot"
             className="about-mascot"
+            width="560"
+            height="373"
+            loading="lazy"
           />
         </motion.div>
 
