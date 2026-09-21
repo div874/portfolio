@@ -1,3 +1,5 @@
+'use client';
+
 import { FaLinkedinIn, FaGithub } from 'react-icons/fa6';
 import { Mail } from 'lucide-react';
 

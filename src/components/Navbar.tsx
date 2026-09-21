@@ -1,6 +1,9 @@
+'use client';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -14,6 +17,7 @@ const navItems = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -31,7 +35,7 @@ const Navbar = () => {
       >
         <div className="content-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Link 
-            to="/" 
+            href="/" 
             className="navbar__logo" 
             onClick={() => setMobileOpen(false)}
             style={{ textDecoration: 'none' }}
@@ -41,18 +45,21 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <div className="navbar__links">
-            {navItems.map(item => (
-              <NavLink 
-                key={item.path} 
-                to={item.path} 
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                style={{ textDecoration: 'none' }}
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            {navItems.map(item => {
+              const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
+              return (
+                <Link 
+                  key={item.path} 
+                  href={item.path} 
+                  className={`nav-link ${isActive ? 'active' : ''}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
             <Link 
-              to="/cv"
+              href="/cv"
               className="glow-button"
               style={{ textDecoration: 'none' }}
             >
@@ -84,20 +91,23 @@ const Navbar = () => {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
             <div className="mobile-drawer__content">
-              {navItems.map((item, i) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileOpen(false)}
-                  className="mobile-drawer__link"
-                  style={{ textDecoration: 'none' }}
-                >
-                  <span className="mobile-drawer__number">0{i + 1}</span>
-                  {item.label}
-                </NavLink>
-              ))}
+              {navItems.map((item, i) => {
+                const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    onClick={() => setMobileOpen(false)}
+                    className={`mobile-drawer__link ${isActive ? 'active' : ''}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <span className="mobile-drawer__number">0{i + 1}</span>
+                    {item.label}
+                  </Link>
+                );
+              })}
               <Link
-                to="/cv"
+                href="/cv"
                 onClick={() => setMobileOpen(false)}
                 className="glow-button"
                 style={{ marginTop: '20px', width: '100%', textAlign: 'center', textDecoration: 'none' }}

@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { SiGoogleanalytics, SiGoogle, SiPython, SiWordpress } from 'react-icons/si';
 import { TbBrandGoogleAnalytics } from 'react-icons/tb';

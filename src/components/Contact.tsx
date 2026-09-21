@@ -1,19 +1,21 @@
+'use client';
+
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Mail, Send, Check } from 'lucide-react';
 import { FaLinkedinIn, FaGithub } from 'react-icons/fa6';
 
 const Contact = () => {
-  const location = useLocation();
+  const pathname = usePathname();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-  if (location.pathname === '/journey') {
+  if (pathname === '/journey') {
     return null;
   }
 

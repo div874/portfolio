@@ -1,15 +1,25 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Download } from 'lucide-react';
 import Counter from './Counter';
 
 interface HeroProps {
-  onConnectClick: () => void;
+  onConnectClick?: () => void;
 }
 
 const Hero = ({ onConnectClick }: HeroProps) => {
   const [seconds, setSeconds] = useState(0);
+
+  const handleConnect = () => {
+    if (onConnectClick) {
+      onConnectClick();
+    } else {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     let startTime = Date.now();
@@ -125,7 +135,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
 
           <div className="hero-buttons">
             <Link
-              to="/projects"
+              href="/projects"
               style={{
                 color: 'var(--text-primary)',
                 textDecoration: 'none',
@@ -205,7 +215,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.96 }}
-              onClick={onConnectClick}
+              onClick={handleConnect}
               style={{
                 width: 'fit-content',
                 padding: '16px 40px',

@@ -4,14 +4,16 @@ import { createClient } from '@supabase/supabase-js';
 
 // Read .env file manually or from process.env
 const envPath = path.resolve('.env');
-let supabaseUrl = process.env.VITE_SUPABASE_URL || '';
-let supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
+let supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
+let supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
 
 if (fs.existsSync(envPath) && (!supabaseUrl || !supabaseKey)) {
   const envContent = fs.readFileSync(envPath, 'utf8');
   envContent.split('\n').forEach(line => {
-    if (line.startsWith('VITE_SUPABASE_URL=')) supabaseUrl = line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
-    if (line.startsWith('VITE_SUPABASE_ANON_KEY=')) supabaseKey = line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
+    if (line.startsWith('NEXT_PUBLIC_SUPABASE_URL=')) supabaseUrl = line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
+    if (line.startsWith('VITE_SUPABASE_URL=')) supabaseUrl = supabaseUrl || line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
+    if (line.startsWith('NEXT_PUBLIC_SUPABASE_ANON_KEY=')) supabaseKey = line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
+    if (line.startsWith('VITE_SUPABASE_ANON_KEY=')) supabaseKey = supabaseKey || line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
   });
 }
 

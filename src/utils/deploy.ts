@@ -1,5 +1,5 @@
 export const triggerDeploy = async () => {
-  const hookUrl = import.meta.env.VITE_VERCEL_DEPLOY_HOOK;
+  const hookUrl = process.env.NEXT_PUBLIC_VERCEL_DEPLOY_HOOK || (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_VERCEL_DEPLOY_HOOK);
   if (!hookUrl) return;
 
   try {

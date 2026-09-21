@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "node scripts/generate-sitemap.js && tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "node scripts/generate-sitemap.js && next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -20,6 +20,7 @@
     "front-matter": "^4.0.2",
     "gsap": "^3.15.0",
     "lucide-react": "^1.11.0",
+    "next": "^16.3.5",
     "ogl": "^1.0.11",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

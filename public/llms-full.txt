@@ -1,0 +1,66 @@
+# Divyansh Chandra - Complete Developer Profile & Portfolio Context
+
+> Detailed technical documentation and context for AI agents, LLMs, and search crawlers.
+
+## Profile Summary
+Divyansh Chandra is an AI & Automation Developer specializing in Generative AI, Large Language Models (LLMs), Python data engineering, automated workflow pipelines, and technical SEO & digital marketing. He builds scalable AI-powered applications, machine learning recommendation engines, and end-to-end process automation pipelines.
+
+## Contact & Profiles
+- **Website**: https://www.divyanshchandra.online/
+- **Email**: divyansh.chandra.work@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/div08/
+- **GitHub**: https://github.com/div874
+
+---
+
+## Technical Skills Matrix
+- **Artificial Intelligence & ML**: Generative AI, LLM Integration, Prompt Engineering, TensorFlow, PyTorch, ResNet-50, FAISS Vector Indexing, Sentence-BERT, XLM-RoBERTa, Hugging Face, Recommendation Engines, Semantic Search.
+- **Python & Data Engineering**: Python 3.x, Pandas, NumPy, Flask, REST APIs, Google Search Console API, GA4 Data API, ETL Pipelines, Cron Automation.
+- **Web & Full-Stack Development**: Next.js (App Router), React 19, TypeScript, JavaScript, HTML5, CSS3, Framer Motion, GSAP, TailwindCSS, Supabase.
+- **Digital Marketing & SEO**: Technical SEO, Programmatic SEO, Search Analytics, Keyword Strategy, Content Automation, Conversion Optimization.
+
+---
+
+## Case Studies & Featured Work
+
+### 1. Wallcurry AI Recommendation Engine
+- **Category**: AI & Recommendation Systems
+- **Problem**: Wallcurry (art platform with 10,000+ murals) had no personalized discovery layer. Manual curation did not scale and catalog discovery was inefficient.
+- **Solution**: Built a hybrid recommendation model combining ResNet-50 512-dimensional visual feature embeddings with FAISS vector similarity search and collaborative filtering re-ranking based on user behavior signals. Exposed via Flask API to React UI.
+- **Impact & Outcomes**:
+  - Recommendation accuracy improved from 72% to 88% (validated by user feedback loop).
+  - 30% increase in mural purchases post-launch.
+  - 45% of users now discover artwork via automated recommendations.
+
+### 2. SEO Reporting Automation Dashboard
+- **Category**: Automation & Data Engineering
+- **Problem**: Manual SEO reporting consumed 6 hours per week across 3 client accounts with inconsistent metrics and delayed issue detection.
+- **Solution**: Built an automated data extraction and reporting pipeline using Python, interfacing directly with Google Search Console API and GA4 Data API. Automated MoM trend calculations, PDF report generation, scheduled email delivery, and built a Flask monitoring dashboard.
+- **Impact & Outcomes**:
+  - Reduced reporting time from 6 hours to 15 minutes per week.
+  - Tracked 45+ keywords across 3 accounts in real-time.
+  - Proactively identified 8 ranking drop-offs before clients noticed.
+
+### 3. Customer Complaint Auto Resolver
+- **Category**: Multilingual NLP & Machine Learning
+- **Problem**: Support team received 200+ complaints daily in 3 languages, requiring 4 hours of manual triage and averaging 8 hours resolution time.
+- **Solution**: Developed an end-to-end NLP pipeline using XLM-RoBERTa for multilingual classification, Sentence-BERT for entity extraction, and FAISS semantic search to query past resolved complaints and auto-suggest resolutions.
+- **Impact & Outcomes**:
+  - Auto-resolved 35% of incoming complaints.
+  - Triage time reduced from 4 hours to 30 minutes/day.
+  - Average resolution time dropped from 8 hours to 2 hours.
+
+---
+
+## Sitemap & Full Link Directory
+- **Home**: https://www.divyanshchandra.online/
+- **About**: https://www.divyanshchandra.online/about
+- **Projects**: https://www.divyanshchandra.online/projects
+- **Project - Wallcurry AI**: https://www.divyanshchandra.online/projects/wallcurry-ai-recommendation
+- **Project - SEO Automation**: https://www.divyanshchandra.online/projects/seo-reporting-automation
+- **Experience**: https://www.divyanshchandra.online/experience
+- **Tech Skills**: https://www.divyanshchandra.online/skills
+- **Journal**: https://www.divyanshchandra.online/journey
+- **CV / Resume**: https://www.divyanshchandra.online/cv
+- **Sitemap XML**: https://www.divyanshchandra.online/sitemap.xml
+- **Robots TXT**: https://www.divyanshchandra.online/robots.txt

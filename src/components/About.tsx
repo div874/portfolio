@@ -1,5 +1,7 @@
+'use client';
+
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
@@ -99,7 +101,7 @@ const About = () => {
             </div>
 
             <Link
-              to="/about"
+              href="/about"
               style={{
                 width: 'fit-content',
                 display: 'inline-flex',

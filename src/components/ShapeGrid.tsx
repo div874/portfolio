@@ -1,3 +1,4 @@
+'use client';
 // @ts-nocheck
 import { useRef, useEffect } from 'react';
 import './ShapeGrid.css';
@@ -14,8 +15,8 @@ const ShapeGrid = ({
 }) => {
   const canvasRef = useRef(null);
   const requestRef = useRef(null);
-  const numSquaresX = useRef();
-  const numSquaresY = useRef();
+  const numSquaresX = useRef<number | undefined>(undefined);
+  const numSquaresY = useRef<number | undefined>(undefined);
   const gridOffset = useRef({ x: 0, y: 0 });
   const hoveredSquare = useRef(null);
   const trailCells = useRef([]);

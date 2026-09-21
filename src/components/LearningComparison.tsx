@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface LearningComparisonProps {
   data: string; // The raw content of the code block
