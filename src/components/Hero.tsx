@@ -176,7 +176,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
           style={{ position: 'relative', zIndex: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-          <img src="/mascot_original.webp" alt="Mascot Avatar" width="500" height="500" fetchPriority="high" className="hero-mascot" style={{ display: 'block' }} />
+          <img src="/mascot_original.webp" alt="Mascot Avatar" width="500" height="750" fetchPriority="high" className="hero-mascot" style={{ display: 'block' }} />
         </motion.div>
 
         <motion.div
