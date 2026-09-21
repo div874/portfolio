@@ -539,6 +539,7 @@ const Home = ({ onConnectClick }: HomeProps) => {
               <div style={{ marginTop: 'auto' }}>
                 <Link
                   to={`/projects/${proj.slug}`}
+                  aria-label={`View Case Study for ${proj.title}`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
