@@ -4,8 +4,13 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../supabase';
 import { triggerDeploy } from '../utils/deploy';
 import { useRouter, useParams } from 'next/navigation';
-import { Editor } from '@tinymce/tinymce-react';
+import dynamic from 'next/dynamic';
 import type { Category } from './AdminDashboard';
+
+const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
+  ssr: false,
+  loading: () => <div style={{ padding: '20px', background: '#f5f5f5', borderRadius: '8px' }}>Loading Rich Text Editor...</div>,
+});
 
 interface AdminEditorProps {
   id?: string;

@@ -3,7 +3,9 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import ScrollReveal from './ScrollReveal';
+import dynamic from 'next/dynamic';
+
+const ScrollReveal = dynamic(() => import('./ScrollReveal'), { ssr: false });
 
 const highlights = [
   { value: '15+', label: 'Projects Built' },
