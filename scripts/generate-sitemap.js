@@ -4,8 +4,8 @@ import { createClient } from '@supabase/supabase-js';
 
 // Read .env file manually or from process.env
 const envPath = path.resolve('.env');
-let supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
-let supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
+let supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '';
+let supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
 
 if (fs.existsSync(envPath) && (!supabaseUrl || !supabaseKey)) {
   const envContent = fs.readFileSync(envPath, 'utf8');
@@ -17,12 +17,7 @@ if (fs.existsSync(envPath) && (!supabaseUrl || !supabaseKey)) {
   });
 }
 
-if (!supabaseUrl || !supabaseKey) {
-  console.error("Missing Supabase credentials in .env");
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
 
 async function generateSitemap() {
   console.log('Generating sitemap...');
@@ -50,20 +45,28 @@ async function generateSitemap() {
   </url>`;
   }
 
-  // Fetch journals
-  const { data: journals, error } = await supabase.from('journals').select('slug');
-  
-  if (error) {
-    console.error('Error fetching journals:', error);
-  } else if (journals) {
-    for (const journal of journals) {
-      if (journal.slug) {
-        xml += `
+  // Fetch journals if Supabase client is available
+  if (supabase) {
+    try {
+      const { data: journals, error } = await supabase.from('journals').select('slug');
+      
+      if (error) {
+        console.error('Error fetching journals for sitemap:', error);
+      } else if (journals) {
+        for (const journal of journals) {
+          if (journal.slug) {
+            xml += `
   <url>
     <loc>https://www.divyanshchandra.online/journey/${journal.slug}</loc>
   </url>`;
+          }
+        }
       }
+    } catch (err) {
+      console.error('Error querying Supabase for sitemap:', err);
     }
+  } else {
+    console.warn('Supabase credentials missing, skipped dynamic journal routes in sitemap.');
   }
 
   xml += `\n</urlset>\n`;
