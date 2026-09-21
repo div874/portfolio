@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 
-// Read .env file manually
+// Read .env file manually or from process.env
 const envPath = path.resolve('.env');
-let supabaseUrl = '';
-let supabaseKey = '';
+let supabaseUrl = process.env.VITE_SUPABASE_URL || '';
+let supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
 
-if (fs.existsSync(envPath)) {
+if (fs.existsSync(envPath) && (!supabaseUrl || !supabaseKey)) {
   const envContent = fs.readFileSync(envPath, 'utf8');
   envContent.split('\n').forEach(line => {
     if (line.startsWith('VITE_SUPABASE_URL=')) supabaseUrl = line.split('=')[1].trim().replace(/^"|'|"$|'/g, '');
