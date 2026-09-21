@@ -78,6 +78,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             DIVYANSH
             <br />
             <span style={{ color: '#555555' }}>CHANDRA</span>
+            <span className="sr-only"> — AI, Automation & Digital Marketing Developer</span>
           </h1>
 
           <h2 style={{

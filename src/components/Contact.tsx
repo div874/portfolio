@@ -101,7 +101,8 @@ const Contact = () => {
               href="mailto:divyansh.chandra.work@gmail.com"
               whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
               className="social-icon-link"
-              title="Email"
+              title="Email Divyansh Chandra"
+              aria-label="Email Divyansh Chandra"
             >
               <Mail size={22} />
             </motion.a>
@@ -112,7 +113,8 @@ const Contact = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
               className="social-icon-link"
-              title="LinkedIn"
+              title="Divyansh Chandra LinkedIn Profile"
+              aria-label="Divyansh Chandra LinkedIn Profile"
             >
               <FaLinkedinIn size={22} />
             </motion.a>
@@ -123,14 +125,15 @@ const Contact = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
               className="social-icon-link"
-              title="GitHub"
+              title="Divyansh Chandra GitHub Profile"
+              aria-label="Divyansh Chandra GitHub Profile"
             >
               <FaGithub size={22} />
             </motion.a>
           </div>
         </motion.div>
 
-        {/* Right Side: Minimalist Form */}
+        {/* Right Side: Form with WebMCP Agent Attributes */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -173,16 +176,22 @@ const Contact = () => {
               </p>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form 
+              onSubmit={handleSubmit}
+              data-toolname="contactDivyansh"
+              data-tooldescription="Send a direct message or project inquiry to Divyansh Chandra."
+            >
               <div className="minimalist-form-group">
                 <input
                   id="contact-name"
+                  name="name"
                   type="text"
                   required
                   placeholder=" "
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="minimalist-input"
+                  aria-label="Your Name"
                 />
                 <label htmlFor="contact-name" className="minimalist-label">Your Name *</label>
               </div>
@@ -190,12 +199,14 @@ const Contact = () => {
               <div className="minimalist-form-group">
                 <input
                   id="contact-email"
+                  name="email"
                   type="email"
                   required
                   placeholder=" "
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="minimalist-input"
+                  aria-label="Your Email"
                 />
                 <label htmlFor="contact-email" className="minimalist-label">Your Email *</label>
               </div>
@@ -203,11 +214,13 @@ const Contact = () => {
               <div className="minimalist-form-group">
                 <input
                   id="contact-phone"
+                  name="phone"
                   type="tel"
                   placeholder=" "
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="minimalist-input"
+                  aria-label="Phone Number"
                 />
                 <label htmlFor="contact-phone" className="minimalist-label">Phone Number (Optional)</label>
               </div>
@@ -215,6 +228,7 @@ const Contact = () => {
               <div className="minimalist-form-group">
                 <textarea
                   id="contact-message"
+                  name="message"
                   required
                   placeholder=" "
                   rows={4}
@@ -222,6 +236,7 @@ const Contact = () => {
                   onChange={(e) => setMessage(e.target.value)}
                   className="minimalist-input"
                   style={{ resize: 'none' }}
+                  aria-label="What are you looking to build or solve?"
                 />
                 <label htmlFor="contact-message" className="minimalist-label">What are you looking to build or solve? *</label>
               </div>
@@ -249,6 +264,7 @@ const Contact = () => {
                   border: 'none',
                   cursor: 'pointer'
                 }}
+                aria-label="Send Message"
               >
                 {status === 'sending' ? (
                   <span>Sending Message...</span>

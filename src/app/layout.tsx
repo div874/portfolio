@@ -80,6 +80,10 @@ const jsonLd = {
         'https://www.linkedin.com/in/div08/',
         'https://github.com/div874',
       ],
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.accent-text', '.about-lead-text', '.section-label'],
+      },
     },
     {
       '@type': 'WebSite',
@@ -91,6 +95,28 @@ const jsonLd = {
       publisher: {
         '@id': 'https://www.divyanshchandra.online/#person',
       },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://www.divyanshchandra.online/#faq',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What services does Divyansh Chandra offer?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Divyansh Chandra builds AI-powered applications using Generative AI and LLMs, automates business workflows using Python ETL pipelines, and delivers technical SEO and data analytics solutions.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What technologies and frameworks does Divyansh specialize in?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Divyansh specializes in Python, TensorFlow, FAISS vector embeddings, Next.js, React, TypeScript, Supabase, Google Search Console API, and GA4 API.',
+          },
+        },
+      ],
     },
   ],
 };
