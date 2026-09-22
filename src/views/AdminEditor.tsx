@@ -193,7 +193,8 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
         <div>
           <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Content (Markdown / WYSIWYG)</label>
           <Editor
-            apiKey="no-api-key"
+            apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+            tinymceScriptSrc={process.env.NEXT_PUBLIC_TINYMCE_API_KEY ? undefined : "https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"}
             value={content}
             onEditorChange={(newContent) => setContent(newContent)}
             init={{
