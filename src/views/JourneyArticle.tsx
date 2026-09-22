@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import { getJournals } from '../utils/journals';
 import type { JournalEntry } from '../utils/journals';
 import LearningComparison from '../components/LearningComparison';
@@ -105,7 +106,7 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
           )}
 
           <div className="journal-content editorial-markdown">
-            <ReactMarkdown components={MarkdownComponents}>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]} components={MarkdownComponents}>
               {entry.content}
             </ReactMarkdown>
           </div>
