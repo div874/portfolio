@@ -69,7 +69,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     }
   }, [id]);
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent, isDraftMode: boolean = false) => {
     e.preventDefault();
     setIsSaving(true);
 
@@ -95,12 +95,18 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
       imageUrl = publicUrlData.publicUrl;
     }
 
+    const finalStatus = isDraftMode ? 'DRAFT' : (status || 'PUBLISHED');
+    const finalTitle = title.trim() || (isDraftMode ? `Untitled Draft (${new Date().toLocaleDateString()})` : 'Untitled Journal');
+    const generatedSlug = slug.trim() || finalTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `draft-${Date.now()}`;
+    const finalDate = date || new Date().toISOString().split('T')[0];
+    const finalCategory = category || (availableCategories.length > 0 ? availableCategories[0].name : 'JOURNAL');
+
     const payload = {
-      title,
-      slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
-      date: date || new Date().toISOString().split('T')[0],
-      category,
-      status,
+      title: finalTitle,
+      slug: generatedSlug,
+      date: finalDate,
+      category: finalCategory,
+      status: finalStatus,
       tag,
       tags: tags.split(',').map(t => t.trim()).filter(Boolean),
       reading_time: readingTime,
@@ -121,7 +127,9 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     if (result.error) {
       alert("Error saving journal: " + result.error.message);
     } else {
-      triggerDeploy();
+      if (finalStatus !== 'DRAFT') {
+        triggerDeploy();
+      }
       router.push('/admin/dashboard');
     }
   };
@@ -129,10 +137,10 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
   return (
     <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>
       <h2>{id ? 'Edit Journal' : 'New Journal'}</h2>
-      <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <form onSubmit={(e) => handleSave(e, false)} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <div>
-          <label style={{ display: 'block', fontWeight: 'bold' }}>Title *</label>
-          <input type="text" value={title} onChange={e => setTitle(e.target.value)} required style={{ width: '100%', padding: '8px' }} />
+          <label style={{ display: 'block', fontWeight: 'bold' }}>Title</label>
+          <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Journal title (Optional for drafts)" style={{ width: '100%', padding: '8px' }} />
         </div>
 
         <div>
@@ -142,13 +150,14 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
 
         <div style={{ display: 'flex', gap: '15px' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontWeight: 'bold' }}>Date *</label>
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} required style={{ width: '100%', padding: '8px' }} />
+            <label style={{ display: 'block', fontWeight: 'bold' }}>Date</label>
+            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ width: '100%', padding: '8px' }} />
           </div>
 
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontWeight: 'bold' }}>Category *</label>
-            <select value={category} onChange={e => setCategory(e.target.value)} required style={{ width: '100%', padding: '8px' }}>
+            <label style={{ display: 'block', fontWeight: 'bold' }}>Category</label>
+            <select value={category} onChange={e => setCategory(e.target.value)} style={{ width: '100%', padding: '8px' }}>
+              <option value="">Select Category</option>
               {availableCategories.map(cat => (
                 <option key={cat.id} value={cat.name}>{cat.name}</option>
               ))}
@@ -158,7 +167,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontWeight: 'bold' }}>Status</label>
             <select value={status} onChange={e => setStatus(e.target.value)} style={{ width: '100%', padding: '8px' }}>
-              <option value="">None</option>
+              <option value="DRAFT">DRAFT</option>
               <option value="LEARNING">LEARNING</option>
               <option value="BUILDING">BUILDING</option>
               <option value="UNDERSTOOD">UNDERSTOOD</option>
@@ -207,10 +216,26 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
         </div>
 
         <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-          <button type="submit" disabled={isSaving} style={{ padding: '10px 20px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-            {isSaving ? 'Saving...' : 'Save Journal'}
+          <button 
+            type="submit" 
+            disabled={isSaving} 
+            style={{ padding: '10px 20px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+          >
+            {isSaving ? 'Saving...' : 'Save & Publish'}
           </button>
-          <button type="button" onClick={() => router.push('/admin/dashboard')} style={{ padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          <button 
+            type="button" 
+            onClick={(e) => handleSave(e as any, true)} 
+            disabled={isSaving} 
+            style={{ padding: '10px 20px', background: '#e65100', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+          >
+            {isSaving ? 'Saving...' : 'Save as Draft'}
+          </button>
+          <button 
+            type="button" 
+            onClick={() => router.push('/admin/dashboard')} 
+            style={{ padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+          >
             Cancel
           </button>
         </div>

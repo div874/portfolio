@@ -164,7 +164,15 @@ export const AdminDashboard: React.FC = () => {
               <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.title}</td>
               <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.category}</td>
               <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.date}</td>
-              <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.status}</td>
+              <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                {item.status === 'DRAFT' ? (
+                  <span style={{ background: '#fff3cd', color: '#856404', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
+                    DRAFT
+                  </span>
+                ) : (
+                  item.status || 'PUBLISHED'
+                )}
+              </td>
               <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '10px' }}>
                 <Link href={`/admin/edit/${item.id}`} style={{ color: '#007bff' }}>Edit</Link>
                 <button onClick={() => handleDelete(item.id)} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>Delete</button>

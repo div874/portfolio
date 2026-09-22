@@ -15,7 +15,7 @@ export interface JournalEntry {
   id: string; 
 }
 
-export const getJournals = async (): Promise<JournalEntry[]> => {
+export const getJournals = async (includeDrafts: boolean = false): Promise<JournalEntry[]> => {
   try {
     const { data, error } = await supabase.from('journals').select('*').order('date', { ascending: false });
     if (error || !data) {
@@ -23,22 +23,33 @@ export const getJournals = async (): Promise<JournalEntry[]> => {
       return [];
     }
     
-    return data.map((item: any) => ({
+    const mapped = data.map((item: any) => ({
       ...item,
       readingTime: item.reading_time || item.readingTime
     })) as JournalEntry[];
+
+    if (!includeDrafts) {
+      return mapped.filter(item => item.status !== 'DRAFT');
+    }
+
+    return mapped;
   } catch (err) {
     console.error("Failed to fetch journals from Supabase:", err);
     return [];
   }
 };
 
-export const getJournalBySlug = async (slug: string): Promise<JournalEntry | null> => {
+export const getJournalBySlug = async (slug: string, includeDrafts: boolean = false): Promise<JournalEntry | null> => {
   try {
     const { data, error } = await supabase.from('journals').select('*').eq('slug', slug).single();
     if (error || !data) {
       return null;
     }
+
+    if (!includeDrafts && data.status === 'DRAFT') {
+      return null;
+    }
+
     return {
       ...data,
       readingTime: data.reading_time || data.readingTime
