@@ -36,7 +36,7 @@ const JourneyPage = ({ initialEntries = [], initialCategories = [] }: JourneyPag
 
   const filteredEntries = activeCategory === 'ALL' 
     ? entries 
-    : entries.filter(e => e.category.toUpperCase() === activeCategory);
+    : entries.filter(e => e.category && e.category.toUpperCase() === activeCategory);
 
   const featuredEntry = filteredEntries[0];
   const recentEntries = filteredEntries.slice(1);

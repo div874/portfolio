@@ -6,8 +6,13 @@ import type { Metadata } from 'next';
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const journals = await getJournals();
-  return journals.map(j => ({ slug: j.slug }));
+  try {
+    const journals = await getJournals();
+    return (journals || []).map(j => ({ slug: j.slug }));
+  } catch (err) {
+    console.error("Failed to generate static params for journals:", err);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

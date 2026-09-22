@@ -12,7 +12,15 @@ export const revalidate = 60;
 
 export default async function Page() {
   const entries = await getJournals();
-  const { data: categories } = await supabase.from('categories').select('*').order('name');
+  let categories: any[] = [];
+  try {
+    const { data } = await supabase.from('categories').select('*').order('name');
+    if (data) {
+      categories = data;
+    }
+  } catch (err) {
+    console.error('Failed to fetch categories:', err);
+  }
 
-  return <JourneyPage initialEntries={entries} initialCategories={categories || []} />;
+  return <JourneyPage initialEntries={entries || []} initialCategories={categories} />;
 }

@@ -18,8 +18,8 @@ export interface JournalEntry {
 export const getJournals = async (): Promise<JournalEntry[]> => {
   try {
     const { data, error } = await supabase.from('journals').select('*').order('date', { ascending: false });
-    if (error) {
-      console.error("Supabase error:", error);
+    if (error || !data) {
+      if (error) console.error("Supabase error:", error);
       return [];
     }
     
