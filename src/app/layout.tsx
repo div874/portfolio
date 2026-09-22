@@ -26,7 +26,7 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: 'Divyansh Chandra | AI, Automation & Digital Marketing',
-  description: "Explore Divyansh Chandra's portfolio featuring AI, automation, digital marketing, SEO, Python, Generative AI, and real-world projects.",
+  description: 'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
   authors: [{ name: 'Divyansh Chandra' }],
   metadataBase: new URL('https://www.divyanshchandra.online'),
   alternates: {
@@ -38,14 +38,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     title: 'Divyansh Chandra | AI, Automation & Digital Marketing',
-    description: "Explore Divyansh Chandra's portfolio featuring AI, automation, digital marketing, SEO, Python, Generative AI, and real-world projects.",
+    description: 'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
     url: 'https://www.divyanshchandra.online/',
     siteName: 'Divyansh Chandra Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Divyansh Chandra | AI, Automation & Digital Marketing',
-    description: "Explore Divyansh Chandra's portfolio featuring AI, automation, digital marketing, SEO, Python, Generative AI, and real-world projects.",
+    description: 'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
   },
   icons: {
     icon: [
@@ -67,7 +67,7 @@ const jsonLd = {
       url: 'https://www.divyanshchandra.online/',
       jobTitle: 'AI & Automation Developer',
       description:
-        'Divyansh Chandra is an AI & Automation Developer specializing in Generative AI, LLMs, Python data engineering, automated workflow pipelines, and technical SEO.',
+        'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
       knowsAbout: [
         'Generative AI',
         'LLMs & Prompt Engineering',
