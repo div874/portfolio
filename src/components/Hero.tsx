@@ -59,7 +59,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
   };
 
   return (
-    <section className="section" id="home" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', paddingTop: '80px', paddingBottom: '40px' }}>
+    <section className="section" id="home" style={{ minHeight: 'auto', display: 'flex', alignItems: 'center', paddingTop: '80px', paddingBottom: '20px' }}>
       <div className="content-wrapper hero-grid" style={{ width: '100%' }}>
         <div style={{ zIndex: 10, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', marginBottom: '10px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' }}>

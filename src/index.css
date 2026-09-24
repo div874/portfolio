@@ -1395,7 +1395,7 @@ canvas {
   cursor: pointer;
   transition: background 0.2s ease;
   background: transparent;
-  margin-bottom: 60px;
+  margin-bottom: 0;
   display: flex;
   gap: 40px;
   text-decoration: none;
@@ -1405,6 +1405,18 @@ canvas {
 
 .editorial-featured-card:hover {
   background: rgba(0,0,0,0.02);
+}
+
+@media (max-width: 768px) {
+  .editorial-featured-card {
+    flex-direction: column-reverse;
+    padding: 24px;
+    gap: 24px;
+  }
+  .featured-card-visual {
+    max-width: 100% !important;
+    width: 100%;
+  }
 }
 
 .featured-card-content {

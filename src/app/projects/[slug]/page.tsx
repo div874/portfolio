@@ -11,9 +11,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const project = projectDetails.find(p => p.slug === slug);
   if (!project) return { title: 'Project Not Found' };
 
+  const pageUrl = `https://www.divyanshchandra.online/projects/${slug}`;
+
   return {
-    title: `${project.title} | Divyansh Chandra`,
-    description: project.tagline,
+    title: project.title,
+    description: project.tagline || project.problem,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title: `${project.title} | Divyansh Chandra`,
+      description: project.tagline || project.problem,
+      url: pageUrl,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.title,
+      description: project.tagline || project.problem,
+    },
   };
 }
 

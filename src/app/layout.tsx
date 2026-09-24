@@ -25,8 +25,11 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'Divyansh Chandra | AI, Automation & Digital Marketing',
-  description: 'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
+  title: {
+    default: 'Divyansh Chandra | AI, Automation & Digital Marketing Specialist',
+    template: '%s | Divyansh Chandra',
+  },
+  description: 'AI & Automation Specialist building Generative AI applications, Python workflow automation, and data-driven marketing systems to solve real business problems.',
   authors: [{ name: 'Divyansh Chandra' }],
   metadataBase: new URL('https://www.divyanshchandra.online'),
   alternates: {
@@ -37,15 +40,15 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'Divyansh Chandra | AI, Automation & Digital Marketing',
-    description: 'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
+    title: 'Divyansh Chandra | AI, Automation & Digital Marketing Specialist',
+    description: 'AI & Automation Specialist building Generative AI applications, Python workflow automation, and data-driven marketing systems to solve real business problems.',
     url: 'https://www.divyanshchandra.online/',
     siteName: 'Divyansh Chandra Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Divyansh Chandra | AI, Automation & Digital Marketing',
-    description: 'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
+    title: 'Divyansh Chandra | AI, Automation & Digital Marketing Specialist',
+    description: 'AI & Automation Specialist building Generative AI applications, Python workflow automation, and data-driven marketing systems to solve real business problems.',
   },
   icons: {
     icon: [

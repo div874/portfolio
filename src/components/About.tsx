@@ -16,7 +16,7 @@ const highlights = [
 
 const About = () => {
   return (
-    <section className="section" id="about">
+    <section className="section" id="about" style={{ paddingTop: '40px' }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

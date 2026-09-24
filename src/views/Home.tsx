@@ -8,9 +8,27 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { X, ExternalLink, TrendingUp, Bot, Zap, BarChart3, Star } from 'lucide-react';
 
+import { getJournals } from '../utils/journals';
+import type { JournalEntry } from '../utils/journals';
+
 interface HomeProps {
   onConnectClick?: () => void;
 }
+
+const defaultFeaturedJournal: JournalEntry = {
+  id: '6bb12fb0-f3db-4501-9f03-ee4a5db5dd0a',
+  slug: 'marketing-concepts-hul-fmcg',
+  title: 'MARKETING CONCEPTS IN ACTION: HUL AND THE FMCG BATTLEFIELD',
+  category: 'MARKETING LESSONS',
+  date: '2026-09-25',
+  readingTime: '3 min read',
+  excerpt: 'HUL demonstrates how FMCG companies use a House of Brands strategy, deep distribution, rural marketing, product assortment and promotional strategies to reach diverse customer segments. The case also explores competitive dynamics through examples such as Gillette vs Bombay Shaving Company and BECO vs HUL.',
+  image: '/hul_fmcg_battlefield.jpg',
+  status: 'UNDERSTOOD',
+  tag: 'Marketing Strategy',
+  tags: ['Marketing', 'FMCG', 'HUL', 'Strategy'],
+  content: ''
+};
 
 const expertiseData = [
   {
@@ -249,6 +267,15 @@ const getClientDetails = (name: string) => {
 
 const Home = ({ onConnectClick }: HomeProps) => {
   const [selectedClient, setSelectedClient] = useState<any>(null);
+  const [featuredJournal, setFeaturedJournal] = useState<JournalEntry>(defaultFeaturedJournal);
+
+  useEffect(() => {
+    getJournals().then(entries => {
+      if (entries && entries.length > 0) {
+        setFeaturedJournal(entries[0]);
+      }
+    });
+  }, []);
 
   const handleConnectClick = () => {
     if (onConnectClick) {
@@ -279,12 +306,63 @@ const Home = ({ onConnectClick }: HomeProps) => {
     };
   }, [selectedClient]);
 
-
-
   return (
     <div className="page-home">
       {/* Hero Header */}
       <Hero onConnectClick={handleConnectClick} />
+
+      {/* Featured Journal Card */}
+      <section className="section" style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: '16px' }}
+        >
+          <span className="editorial-section-label">FEATURED</span>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <Link 
+            href={`/journey/${featuredJournal.slug}`} 
+            className="editorial-featured-card"
+            style={{ marginBottom: 0 }}
+          >
+            <div className="featured-card-content">
+              <div className="featured-card-tag">{featuredJournal.category}</div>
+              <h2 className="featured-card-title">{featuredJournal.title}</h2>
+              <div className="featured-card-meta" style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.85rem', color: '#777', marginBottom: '16px' }}>
+                {featuredJournal.date} &middot; {featuredJournal.readingTime || '3 min read'}
+              </div>
+              {featuredJournal.excerpt && (
+                <p className="featured-card-excerpt" style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#444', marginBottom: '20px' }}>
+                  {featuredJournal.excerpt}
+                </p>
+              )}
+              <div className="read-more-btn" style={{ fontWeight: 600, fontSize: '0.9rem', color: '#171717', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                Read journal &rarr;
+              </div>
+            </div>
+            {featuredJournal.image && (
+              <div className="featured-card-visual">
+                <img 
+                  src={featuredJournal.image} 
+                  alt={featuredJournal.title} 
+                  loading="lazy" 
+                  width="600" 
+                  height="400" 
+                  style={{ borderRadius: '4px', objectFit: 'cover', width: '100%', height: 'auto', maxHeight: '280px' }}
+                />
+              </div>
+            )}
+          </Link>
+        </motion.div>
+      </section>
 
       {/* About & Stats */}
       <About />

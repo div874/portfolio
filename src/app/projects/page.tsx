@@ -2,8 +2,16 @@ import Projects from '@/components/Projects';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Projects | Divyansh Chandra',
-  description: 'Explore AI, ML, automation, and analytics projects built by Divyansh Chandra.',
+  title: 'AI & Automation Projects',
+  description: 'Featured engineering projects by Divyansh Chandra, including AI product recommendation models, automated SEO reporting tools, and LLM automation pipelines.',
+  alternates: {
+    canonical: 'https://www.divyanshchandra.online/projects',
+  },
+  openGraph: {
+    title: 'Featured Projects | Divyansh Chandra',
+    description: 'Explore AI recommendation models, Python ETL pipelines, Search Console & GA4 automated reporting dashboards built by Divyansh Chandra.',
+    url: 'https://www.divyanshchandra.online/projects',
+  },
 };
 
 export default function ProjectsPage() {

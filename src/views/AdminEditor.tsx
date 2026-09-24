@@ -35,6 +35,9 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [existingImage, setExistingImage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [isCreatingCategory, setIsCreatingCategory] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -68,6 +71,34 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
       fetchJournal();
     }
   }, [id]);
+
+  const handleCreateCategory = async (e: React.MouseEvent | React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = newCategoryName.trim();
+    if (!trimmed) return;
+
+    setIsCreatingCategory(true);
+    const nameUpper = trimmed.toUpperCase();
+    const slugLower = trimmed.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+    const { error } = await supabase
+      .from('categories')
+      .insert([{ name: nameUpper, slug: slugLower, description: '' }]);
+
+    setIsCreatingCategory(false);
+
+    if (error) {
+      alert("Error creating category: " + error.message);
+    } else {
+      const { data: updatedCats } = await supabase.from('categories').select('*').order('name');
+      if (updatedCats) {
+        setAvailableCategories(updatedCats as Category[]);
+      }
+      setCategory(nameUpper);
+      setNewCategoryName('');
+      setIsAddingNewCategory(false);
+    }
+  };
 
   const handleSave = async (e: React.FormEvent, isDraftMode: boolean = false) => {
     e.preventDefault();
@@ -150,29 +181,77 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
 
         <div style={{ display: 'flex', gap: '15px' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontWeight: 'bold' }}>Date</label>
+            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '4px' }}>Date</label>
             <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ width: '100%', padding: '8px' }} />
           </div>
 
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontWeight: 'bold' }}>Category</label>
-            <select value={category} onChange={e => setCategory(e.target.value)} style={{ width: '100%', padding: '8px' }}>
-              <option value="">Select Category</option>
-              {availableCategories.map(cat => (
-                <option key={cat.id} value={cat.name}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+              <label style={{ fontWeight: 'bold' }}>Category</label>
+              <button
+                type="button"
+                onClick={() => setIsAddingNewCategory(!isAddingNewCategory)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#007bff',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  fontWeight: 'bold',
+                  textDecoration: 'underline'
+                }}
+              >
+                {isAddingNewCategory ? 'Cancel' : '+ New Category'}
+              </button>
+            </div>
 
-          <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontWeight: 'bold' }}>Status</label>
-            <select value={status} onChange={e => setStatus(e.target.value)} style={{ width: '100%', padding: '8px' }}>
-              <option value="DRAFT">DRAFT</option>
-              <option value="LEARNING">LEARNING</option>
-              <option value="BUILDING">BUILDING</option>
-              <option value="UNDERSTOOD">UNDERSTOOD</option>
-              <option value="REVISITING">REVISITING</option>
-            </select>
+            {!isAddingNewCategory ? (
+              <select
+                value={category}
+                onChange={(e) => {
+                  if (e.target.value === '__NEW__') {
+                    setIsAddingNewCategory(true);
+                  } else {
+                    setCategory(e.target.value);
+                  }
+                }}
+                style={{ width: '100%', padding: '8px' }}
+              >
+                <option value="">Select Category</option>
+                {availableCategories.map(cat => (
+                  <option key={cat.id} value={cat.name}>{cat.name}</option>
+                ))}
+                <option value="__NEW__">+ Create New Category...</option>
+              </select>
+            ) : (
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="New Category Name (e.g. MARKETING)"
+                  style={{ flex: 1, padding: '8px' }}
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={handleCreateCategory}
+                  disabled={isCreatingCategory || !newCategoryName.trim()}
+                  style={{
+                    padding: '8px 12px',
+                    background: '#28a745',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {isCreatingCategory ? 'Adding...' : 'Add'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

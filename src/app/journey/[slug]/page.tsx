@@ -20,12 +20,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const entry = await getJournalBySlug(slug);
   if (!entry) return { title: 'Article Not Found' };
 
+  const pageUrl = `https://www.divyanshchandra.online/journey/${slug}`;
+  const cleanExcerpt = entry.excerpt || entry.title;
+
   return {
-    title: `${entry.title} | Divyansh Chandra Journal`,
-    description: entry.excerpt || entry.title,
+    title: entry.title,
+    description: cleanExcerpt,
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
+      title: `${entry.title} | Divyansh Chandra`,
+      description: cleanExcerpt,
+      url: pageUrl,
+      type: 'article',
+      images: entry.image ? [entry.image] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
       title: entry.title,
-      description: entry.excerpt || entry.title,
+      description: cleanExcerpt,
       images: entry.image ? [entry.image] : [],
     },
   };

@@ -3,8 +3,16 @@ import Certifications from '@/components/Certifications';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Skills & Certifications | Divyansh Chandra',
-  description: 'Technical skills, tools, and professional certifications of Divyansh Chandra.',
+  title: 'Technical Skills & Certifications',
+  description: 'Technical expertise of Divyansh Chandra: Python, TensorFlow, FAISS, LangChain, Next.js, Search Console API, GA4, technical SEO, and automation frameworks.',
+  alternates: {
+    canonical: 'https://www.divyanshchandra.online/skills',
+  },
+  openGraph: {
+    title: 'Technical Skills & Certifications | Divyansh Chandra',
+    description: 'Technical skills, AI frameworks, automation toolkits, and industry certifications held by Divyansh Chandra.',
+    url: 'https://www.divyanshchandra.online/skills',
+  },
 };
 
 export default function SkillsPage() {
