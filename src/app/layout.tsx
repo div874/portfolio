@@ -68,21 +68,33 @@ const jsonLd = {
       '@id': 'https://www.divyanshchandra.online/#person',
       name: 'Divyansh Chandra',
       url: 'https://www.divyanshchandra.online/',
-      jobTitle: 'AI & Automation Developer',
+      jobTitle: 'AI, Automation & Digital Marketing Specialist',
       description:
-        'AI & Automation Specialist building Generative AI apps, Python workflow automation, and data-driven marketing systems to solve real business problems.',
+        'Divyansh Chandra is an MBA Tech student at NMIMS specializing in AI application development, LLMs, Python process automation, technical SEO, and digital marketing data analytics.',
+      alumniOf: {
+        '@type': 'EducationalOrganization',
+        name: 'NMIMS (SVKM\'s NMIMS University)',
+        url: 'https://www.nmims.edu/'
+      },
+      worksFor: {
+        '@type': 'Organization',
+        name: '1page.info',
+        url: 'https://www.1page.info/'
+      },
       knowsAbout: [
-        'Generative AI',
-        'LLMs & Prompt Engineering',
-        'Python Data Engineering',
-        'AI Automation & Workflow Engineering',
-        'Recommendation Systems & Vector Embeddings',
-        'Technical SEO & Analytics',
-        'React & Web Development',
+        'Generative AI & LLM Applications',
+        'AI Agents & RAG Architectures',
+        'Python ETL & Process Automation',
+        'Recommendation Systems & FAISS Vector Embeddings',
+        'Technical SEO & Programmatic Search Strategy',
+        'Google Search Console API & GA4 Analytics',
+        'React, Next.js & Full-Stack Development',
+        'NMIMS MBA Tech Business Management & Engineering'
       ],
       sameAs: [
         'https://www.linkedin.com/in/div08/',
         'https://github.com/div874',
+        'https://www.divyanshchandra.online/'
       ],
       speakable: {
         '@type': 'SpeakableSpecification',

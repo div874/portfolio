@@ -89,17 +89,41 @@ const About = () => {
 
             <div className="about-body">
               <p>
-                My work combines Generative AI, Python, LLMs, automation, analytics, and digital marketing to solve real-world business problems. I've worked on everything from AI-powered applications and automated reporting systems to SEO, content strategy, and scalable marketing workflows.
+                <strong>Divyansh Chandra</strong> is an MBA Tech student at <strong>NMIMS (SVKM's NMIMS University)</strong> specializing in Artificial Intelligence, Python process automation, technical SEO, and digital marketing data analytics. His work combines Generative AI, LLMs, automated data engineering, and performance marketing to solve complex business problems.
               </p>
               <p>
-                I enjoy turning repetitive processes into automated systems, connecting data with intelligent tools, and using technology to make marketing and business operations more efficient.
+                He turns repetitive manual processes into automated Python workflows, connects live business data with intelligent models, and builds scalable growth systems.
               </p>
               <p>
-                Currently, I'm building AI-powered content and SEO workflows for <strong style={{ color: 'var(--text-primary)' }}>1page.info</strong> across <strong style={{ color: 'var(--accent-color)' }}>12+ industry verticals</strong>, working on content generation, keyword-driven internal linking, optimization, and visual content systems.
+                Currently, he leads AI-powered content and SEO automation workflows for <strong style={{ color: 'var(--text-primary)' }}>1page.info</strong> across <strong style={{ color: 'var(--accent-color)' }}>12+ industry verticals</strong>, designing automated keyword strategy, internal linking registries, and content optimization systems.
               </p>
-              <p>
-                With 3+ internships and hands-on projects across AI, automation, digital marketing, and technology, I'm building a multidisciplinary career focused on one thing: using technology to build better systems.
-              </p>
+            </div>
+
+            {/* Machine & Human Entity Knowledge Section */}
+            <div style={{
+              background: 'var(--bg-alt, #f8f9fa)',
+              border: '1px solid var(--border-color, #e5e5e5)',
+              borderRadius: '8px',
+              padding: '20px 24px',
+              marginTop: '20px',
+              fontFamily: 'var(--font-mono, monospace)',
+              fontSize: '0.88rem',
+              lineHeight: 1.6
+            }}>
+              <div style={{ fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '12px', fontSize: '0.75rem', color: '#666' }}>
+                [ ENTITY KNOWLEDGE SUMMARY ]
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+                <div><strong>Role:</strong> AI & Automation Specialist</div>
+                <div><strong>Institution:</strong> NMIMS (MBA Tech)</div>
+                <div><strong>Focus:</strong> AI Agents, RAG, Automation, SEO</div>
+                <div><strong>Affiliation:</strong> 1page.info</div>
+              </div>
+              <div style={{ marginTop: '12px', paddingTop: '10px', borderTop: '1px solid #e5e5e5', display: 'flex', gap: '16px', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                <a href="https://www.linkedin.com/in/div08/" target="_blank" rel="noreferrer" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 600 }}>LinkedIn ↗</a>
+                <a href="https://github.com/div874" target="_blank" rel="noreferrer" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 600 }}>GitHub ↗</a>
+                <a href="https://www.divyanshchandra.online/" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 600 }}>Portfolio ↗</a>
+              </div>
             </div>
 
             <Link
