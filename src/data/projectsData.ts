@@ -1,7 +1,7 @@
 export interface ProjectDetail {
   slug: string;
   title: string;
-  category: string;
+  category: 'AI Projects' | 'SEO Projects' | 'Digital Marketing Projects' | 'Web Development Projects';
   role: string;
   type: string;
   tagline: string;
@@ -14,11 +14,19 @@ export interface ProjectDetail {
   links: { live: string; code: string };
 }
 
+export const PROJECT_CATEGORIES = [
+  'All',
+  'AI Projects',
+  'SEO Projects',
+  'Digital Marketing Projects',
+  'Web Development Projects'
+] as const;
+
 export const projectDetails: ProjectDetail[] = [
   {
     slug: 'wallcurry-ai-recommendation',
     title: 'Wallcurry AI Recommendation Model',
-    category: 'AI & Recommendation Systems',
+    category: 'AI Projects',
     role: 'AI/ML Developer',
     type: 'Personal Project',
     tagline: 'ML-powered product recommendation engine built for an art platform with 10,000+ mural listings.',
@@ -46,7 +54,7 @@ export const projectDetails: ProjectDetail[] = [
   {
     slug: 'seo-reporting-automation',
     title: 'SEO Reporting Automation Dashboard',
-    category: 'Automation & Data Engineering',
+    category: 'SEO Projects',
     role: 'Automation Developer',
     type: 'Professional Project',
     tagline: 'Automated SEO reporting pipeline that eliminated 6 hours of weekly manual work across 3 client accounts.',
@@ -70,5 +78,57 @@ export const projectDetails: ProjectDetail[] = [
     learnings:
       'This project reinforced that automation\'s biggest value is not just speed — it\'s consistency. Manual reports introduce human error and delay. Once automated, the system caught issues I would have missed in manual review. I also learned how to work with OAuth2 and service account authentication for Google APIs at a production level.',
     links: { live: '#', code: '#' },
+  },
+  {
+    slug: 'attribution-marketing-analytics',
+    title: 'Multi-Touch Marketing Attribution Engine',
+    category: 'Digital Marketing Projects',
+    role: 'Growth Marketing Engineer',
+    type: 'Client Project',
+    tagline: 'Custom data analytics model mapping multi-channel customer touchpoints to measure true ROI per ad channel.',
+    problem:
+      'Last-click attribution in Google Analytics gave 100% credit to bottom-funnel Search ads, starving top-funnel Social campaigns. The marketing team was misallocating budget without knowing true path-to-conversion performance.',
+    approach: [
+      'Ingested raw web interaction logs and ad spend data from Facebook Ads, Google Ads, and CRM APIs.',
+      'Built Markov Chain & Data-Driven Attribution models in Python to calculate channel contribution scores.',
+      'Created automated Looker Studio & Python dashboards displaying multi-touch conversion paths.',
+    ],
+    architecture:
+      'Ad APIs & GA4 Event Stream → Python Data Pipeline → Markov Chain Model → BigQuery → Interactive Dashboards',
+    technologies: ['Python', 'Pandas', 'BigQuery', 'GA4 Data API', 'Looker Studio', 'SQL'],
+    results: [
+      'Reallocated 22% of ad budget to high-performing mid-funnel campaigns',
+      'Lowered Customer Acquisition Cost (CAC) by 18% across paid channels',
+      'Enabled real-time attribution tracking for \$50k+ monthly ad spend',
+    ],
+    learnings:
+      'Understood the mathematical limitations of single-touch attribution models and how Markov chain transition probabilities reveal hidden assist channels in B2B customer journeys.',
+    links: { live: '#', code: '#' },
+  },
+  {
+    slug: 'nextjs-portfolio-engine',
+    title: 'High-Performance Web Portfolio & Content Hub',
+    category: 'Web Development Projects',
+    role: 'Full-Stack Developer',
+    type: 'Personal Project',
+    tagline: 'Lightning-fast Next.js 15 App Router web application with dark mode UI, structured JSON-LD, and dynamic hubs.',
+    problem:
+      'Traditional static portfolios lack rich content organization, programmatic SEO capabilities, and smooth interactive animations needed to showcase multidisciplinary expertise.',
+    approach: [
+      'Engineered modular UI components using Next.js, React 19, TypeScript, and Framer Motion.',
+      'Implemented full OpenGraph metadata, Google-compliant JSON-LD structured schemas, and dynamic routing.',
+      'Designed custom glassmorphic dark-theme design tokens in vanilla CSS for optimal visual experience.',
+    ],
+    architecture:
+      'Next.js 15 App Router → TypeScript → Tailwind & Custom CSS → Supabase / Static Data → Vercel Edge Hosting',
+    technologies: ['Next.js 15', 'React', 'TypeScript', 'Framer Motion', 'CSS3', 'Vercel'],
+    results: [
+      '100/100 Lighthouse performance and SEO scores',
+      'Sub-50ms page transitions with zero layout shift',
+      'Full mobile responsiveness and accessible keyboard navigation',
+    ],
+    learnings:
+      'Leveraged Next.js Server Components and client hydration boundaries to deliver rich animations without compromising fast initial paint metrics.',
+    links: { live: 'https://www.divyanshchandra.online', code: 'https://github.com/div874/portfolio' },
   },
 ];

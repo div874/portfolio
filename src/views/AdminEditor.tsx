@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabase';
 import { triggerDeploy } from '../utils/deploy';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import type { Category } from './AdminDashboard';
 
@@ -14,11 +14,14 @@ const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Ed
 
 interface AdminEditorProps {
   id?: string;
+  type?: 'journal' | 'article';
 }
 
-export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
+export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId, type: propType }) => {
   const params = useParams();
+  const searchParams = useSearchParams();
   const id = propId || (params?.id as string);
+  const contentType = propType || (searchParams?.get('type') === 'article' ? 'article' : 'journal');
   const router = useRouter();
 
   const [title, setTitle] = useState('');
@@ -27,11 +30,13 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
   const [category, setCategory] = useState('');
   const [availableCategories, setAvailableCategories] = useState<Category[]>([]);
   const [status, setStatus] = useState('');
-  const [tag, setTag] = useState('Journal');
+  const [tag, setTag] = useState(contentType === 'article' ? 'Article' : 'Journal');
   const [tags, setTags] = useState('');
   const [readingTime, setReadingTime] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [content, setContent] = useState('');
+  const [authorName, setAuthorName] = useState('Divyansh Chandra');
+  const [authorRole, setAuthorRole] = useState('AI & Automation Specialist');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [existingImage, setExistingImage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -52,25 +57,32 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     fetchCategories();
 
     if (id) {
-      const fetchJournal = async () => {
-        const { data, error } = await supabase.from('journals').select('*').eq('id', id).single();
+      const tableName = contentType === 'article' ? 'articles' : 'journals';
+      const fetchEntry = async () => {
+        const { data, error } = await supabase.from(tableName).select('*').eq('id', id).single();
         if (data && !error) {
           setTitle(data.title || '');
           setSlug(data.slug || '');
-          setDate(data.date || '');
-          setCategory(data.category || 'JOURNAL');
+          setDate(data.date || data.published_date || data.publishedDate || '');
+          setCategory(data.category || (contentType === 'article' ? 'AI & Engineering' : 'JOURNAL'));
           setStatus(data.status || '');
-          setTag(data.tag || 'Journal');
+          setTag(data.tag || (contentType === 'article' ? 'Article' : 'Journal'));
           setTags(data.tags?.join(', ') || '');
-          setReadingTime(data.reading_time || data.readingTime || '');
+          setReadingTime(data.reading_time || data.readingTime || data.readTime || '');
           setExcerpt(data.excerpt || '');
           setContent(data.content || '');
           setExistingImage(data.image || '');
+
+          if (data.author) {
+            const parsedAuthor = typeof data.author === 'string' ? JSON.parse(data.author) : data.author;
+            setAuthorName(parsedAuthor.name || 'Divyansh Chandra');
+            setAuthorRole(parsedAuthor.role || 'AI & Automation Specialist');
+          }
         }
       };
-      fetchJournal();
+      fetchEntry();
     }
-  }, [id]);
+  }, [id, contentType]);
 
   const handleCreateCategory = async (e: React.MouseEvent | React.FormEvent) => {
     e.preventDefault();
@@ -109,7 +121,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     if (imageFile) {
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('journal-images')
         .upload(fileName, imageFile);
 
@@ -127,12 +139,13 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     }
 
     const finalStatus = isDraftMode ? 'DRAFT' : (status || 'PUBLISHED');
-    const finalTitle = title.trim() || (isDraftMode ? `Untitled Draft (${new Date().toLocaleDateString()})` : 'Untitled Journal');
+    const defaultTitle = contentType === 'article' ? 'Untitled Article' : 'Untitled Journal';
+    const finalTitle = title.trim() || (isDraftMode ? `Untitled Draft (${new Date().toLocaleDateString()})` : defaultTitle);
     const generatedSlug = slug.trim() || finalTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `draft-${Date.now()}`;
     const finalDate = date || new Date().toISOString().split('T')[0];
-    const finalCategory = category || (availableCategories.length > 0 ? availableCategories[0].name : 'JOURNAL');
+    const finalCategory = category || (availableCategories.length > 0 ? availableCategories[0].name : (contentType === 'article' ? 'AI & Engineering' : 'JOURNAL'));
 
-    const payload = {
+    const payload: any = {
       title: finalTitle,
       slug: generatedSlug,
       date: finalDate,
@@ -146,17 +159,23 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
       image: imageUrl
     };
 
+    if (contentType === 'article') {
+      payload.author = { name: authorName, role: authorRole };
+    }
+
+    const tableName = contentType === 'article' ? 'articles' : 'journals';
+
     let result;
     if (id) {
-      result = await supabase.from('journals').update(payload).eq('id', id);
+      result = await supabase.from(tableName).update(payload).eq('id', id);
     } else {
-      result = await supabase.from('journals').insert([payload]);
+      result = await supabase.from(tableName).insert([payload]);
     }
 
     setIsSaving(false);
 
     if (result.error) {
-      alert("Error saving journal: " + result.error.message);
+      alert(`Error saving ${contentType}: ` + result.error.message);
     } else {
       if (finalStatus !== 'DRAFT') {
         triggerDeploy();
@@ -167,21 +186,27 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
 
   return (
     <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>
-      <h2>{id ? 'Edit Journal' : 'New Journal'}</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h2>{id ? `Edit ${contentType === 'article' ? 'Article' : 'Journal'}` : `New ${contentType === 'article' ? 'Article' : 'Journal'}`}</h2>
+        <span style={{ background: contentType === 'article' ? '#007bff' : '#28a745', color: 'white', padding: '4px 12px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: 'bold' }}>
+          {contentType.toUpperCase()} MODE
+        </span>
+      </div>
+
       <form onSubmit={(e) => handleSave(e, false)} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <div>
           <label style={{ display: 'block', fontWeight: 'bold' }}>Title</label>
-          <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Journal title (Optional for drafts)" style={{ width: '100%', padding: '8px' }} />
+          <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder={`${contentType === 'article' ? 'Article' : 'Journal'} title`} style={{ width: '100%', padding: '8px' }} />
         </div>
 
         <div>
           <label style={{ display: 'block', fontWeight: 'bold' }}>Slug</label>
-          <input type="text" value={slug} onChange={e => setSlug(e.target.value)} placeholder="Auto-generated if blank" style={{ width: '100%', padding: '8px' }} />
+          <input type="text" value={slug} onChange={e => setSlug(e.target.value)} placeholder="Auto-generated from title if blank" style={{ width: '100%', padding: '8px' }} />
         </div>
 
         <div style={{ display: 'flex', gap: '15px' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '4px' }}>Date</label>
+            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '4px' }}>Publish Date</label>
             <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ width: '100%', padding: '8px' }} />
           </div>
 
@@ -229,7 +254,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
                   type="text"
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
-                  placeholder="New Category Name (e.g. MARKETING)"
+                  placeholder="New Category Name (e.g. AI & Engineering)"
                   style={{ flex: 1, padding: '8px' }}
                   autoFocus
                 />
@@ -255,38 +280,52 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
           </div>
         </div>
 
+        {/* Author Fields for Article */}
+        {contentType === 'article' && (
+          <div style={{ display: 'flex', gap: '15px', background: '#f8f9fa', padding: '12px', borderRadius: '6px', border: '1px solid #e9ecef' }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: 'block', fontWeight: 'bold' }}>Author Name</label>
+              <input type="text" value={authorName} onChange={e => setAuthorName(e.target.value)} style={{ width: '100%', padding: '6px' }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: 'block', fontWeight: 'bold' }}>Author Role</label>
+              <input type="text" value={authorRole} onChange={e => setAuthorRole(e.target.value)} style={{ width: '100%', padding: '6px' }} />
+            </div>
+          </div>
+        )}
+
         <div style={{ display: 'flex', gap: '15px' }}>
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontWeight: 'bold' }}>Reading Time</label>
-            <input type="text" value={readingTime} onChange={e => setReadingTime(e.target.value)} placeholder="e.g. 5 min read" style={{ width: '100%', padding: '8px' }} />
+            <input type="text" value={readingTime} onChange={e => setReadingTime(e.target.value)} placeholder="e.g. 6 min read" style={{ width: '100%', padding: '8px' }} />
           </div>
 
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontWeight: 'bold' }}>Tags (comma-separated)</label>
-            <input type="text" value={tags} onChange={e => setTags(e.target.value)} placeholder="SEO, React, AI" style={{ width: '100%', padding: '8px' }} />
+            <input type="text" value={tags} onChange={e => setTags(e.target.value)} placeholder="AI, RAG, Python, SEO" style={{ width: '100%', padding: '8px' }} />
           </div>
         </div>
 
         <div>
-          <label style={{ display: 'block', fontWeight: 'bold' }}>Excerpt</label>
+          <label style={{ display: 'block', fontWeight: 'bold' }}>Excerpt / Summary</label>
           <textarea value={excerpt} onChange={e => setExcerpt(e.target.value)} rows={2} style={{ width: '100%', padding: '8px' }} />
         </div>
 
         <div>
           <label style={{ display: 'block', fontWeight: 'bold' }}>Cover Image</label>
           <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files?.[0] || null)} style={{ marginBottom: '10px' }} />
-          {existingImage && <div style={{ fontSize: '12px', color: '#666' }}>Current: {existingImage}</div>}
+          {existingImage && <div style={{ fontSize: '12px', color: '#666' }}>Current Image URL: {existingImage}</div>}
         </div>
 
         <div>
-          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Content (Markdown / WYSIWYG)</label>
+          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Article Content (Rich Text / HTML)</label>
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
             tinymceScriptSrc={process.env.NEXT_PUBLIC_TINYMCE_API_KEY ? undefined : "https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"}
             value={content}
             onEditorChange={(newContent) => setContent(newContent)}
             init={{
-              height: 400,
+              height: 450,
               menubar: false,
               plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'],
               toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code | help',
