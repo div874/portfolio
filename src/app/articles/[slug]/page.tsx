@@ -6,11 +6,14 @@ import { ArrowLeft, Clock, Calendar, BookOpen } from 'lucide-react';
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const sp = searchParams ? await searchParams : {};
+  const isPreview = sp.preview === 'true' || sp.preview === '1' || sp.draft === 'true';
+  const article = await getArticleBySlug(slug, isPreview);
   if (!article) return {};
 
   return {
@@ -30,9 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ArticleDetailPage({ params }: Props) {
+export default async function ArticleDetailPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const sp = searchParams ? await searchParams : {};
+  const isPreview = sp.preview === 'true' || sp.preview === '1' || sp.draft === 'true';
+  const article = await getArticleBySlug(slug, isPreview);
 
   if (!article) {
     notFound();
@@ -76,6 +81,11 @@ export default async function ArticleDetailPage({ params }: Props) {
             <span style={{ backgroundColor: 'rgba(168, 85, 247, 0.15)', color: 'var(--accent-color, #a855f7)', padding: '4px 12px', borderRadius: '16px', fontSize: '0.8rem', fontWeight: 600 }}>
               {article.category}
             </span>
+            {article.status === 'DRAFT' && (
+              <span style={{ backgroundColor: 'rgba(234, 179, 8, 0.2)', color: '#eab308', border: '1px solid rgba(234, 179, 8, 0.4)', padding: '4px 12px', borderRadius: '16px', fontSize: '0.8rem', fontWeight: 700 }}>
+                DRAFT PREVIEW
+              </span>
+            )}
             <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Clock size={14} /> {article.readTime}
             </span>

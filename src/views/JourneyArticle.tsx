@@ -96,6 +96,11 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
           
           <div className="editorial-article-meta">
             <span className="editorial-article-tag">[ {entry.category} ]</span>
+            {entry.status === 'DRAFT' && (
+              <span style={{ background: '#fff3cd', color: '#856404', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold' }}>
+                DRAFT PREVIEW
+              </span>
+            )}
             <span className="editorial-article-date">{entry.date} &middot; {entry.readingTime || '5 min read'}</span>
           </div>
           

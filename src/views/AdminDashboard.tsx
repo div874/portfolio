@@ -234,9 +234,17 @@ export const AdminDashboard: React.FC = () => {
                       </span>
                     )}
                   </td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '10px' }}>
-                    <Link href={`/admin/edit/${item.id}?type=journal`} style={{ color: '#007bff' }}>Edit</Link>
-                    <button onClick={() => handleDeleteJournal(item.id)} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>Delete</button>
+                  <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Link 
+                      href={`/journey/${item.slug}${item.status === 'DRAFT' ? '?preview=true' : ''}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{ color: '#28a745', textDecoration: 'none', fontWeight: 500 }}
+                    >
+                      View
+                    </Link>
+                    <Link href={`/admin/edit/${item.id}?type=journal`} style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Edit</Link>
+                    <button onClick={() => handleDeleteJournal(item.id)} style={{ color: '#dc3545', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 500, padding: 0 }}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -276,9 +284,17 @@ export const AdminDashboard: React.FC = () => {
                       </span>
                     )}
                   </td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '10px' }}>
-                    <Link href={`/admin/edit/${item.id || item.slug}?type=article`} style={{ color: '#007bff' }}>Edit</Link>
-                    <button onClick={() => handleDeleteArticle(item.id || item.slug)} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>Delete</button>
+                  <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Link 
+                      href={`/articles/${item.slug}${item.status === 'DRAFT' ? '?preview=true' : ''}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{ color: '#28a745', textDecoration: 'none', fontWeight: 500 }}
+                    >
+                      View
+                    </Link>
+                    <Link href={`/admin/edit/${item.id || item.slug}?type=article`} style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Edit</Link>
+                    <button onClick={() => handleDeleteArticle(item.id || item.slug)} style={{ color: '#dc3545', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 500, padding: 0 }}>Delete</button>
                   </td>
                 </tr>
               ))}

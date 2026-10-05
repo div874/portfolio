@@ -15,9 +15,16 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+interface PageProps {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const entry = await getJournalBySlug(slug);
+  const sp = searchParams ? await searchParams : {};
+  const isPreview = sp.preview === 'true' || sp.preview === '1' || sp.draft === 'true';
+  const entry = await getJournalBySlug(slug, isPreview);
   if (!entry) return { title: 'Article Not Found' };
 
   const pageUrl = `https://www.divyanshchandra.online/journey/${slug}`;
@@ -45,12 +52,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { slug } = await params;
-  const entry = await getJournalBySlug(slug);
+  const sp = searchParams ? await searchParams : {};
+  const isPreview = sp.preview === 'true' || sp.preview === '1' || sp.draft === 'true';
+  const entry = await getJournalBySlug(slug, isPreview);
   if (!entry) notFound();
 
-  const allEntries = await getJournals();
+  const allEntries = await getJournals(isPreview);
 
   return <JourneyArticle initialEntry={entry} initialAllEntries={allEntries} />;
 }
