@@ -20,68 +20,91 @@ if (fs.existsSync(envPath) && (!supabaseUrl || !supabaseKey)) {
 const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
 
 async function generateSitemap() {
-  console.log('Generating sitemap...');
-  
-  const staticRoutes = [
-    '',
-    '/about',
-    '/projects',
-    '/experience',
-    '/skills',
-    '/journey',
-    '/articles',
-    '/case-studies',
-    '/cv',
-    '/projects/wallcurry-ai-recommendation',
-    '/projects/seo-reporting-automation'
+  console.log('Generating optimized sitemap with metadata (lastmod, changefreq, priority)...');
+
+  const today = new Date().toISOString().split('T')[0];
+  const urlMap = new Map();
+
+  function addUrl(loc, priority = '0.7', changefreq = 'monthly', lastmod = today) {
+    if (!urlMap.has(loc)) {
+      urlMap.set(loc, { loc, priority, changefreq, lastmod });
+    }
+  }
+
+  // 1. Core Homepage
+  addUrl('https://www.divyanshchandra.online', '1.0', 'weekly');
+
+  // 2. High Priority Hub Pages
+  const hubPages = ['/articles', '/journey', '/projects', '/case-studies'];
+  for (const route of hubPages) {
+    addUrl(`https://www.divyanshchandra.online${route}`, '0.9', 'weekly');
+  }
+
+  // 3. Main Static Subpages
+  const staticPages = ['/about', '/experience', '/skills', '/cv'];
+  for (const route of staticPages) {
+    addUrl(`https://www.divyanshchandra.online${route}`, '0.7', 'monthly');
+  }
+
+  // 4. Project Detail Pages
+  const projects = [
+    'wallcurry-ai-recommendation',
+    'seo-reporting-automation',
+    'attribution-marketing-analytics',
+    'nextjs-portfolio-engine'
+  ];
+  for (const slug of projects) {
+    addUrl(`https://www.divyanshchandra.online/projects/${slug}`, '0.8', 'monthly');
+  }
+
+  // 5. Fallback Static Content
+  const staticArticles = [
+    { slug: 'what-is-rag-in-ai', date: '2026-09-20' }
+  ];
+  const staticCaseStudies = [
+    { slug: 'b2b-seo-ai-traffic-growth', date: '2026-08-15' }
   ];
 
-  const urls = new Set();
-  
-  for (const route of staticRoutes) {
-    urls.add(`https://www.divyanshchandra.online${route}`);
+  for (const item of staticArticles) {
+    addUrl(`https://www.divyanshchandra.online/articles/${item.slug}`, '0.8', 'monthly', item.date);
+  }
+  for (const item of staticCaseStudies) {
+    addUrl(`https://www.divyanshchandra.online/case-studies/${item.slug}`, '0.8', 'monthly', item.date);
   }
 
-  // Fallback static entries
-  const staticArticles = ['what-is-rag-in-ai'];
-  const staticCaseStudies = ['b2b-seo-ai-traffic-growth'];
-
-  for (const slug of staticArticles) {
-    urls.add(`https://www.divyanshchandra.online/articles/${slug}`);
-  }
-  for (const slug of staticCaseStudies) {
-    urls.add(`https://www.divyanshchandra.online/case-studies/${slug}`);
-  }
-
-  // Fetch dynamic entries from Supabase if available
+  // 6. Dynamic Content from Supabase (if available)
   if (supabase) {
     try {
-      // Fetch published journals
+      // Fetch published journals with dates
       const { data: journals, error: jError } = await supabase
         .from('journals')
-        .select('slug, status');
-      
+        .select('slug, status, date, created_at');
+
       if (jError) {
         console.error('Error fetching journals for sitemap:', jError);
       } else if (journals) {
         for (const j of journals) {
           if (j.slug && j.status !== 'DRAFT') {
-            urls.add(`https://www.divyanshchandra.online/journey/${j.slug}`);
+            const rawDate = j.date || j.created_at || today;
+            const dateStr = typeof rawDate === 'string' ? rawDate.split('T')[0] : today;
+            addUrl(`https://www.divyanshchandra.online/journey/${j.slug}`, '0.8', 'monthly', dateStr);
           }
         }
       }
 
-      // Fetch published articles
+      // Fetch published articles with dates
       const { data: articles, error: aError } = await supabase
         .from('articles')
-        .select('slug, status');
-      
+        .select('slug, status, date, created_at');
+
       if (aError) {
         console.error('Error fetching articles for sitemap:', aError);
       } else if (articles) {
         for (const a of articles) {
           if (a.slug && a.status !== 'DRAFT') {
-            urls.add(`https://www.divyanshchandra.online/articles/${a.slug}`);
+            const rawDate = a.date || a.created_at || today;
+            const dateStr = typeof rawDate === 'string' ? rawDate.split('T')[0] : today;
+            addUrl(`https://www.divyanshchandra.online/articles/${a.slug}`, '0.8', 'monthly', dateStr);
           }
         }
       }
@@ -96,17 +119,20 @@ async function generateSitemap() {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
-  for (const url of urls) {
+  for (const entry of urlMap.values()) {
     xml += `
   <url>
-    <loc>${url}</loc>
+    <loc>${entry.loc}</loc>
+    <lastmod>${entry.lastmod}</lastmod>
+    <changefreq>${entry.changefreq}</changefreq>
+    <priority>${entry.priority}</priority>
   </url>`;
   }
 
   xml += `\n</urlset>\n`;
 
   fs.writeFileSync(path.resolve('public/sitemap.xml'), xml);
-  console.log(`Sitemap generated successfully at public/sitemap.xml with ${urls.size} URLs.`);
+  console.log(`Sitemap generated successfully at public/sitemap.xml with ${urlMap.size} URLs.`);
 }
 
 generateSitemap();
