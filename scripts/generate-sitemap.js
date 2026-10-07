@@ -29,50 +29,84 @@ async function generateSitemap() {
     '/experience',
     '/skills',
     '/journey',
+    '/articles',
+    '/case-studies',
     '/cv',
     '/projects/wallcurry-ai-recommendation',
     '/projects/seo-reporting-automation'
   ];
 
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
-
-  // Add static routes
+  const urls = new Set();
+  
   for (const route of staticRoutes) {
-    xml += `
-  <url>
-    <loc>https://www.divyanshchandra.online${route}</loc>
-  </url>`;
+    urls.add(`https://www.divyanshchandra.online${route}`);
   }
 
-  // Fetch journals if Supabase client is available
+  // Fallback static entries
+  const staticArticles = ['what-is-rag-in-ai'];
+  const staticCaseStudies = ['b2b-seo-ai-traffic-growth'];
+
+  for (const slug of staticArticles) {
+    urls.add(`https://www.divyanshchandra.online/articles/${slug}`);
+  }
+  for (const slug of staticCaseStudies) {
+    urls.add(`https://www.divyanshchandra.online/case-studies/${slug}`);
+  }
+
+  // Fetch dynamic entries from Supabase if available
   if (supabase) {
     try {
-      const { data: journals, error } = await supabase.from('journals').select('slug');
+      // Fetch published journals
+      const { data: journals, error: jError } = await supabase
+        .from('journals')
+        .select('slug, status');
       
-      if (error) {
-        console.error('Error fetching journals for sitemap:', error);
+      if (jError) {
+        console.error('Error fetching journals for sitemap:', jError);
       } else if (journals) {
-        for (const journal of journals) {
-          if (journal.slug) {
-            xml += `
-  <url>
-    <loc>https://www.divyanshchandra.online/journey/${journal.slug}</loc>
-  </url>`;
+        for (const j of journals) {
+          if (j.slug && j.status !== 'DRAFT') {
+            urls.add(`https://www.divyanshchandra.online/journey/${j.slug}`);
           }
         }
       }
+
+      // Fetch published articles
+      const { data: articles, error: aError } = await supabase
+        .from('articles')
+        .select('slug, status');
+      
+      if (aError) {
+        console.error('Error fetching articles for sitemap:', aError);
+      } else if (articles) {
+        for (const a of articles) {
+          if (a.slug && a.status !== 'DRAFT') {
+            urls.add(`https://www.divyanshchandra.online/articles/${a.slug}`);
+          }
+        }
+      }
+
     } catch (err) {
       console.error('Error querying Supabase for sitemap:', err);
     }
   } else {
-    console.warn('Supabase credentials missing, skipped dynamic journal routes in sitemap.');
+    console.warn('Supabase credentials missing, skipped dynamic database routes in sitemap.');
+  }
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  for (const url of urls) {
+    xml += `
+  <url>
+    <loc>${url}</loc>
+  </url>`;
   }
 
   xml += `\n</urlset>\n`;
 
   fs.writeFileSync(path.resolve('public/sitemap.xml'), xml);
-  console.log('Sitemap generated successfully at public/sitemap.xml');
+  console.log(`Sitemap generated successfully at public/sitemap.xml with ${urls.size} URLs.`);
 }
 
 generateSitemap();
