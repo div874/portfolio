@@ -35,7 +35,7 @@ async function generateSitemap() {
   addUrl('https://www.divyanshchandra.online', '1.0', 'weekly');
 
   // 2. High Priority Hub Pages
-  const hubPages = ['/articles', '/journey', '/projects', '/case-studies'];
+  const hubPages = ['/journey', '/projects', '/case-studies'];
   for (const route of hubPages) {
     addUrl(`https://www.divyanshchandra.online${route}`, '0.9', 'weekly');
   }
@@ -66,7 +66,7 @@ async function generateSitemap() {
   ];
 
   for (const item of staticArticles) {
-    addUrl(`https://www.divyanshchandra.online/articles/${item.slug}`, '0.8', 'monthly', item.date);
+    addUrl(`https://www.divyanshchandra.online/journey/${item.slug}`, '0.8', 'monthly', item.date);
   }
   for (const item of staticCaseStudies) {
     addUrl(`https://www.divyanshchandra.online/case-studies/${item.slug}`, '0.8', 'monthly', item.date);
@@ -92,7 +92,7 @@ async function generateSitemap() {
         }
       }
 
-      // Fetch published articles with dates
+      // Fetch published articles with dates (now served under /journey)
       const { data: articles, error: aError } = await supabase
         .from('articles')
         .select('slug, status, date, created_at');
@@ -104,7 +104,7 @@ async function generateSitemap() {
           if (a.slug && a.status !== 'DRAFT') {
             const rawDate = a.date || a.created_at || today;
             const dateStr = typeof rawDate === 'string' ? rawDate.split('T')[0] : today;
-            addUrl(`https://www.divyanshchandra.online/articles/${a.slug}`, '0.8', 'monthly', dateStr);
+            addUrl(`https://www.divyanshchandra.online/journey/${a.slug}`, '0.8', 'monthly', dateStr);
           }
         }
       }

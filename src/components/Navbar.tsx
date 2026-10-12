@@ -9,10 +9,9 @@ const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Projects', path: '/projects' },
   { label: 'Case Studies', path: '/case-studies' },
-  { label: 'Articles', path: '/articles' },
+  { label: 'Journal', path: '/journey' },
   { label: 'Experience', path: '/experience' },
   { label: 'Tech Skills', path: '/skills' },
-  { label: 'Journal', path: '/journey' },
 ];
 
 const Navbar = () => {

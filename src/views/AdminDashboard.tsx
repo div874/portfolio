@@ -5,7 +5,6 @@ import { supabase } from '../supabase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { JournalEntry } from '../utils/journals';
-import type { ArticleEntry } from '../utils/articles';
 import { triggerDeploy } from '../utils/deploy';
 
 export interface Category {
@@ -16,12 +15,14 @@ export interface Category {
 }
 
 export const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'journals' | 'articles'>('journals');
   const [journals, setJournals] = useState<JournalEntry[]>([]);
-  const [articles, setArticles] = useState<ArticleEntry[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   
+  // Featured post state
+  const [selectedFeaturedId, setSelectedFeaturedId] = useState<string>('');
+  const [isUpdatingFeatured, setIsUpdatingFeatured] = useState<boolean>(false);
+
   // New category form state
   const [newCatName, setNewCatName] = useState('');
   const [newCatSlug, setNewCatSlug] = useState('');
@@ -35,7 +36,6 @@ export const AdminDashboard: React.FC = () => {
         router.push('/admin');
       } else {
         fetchJournals();
-        fetchArticles();
         fetchCategories();
       }
     };
@@ -52,35 +52,63 @@ export const AdminDashboard: React.FC = () => {
   const fetchJournals = async () => {
     const { data, error } = await supabase.from('journals').select('*').order('date', { ascending: false });
     if (!error && data) {
-      setJournals(data as JournalEntry[]);
+      const list = data as JournalEntry[];
+      setJournals(list);
+
+      // Find current featured post
+      const currentFeatured = list.find(j => j.tag?.toUpperCase() === 'FEATURED');
+      if (currentFeatured) {
+        setSelectedFeaturedId(currentFeatured.id);
+      } else if (typeof window !== 'undefined') {
+        const storedSlug = localStorage.getItem('featured_journal_slug');
+        const match = list.find(j => j.slug === storedSlug);
+        if (match) setSelectedFeaturedId(match.id);
+      }
     }
     setLoading(false);
   };
 
-  const fetchArticles = async () => {
-    const { data, error } = await supabase.from('articles').select('*').order('date', { ascending: false });
-    if (!error && data) {
-      setArticles(data.map((item: any) => ({
-        ...item,
-        readTime: item.read_time || item.readTime || '5 min read',
-        publishedDate: item.date || item.published_date || item.publishedDate || ''
-      })) as ArticleEntry[]);
+  const handleSetFeatured = async (targetId: string) => {
+    if (!targetId) return;
+    setIsUpdatingFeatured(true);
+    try {
+      // 1. Clear 'FEATURED' from any other journal
+      await supabase
+        .from('journals')
+        .update({ tag: 'Journal' })
+        .eq('tag', 'FEATURED');
+
+      // 2. Set 'FEATURED' on target journal
+      const { error } = await supabase
+        .from('journals')
+        .update({ tag: 'FEATURED' })
+        .eq('id', targetId);
+
+      if (error) {
+        alert("Error setting featured post: " + error.message);
+      } else {
+        const targetEntry = journals.find(j => j.id === targetId);
+        if (targetEntry?.slug && typeof window !== 'undefined') {
+          localStorage.setItem('featured_journal_slug', targetEntry.slug);
+          localStorage.setItem('featured_journal_id', targetEntry.id);
+        }
+        setSelectedFeaturedId(targetId);
+        triggerDeploy();
+        await fetchJournals();
+        alert(`Homepage Featured Post updated to: "${targetEntry?.title || 'Selected Post'}"`);
+      }
+    } catch (err: any) {
+      alert("Error: " + err.message);
+    } finally {
+      setIsUpdatingFeatured(false);
     }
   };
 
   const handleDeleteJournal = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this journal?")) {
+    if (window.confirm("Are you sure you want to delete this journal entry?")) {
       await supabase.from('journals').delete().eq('id', id);
       triggerDeploy();
       fetchJournals();
-    }
-  };
-
-  const handleDeleteArticle = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this article?")) {
-      await supabase.from('articles').delete().eq('id', id);
-      triggerDeploy();
-      fetchArticles();
     }
   };
 
@@ -114,48 +142,79 @@ export const AdminDashboard: React.FC = () => {
 
   if (loading) return <div style={{ padding: '40px' }}>Loading Admin Panel...</div>;
 
+  const currentFeaturedItem = journals.find(j => j.id === selectedFeaturedId || j.tag?.toUpperCase() === 'FEATURED');
+
   return (
     <div style={{ maxWidth: '1050px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>
       {/* Top Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2>Admin Dashboard</h2>
+        <h2>Journal Admin Dashboard</h2>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button onClick={handleLogout} style={{ padding: '8px 16px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Logout</button>
-          <Link href="/admin/edit" style={{ padding: '8px 16px', background: '#28a745', color: 'white', textDecoration: 'none', borderRadius: '4px' }}>+ New Journal</Link>
-          <Link href="/admin/edit?type=article" style={{ padding: '8px 16px', background: '#007bff', color: 'white', textDecoration: 'none', borderRadius: '4px' }}>+ New Article</Link>
+          <Link href="/admin/edit" style={{ padding: '8px 16px', background: '#28a745', color: 'white', textDecoration: 'none', borderRadius: '4px', fontWeight: 'bold' }}>+ New Journal Entry</Link>
         </div>
       </div>
 
-      {/* Tabs Navigation */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>
-        <button
-          onClick={() => setActiveTab('journals')}
-          style={{
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '6px',
-            background: activeTab === 'journals' ? '#28a745' : '#e9ecef',
-            color: activeTab === 'journals' ? 'white' : '#495057',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
-          Journals ({journals.length})
-        </button>
-        <button
-          onClick={() => setActiveTab('articles')}
-          style={{
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '6px',
-            background: activeTab === 'articles' ? '#007bff' : '#e9ecef',
-            color: activeTab === 'articles' ? 'white' : '#495057',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
-          Articles & Guides ({articles.length})
-        </button>
+      {/* HOMEPAGE FEATURED POST CONTROLS */}
+      <div style={{ background: '#fff9e6', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #ffeeba' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <h3 style={{ margin: 0, color: '#856404', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              ⭐ Homepage Featured Post
+            </h3>
+            <p style={{ margin: '6px 0 0 0', color: '#666', fontSize: '13px' }}>
+              Choose which post appears in the "FEATURED" card on the homepage. This choice is pinned and will <strong>not</strong> change automatically when new journals are created.
+            </p>
+          </div>
+          {currentFeaturedItem && (
+            <div style={{ background: '#fff', padding: '6px 14px', borderRadius: '6px', border: '1px solid #ffe082' }}>
+              <span style={{ fontSize: '11px', color: '#888', fontWeight: 'bold', display: 'block' }}>CURRENTLY PINNED:</span>
+              <span style={{ fontWeight: 'bold', color: '#111', fontSize: '14px' }}>
+                {currentFeaturedItem.title}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div style={{ marginTop: '16px', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <select
+            value={selectedFeaturedId}
+            onChange={(e) => setSelectedFeaturedId(e.target.value)}
+            style={{
+              padding: '9px 12px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+              fontSize: '14px',
+              flex: 1,
+              minWidth: '280px',
+              background: '#fff'
+            }}
+          >
+            <option value="" disabled>-- Select a post to feature on homepage --</option>
+            {journals.filter(j => j.status !== 'DRAFT').map(j => (
+              <option key={j.id} value={j.id}>
+                {j.title} ({j.category}) {j.tag?.toUpperCase() === 'FEATURED' ? '★ CURRENT' : ''}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={() => handleSetFeatured(selectedFeaturedId)}
+            disabled={isUpdatingFeatured || !selectedFeaturedId}
+            style={{
+              padding: '9px 18px',
+              background: '#e69500',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: isUpdatingFeatured ? 'not-allowed' : 'pointer',
+              fontWeight: 'bold',
+              fontSize: '14px'
+            }}
+          >
+            {isUpdatingFeatured ? 'Saving...' : 'Pin as Featured'}
+          </button>
+        </div>
       </div>
 
       {/* CATEGORIES MANAGEMENT SECTION */}
@@ -164,7 +223,7 @@ export const AdminDashboard: React.FC = () => {
         <form onSubmit={handleAddCategory} style={{ display: 'flex', gap: '10px', marginBottom: '15px', flexWrap: 'wrap' }}>
           <input 
             type="text" 
-            placeholder="Category Name (e.g. AI & Engineering)" 
+            placeholder="Category Name (e.g. AI & AUTOMATION)" 
             value={newCatName} 
             onChange={e => setNewCatName(e.target.value)}
             style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
@@ -172,7 +231,7 @@ export const AdminDashboard: React.FC = () => {
           />
           <input 
             type="text" 
-            placeholder="Slug (e.g. ai-engineering)" 
+            placeholder="Slug (e.g. ai-automation)" 
             value={newCatSlug} 
             onChange={e => setNewCatSlug(e.target.value)}
             style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
@@ -203,105 +262,89 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* JOURNALS TAB */}
-      {activeTab === 'journals' && (
-        <>
-          <h3>All Journals</h3>
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
-            <thead>
-              <tr style={{ background: '#f4f4f4', textAlign: 'left' }}>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Title</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Category</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Date</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Status</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {journals.map(item => (
-                <tr key={item.id}>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.title}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.category}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.date}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>
-                    {item.status === 'DRAFT' ? (
-                      <span style={{ background: '#fff3cd', color: '#856404', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
-                        DRAFT
-                      </span>
-                    ) : (
-                      <span style={{ background: '#d4edda', color: '#155724', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
-                        PUBLISHED
-                      </span>
-                    )}
-                  </td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <Link 
-                      href={`/journey/${item.slug}${item.status === 'DRAFT' ? '?preview=true' : ''}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      style={{ color: '#28a745', textDecoration: 'none', fontWeight: 500 }}
+      {/* JOURNALS LIST */}
+      <div>
+        <h3>All Journal Entries ({journals.length})</h3>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
+          <thead>
+            <tr style={{ background: '#f4f4f4', textAlign: 'left' }}>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Title</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Category</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Date</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Status</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Featured</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {journals.map(item => (
+              <tr key={item.id}>
+                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.title}</td>
+                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.category}</td>
+                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.date}</td>
+                <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                  {item.status === 'DRAFT' ? (
+                    <span style={{ background: '#fff3cd', color: '#856404', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
+                      DRAFT
+                    </span>
+                  ) : (
+                    <span style={{ background: '#d4edda', color: '#155724', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
+                      PUBLISHED
+                    </span>
+                  )}
+                </td>
+                <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                  {item.tag?.toUpperCase() === 'FEATURED' ? (
+                    <span style={{ 
+                      background: '#fff8e1', 
+                      color: '#b78103', 
+                      padding: '4px 8px', 
+                      borderRadius: '4px', 
+                      fontWeight: 'bold', 
+                      fontSize: '12px',
+                      border: '1px solid #ffe082',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}>
+                      ⭐ Featured on Home
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => handleSetFeatured(item.id)}
+                      disabled={isUpdatingFeatured}
+                      style={{
+                        background: 'none',
+                        border: '1px solid #ccc',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        color: '#555'
+                      }}
+                      title="Set as featured post on the homepage"
                     >
-                      View
-                    </Link>
-                    <Link href={`/admin/edit/${item.id}?type=journal`} style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Edit</Link>
-                    <button onClick={() => handleDeleteJournal(item.id)} style={{ color: '#dc3545', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 500, padding: 0 }}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
-
-      {/* ARTICLES TAB */}
-      {activeTab === 'articles' && (
-        <>
-          <h3>All Articles & Guides</h3>
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
-            <thead>
-              <tr style={{ background: '#f4f4f4', textAlign: 'left' }}>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Article Title</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Category</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Date</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Status</th>
-                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
+                      Pin to Home
+                    </button>
+                  )}
+                </td>
+                <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                  <Link 
+                    href={`/journey/${item.slug}${item.status === 'DRAFT' ? '?preview=true' : ''}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ color: '#28a745', textDecoration: 'none', fontWeight: 500 }}
+                  >
+                    View
+                  </Link>
+                  <Link href={`/admin/edit/${item.id}`} style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Edit</Link>
+                  <button onClick={() => handleDeleteJournal(item.id)} style={{ color: '#dc3545', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 500, padding: 0 }}>Delete</button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {articles.map(item => (
-                <tr key={item.id || item.slug}>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.title}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.category}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{item.publishedDate}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>
-                    {item.status === 'DRAFT' ? (
-                      <span style={{ background: '#fff3cd', color: '#856404', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
-                        DRAFT
-                      </span>
-                    ) : (
-                      <span style={{ background: '#d4edda', color: '#155724', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' }}>
-                        PUBLISHED
-                      </span>
-                    )}
-                  </td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd', display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <Link 
-                      href={`/articles/${item.slug}${item.status === 'DRAFT' ? '?preview=true' : ''}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      style={{ color: '#28a745', textDecoration: 'none', fontWeight: 500 }}
-                    >
-                      View
-                    </Link>
-                    <Link href={`/admin/edit/${item.id || item.slug}?type=article`} style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Edit</Link>
-                    <button onClick={() => handleDeleteArticle(item.id || item.slug)} style={{ color: '#dc3545', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 500, padding: 0 }}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

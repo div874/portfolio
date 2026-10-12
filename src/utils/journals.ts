@@ -1,4 +1,5 @@
 import { supabase } from '../supabase';
+import { articlesData } from '../data/articlesData';
 
 export interface JournalEntry {
   slug: string;
@@ -15,47 +16,118 @@ export interface JournalEntry {
   id: string; 
 }
 
+const mapArticleToJournal = (item: any): JournalEntry => ({
+  slug: item.slug,
+  title: item.title,
+  date: item.date || item.published_date || item.publishedDate || item.created_at?.split('T')[0] || '',
+  category: item.category || 'AI & AUTOMATION',
+  status: item.status || 'PUBLISHED',
+  excerpt: item.excerpt || '',
+  readingTime: item.reading_time || item.readingTime || item.read_time || item.readTime || '5 min read',
+  tag: item.tag || item.category || 'Article',
+  image: item.image || '',
+  tags: Array.isArray(item.tags) ? item.tags : [],
+  content: item.content || '',
+  id: String(item.id || item.slug)
+});
+
 export const getJournals = async (includeDrafts: boolean = false): Promise<JournalEntry[]> => {
+  const combinedEntries: JournalEntry[] = [];
+  const seenSlugs = new Set<string>();
+
+  // 1. Fetch from journals table
   try {
-    const { data, error } = await supabase.from('journals').select('*').order('date', { ascending: false });
-    if (error || !data) {
-      if (error) console.error("Supabase error:", error);
-      return [];
-    }
-    
-    const mapped = data.map((item: any) => ({
-      ...item,
-      readingTime: item.reading_time || item.readingTime
-    })) as JournalEntry[];
+    const { data: journalData, error: jError } = await supabase
+      .from('journals')
+      .select('*')
+      .order('date', { ascending: false });
 
-    if (!includeDrafts) {
-      return mapped.filter(item => item.status !== 'DRAFT');
+    if (!jError && journalData) {
+      for (const item of journalData) {
+        if (!includeDrafts && item.status === 'DRAFT') continue;
+        if (item.slug && !seenSlugs.has(item.slug)) {
+          seenSlugs.add(item.slug);
+          combinedEntries.push({
+            ...item,
+            readingTime: item.reading_time || item.readingTime || '3 min read',
+            tags: Array.isArray(item.tags) ? item.tags : []
+          });
+        }
+      }
     }
-
-    return mapped;
   } catch (err) {
     console.error("Failed to fetch journals from Supabase:", err);
-    return [];
   }
+
+  // 2. Fetch from articles table (combining articles into journal)
+  try {
+    const { data: articleData, error: aError } = await supabase
+      .from('articles')
+      .select('*')
+      .order('date', { ascending: false });
+
+    if (!aError && articleData) {
+      for (const item of articleData) {
+        if (!includeDrafts && item.status === 'DRAFT') continue;
+        if (item.slug && !seenSlugs.has(item.slug)) {
+          seenSlugs.add(item.slug);
+          combinedEntries.push(mapArticleToJournal(item));
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Failed to fetch articles from Supabase:", err);
+  }
+
+  // 3. Fallback to static articlesData if any missing from DB
+  for (const staticItem of articlesData) {
+    if (!seenSlugs.has(staticItem.slug)) {
+      seenSlugs.add(staticItem.slug);
+      combinedEntries.push(mapArticleToJournal(staticItem));
+    }
+  }
+
+  // Sort unified entries by date descending
+  return combinedEntries.sort((a, b) => {
+    const dateA = new Date(a.date || 0).getTime();
+    const dateB = new Date(b.date || 0).getTime();
+    return dateB - dateA;
+  });
 };
 
 export const getJournalBySlug = async (slug: string, includeDrafts: boolean = false): Promise<JournalEntry | null> => {
+  // 1. Check journals table
   try {
     const { data, error } = await supabase.from('journals').select('*').eq('slug', slug).single();
-    if (error || !data) {
-      return null;
+    if (!error && data) {
+      if (!includeDrafts && data.status === 'DRAFT') return null;
+      return {
+        ...data,
+        readingTime: data.reading_time || data.readingTime || '3 min read',
+        tags: Array.isArray(data.tags) ? data.tags : []
+      } as JournalEntry;
     }
-
-    if (!includeDrafts && data.status === 'DRAFT') {
-      return null;
-    }
-
-    return {
-      ...data,
-      readingTime: data.reading_time || data.readingTime
-    } as JournalEntry;
   } catch (err) {
-    console.error("Failed to fetch journal by slug from Supabase:", err);
-    return null;
+    // Continue to articles check
   }
+
+  // 2. Check articles table
+  try {
+    const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).single();
+    if (!error && data) {
+      if (!includeDrafts && data.status === 'DRAFT') return null;
+      return mapArticleToJournal(data);
+    }
+  } catch (err) {
+    // Continue to static check
+  }
+
+  // 3. Fallback to static articles
+  const foundStatic = articlesData.find(a => a.slug === slug);
+  if (foundStatic) {
+    return mapArticleToJournal(foundStatic);
+  }
+
+  return null;
 };
+

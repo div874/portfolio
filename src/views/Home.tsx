@@ -272,7 +272,19 @@ const Home = ({ onConnectClick }: HomeProps) => {
   useEffect(() => {
     getJournals().then(entries => {
       if (entries && entries.length > 0) {
-        setFeaturedJournal(entries[0]);
+        // 1. Look for post marked with tag 'FEATURED' in database
+        const dbFeatured = entries.find(e => e.tag?.toUpperCase() === 'FEATURED');
+
+        // 2. Check localStorage fallback if saved by admin
+        let localFeaturedSlug = '';
+        if (typeof window !== 'undefined') {
+          localFeaturedSlug = localStorage.getItem('featured_journal_slug') || '';
+        }
+        const localFeatured = localFeaturedSlug ? entries.find(e => e.slug === localFeaturedSlug) : null;
+
+        // Choose pinned post, otherwise default to first entry
+        const chosen = dbFeatured || localFeatured || entries[0];
+        setFeaturedJournal(chosen);
       }
     });
   }, []);

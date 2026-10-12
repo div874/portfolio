@@ -59,7 +59,30 @@ export default async function Page({ params, searchParams }: PageProps) {
   const entry = await getJournalBySlug(slug, isPreview);
   if (!entry) notFound();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: entry.title,
+    description: entry.excerpt || entry.title,
+    author: {
+      '@type': 'Person',
+      name: 'Divyansh Chandra',
+      url: 'https://www.divyanshchandra.online/',
+    },
+    datePublished: entry.date,
+    url: `https://www.divyanshchandra.online/journey/${slug}`,
+    keywords: (entry.tags || []).join(', '),
+  };
+
   const allEntries = await getJournals(isPreview);
 
-  return <JourneyArticle initialEntry={entry} initialAllEntries={allEntries} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <JourneyArticle initialEntry={entry} initialAllEntries={allEntries} />
+    </>
+  );
 }
