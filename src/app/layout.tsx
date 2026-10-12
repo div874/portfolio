@@ -44,20 +44,36 @@ export const metadata: Metadata = {
     description: 'AI & Automation Specialist building Generative AI applications, Python workflow automation, and data-driven marketing systems to solve real business problems.',
     url: 'https://www.divyanshchandra.online/',
     siteName: 'Divyansh Chandra Portfolio',
+    images: [
+      {
+        url: '/avatar_black.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Divyansh Chandra - AI, Automation & Digital Marketing Specialist',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Divyansh Chandra | AI, Automation & Digital Marketing Specialist',
     description: 'AI & Automation Specialist building Generative AI applications, Python workflow automation, and data-driven marketing systems to solve real business problems.',
+    images: ['/avatar_black.jpg'],
   },
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon.png', type: 'image/png', sizes: '512x512' },
+      { url: '/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
     ],
-    apple: [{ url: '/favicon.png' }],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
+  manifest: '/site.webmanifest',
 };
 
 const jsonLd = {
@@ -69,6 +85,7 @@ const jsonLd = {
       name: 'Divyansh Chandra',
       url: 'https://www.divyanshchandra.online/',
       jobTitle: 'AI, Automation & Digital Marketing Specialist',
+      image: 'https://www.divyanshchandra.online/profile.webp',
       description:
         'Divyansh Chandra is an MBA Tech student at NMIMS specializing in AI application development, LLMs, Python process automation, technical SEO, and digital marketing data analytics.',
       alumniOf: {
@@ -102,6 +119,19 @@ const jsonLd = {
       },
     },
     {
+      '@type': 'Organization',
+      '@id': 'https://www.divyanshchandra.online/#organization',
+      name: 'Divyansh Chandra',
+      url: 'https://www.divyanshchandra.online/',
+      logo: 'https://www.divyanshchandra.online/favicon.png',
+      image: 'https://www.divyanshchandra.online/profile.webp',
+      sameAs: [
+        'https://www.linkedin.com/in/div08/',
+        'https://github.com/div874',
+        'https://www.divyanshchandra.online/'
+      ],
+    },
+    {
       '@type': 'WebSite',
       '@id': 'https://www.divyanshchandra.online/#website',
       url: 'https://www.divyanshchandra.online/',
@@ -109,7 +139,7 @@ const jsonLd = {
       description:
         'Portfolio of Divyansh Chandra - AI, Automation & Digital Marketing Specialist.',
       publisher: {
-        '@id': 'https://www.divyanshchandra.online/#person',
+        '@id': 'https://www.divyanshchandra.online/#organization',
       },
     },
     {
