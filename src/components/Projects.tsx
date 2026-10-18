@@ -27,7 +27,7 @@ const Projects = ({ showFilter = true, initialProjects }: ProjectsProps) => {
   useEffect(() => {
     let mounted = true;
     getProjects().then(list => {
-      if (mounted && list && list.length > 0) {
+      if (mounted && list) {
         setProjectsList(list);
       }
     }).catch(err => {

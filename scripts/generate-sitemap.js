@@ -46,15 +46,17 @@ async function generateSitemap() {
     addUrl(`https://www.divyanshchandra.online${route}`, '0.7', 'monthly');
   }
 
-  // 4. Project Detail Pages
-  const projects = [
-    'wallcurry-ai-recommendation',
-    'seo-reporting-automation',
-    'attribution-marketing-analytics',
-    'nextjs-portfolio-engine'
-  ];
-  for (const slug of projects) {
-    addUrl(`https://www.divyanshchandra.online/projects/${slug}`, '0.8', 'monthly');
+  // 4. Fallback Static Projects (only if Supabase is not configured)
+  if (!supabase) {
+    const projects = [
+      'wallcurry-ai-recommendation',
+      'seo-reporting-automation',
+      'attribution-marketing-analytics',
+      'nextjs-portfolio-engine'
+    ];
+    for (const slug of projects) {
+      addUrl(`https://www.divyanshchandra.online/projects/${slug}`, '0.8', 'monthly');
+    }
   }
 
   // 5. Fallback Static Content

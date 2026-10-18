@@ -49,30 +49,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.divyanshchandra.online/projects/wallcurry-ai-recommendation</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.divyanshchandra.online/projects/seo-reporting-automation</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.divyanshchandra.online/projects/attribution-marketing-analytics</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.divyanshchandra.online/projects/nextjs-portfolio-engine</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://www.divyanshchandra.online/journey/what-is-rag-in-ai</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
@@ -123,6 +99,30 @@
   <url>
     <loc>https://www.divyanshchandra.online/journey/starting-my-ai-journey-what-i-learned-about-llms-rag-and-ai-agents</loc>
     <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.divyanshchandra.online/projects/wallcurry-ai-recommendation</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.divyanshchandra.online/projects/seo-reporting-automation</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.divyanshchandra.online/projects/attribution-marketing-analytics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.divyanshchandra.online/projects/nextjs-portfolio-engine</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -134,18 +134,22 @@ export const AdminDashboard: React.FC = () => {
   };
 
   // Delete project handler
-  const handleDeleteProject = async (idOrSlug: string, title: string) => {
+  const handleDeleteProject = async (id: string, slug: string, title: string) => {
     if (window.confirm(`Are you sure you want to delete project "${title}"? This cannot be undone.`)) {
+      // Optimistic instant UI update
+      setProjects(prev => prev.filter(p => (id ? p.id !== id : true) && p.slug !== slug));
+
       try {
         await fetch('/api/projects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'delete', id: idOrSlug, slug: idOrSlug }),
+          body: JSON.stringify({ action: 'delete', id, slug }),
         });
-        await deleteProject(idOrSlug);
+        await deleteProject(id || slug, slug);
         await fetchProjects();
       } catch (err: any) {
         alert('Error deleting project: ' + err.message);
+        await fetchProjects();
       }
     }
   };
@@ -803,7 +807,7 @@ CREATE POLICY "Allow service role full access to projects" ON public.projects FO
 
                               <button
                                 type="button"
-                                onClick={() => handleDeleteProject(p.id || p.slug, p.title)}
+                                onClick={() => handleDeleteProject(p.id || '', p.slug, p.title)}
                                 title="Delete project"
                                 style={{
                                   display: 'inline-flex',

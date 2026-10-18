@@ -82,7 +82,7 @@ export const getProjects = async (): Promise<ProjectDetail[]> => {
       .order('order_index', { ascending: true })
       .order('created_at', { ascending: false });
 
-    if (!error && data && data.length > 0) {
+    if (!error && data) {
       const list = data.map(normalizeProject);
       if (typeof window !== 'undefined') {
         try {
@@ -97,14 +97,27 @@ export const getProjects = async (): Promise<ProjectDetail[]> => {
     console.warn('Could not query Supabase projects table:', err);
   }
 
+  // Check deleted slugs filter
+  const deletedSlugs = new Set<string>();
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem('portfolio_deleted_slugs');
+      if (stored) {
+        JSON.parse(stored).forEach((s: string) => deletedSlugs.add(s));
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   // 2. Check localStorage in browser (useful for offline/preview before DB migration)
   if (typeof window !== 'undefined') {
     try {
       const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map(normalizeProject);
+        if (Array.isArray(parsed)) {
+          return parsed.filter(p => !deletedSlugs.has(p.slug)).map(normalizeProject);
         }
       }
     } catch {
@@ -112,8 +125,10 @@ export const getProjects = async (): Promise<ProjectDetail[]> => {
     }
   }
 
-  // 3. Fallback to static projectDetails
-  return projectDetails.map(normalizeProject);
+  // 3. Fallback to static projectDetails (excluding any deleted slugs)
+  return projectDetails
+    .filter(p => !deletedSlugs.has(p.slug))
+    .map(normalizeProject);
 };
 
 export const getProjectBySlug = async (slug: string): Promise<ProjectDetail | null> => {
@@ -255,14 +270,17 @@ export const saveProject = async (
 };
 
 export const deleteProject = async (
-  idOrSlug: string
+  idOrSlug: string,
+  slugFallback?: string
 ): Promise<{ success: boolean; error?: string }> => {
   let dbError: any = null;
 
   try {
-    // Delete by ID if valid UUID or match ID
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrSlug);
-    if (isUuid) {
+    if (isUuid && slugFallback) {
+      const { error } = await supabase.from('projects').delete().or(`id.eq.${idOrSlug},slug.eq.${slugFallback}`);
+      dbError = error;
+    } else if (isUuid) {
       const { error } = await supabase.from('projects').delete().eq('id', idOrSlug);
       dbError = error;
     } else {
@@ -273,15 +291,23 @@ export const deleteProject = async (
     dbError = err;
   }
 
-  // Also remove from local cache
+  // Also remove from local cache and track deleted slugs
   if (typeof window !== 'undefined') {
     try {
       const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (cached) {
         const parsed: ProjectDetail[] = JSON.parse(cached);
-        const filtered = parsed.filter(p => p.id !== idOrSlug && p.slug !== idOrSlug);
+        const filtered = parsed.filter(p => p.id !== idOrSlug && p.slug !== idOrSlug && p.slug !== slugFallback);
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filtered));
       }
+
+      // Record deleted slug
+      const deletedSlugsJson = localStorage.getItem('portfolio_deleted_slugs') || '[]';
+      const deletedList: string[] = JSON.parse(deletedSlugsJson);
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrSlug);
+      if (!isUuid) deletedList.push(idOrSlug);
+      if (slugFallback) deletedList.push(slugFallback);
+      localStorage.setItem('portfolio_deleted_slugs', JSON.stringify(Array.from(new Set(deletedList))));
     } catch {
       // ignore
     }

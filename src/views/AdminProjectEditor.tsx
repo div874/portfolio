@@ -261,7 +261,7 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'delete', id: projectId, slug }),
         });
-        await deleteProject(target);
+        await deleteProject(projectId || slug, slug);
         router.push('/admin/dashboard?tab=projects');
       } catch (err: any) {
         alert('Failed to delete: ' + err.message);

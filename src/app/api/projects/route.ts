@@ -12,7 +12,7 @@ export async function GET() {
       .order('order_index', { ascending: true })
       .order('created_at', { ascending: false });
 
-    if (!error && data && data.length > 0) {
+    if (!error && data) {
       return NextResponse.json({
         source: 'supabase',
         projects: data.map(normalizeProject),
@@ -74,14 +74,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Missing id or slug to delete' }, { status: 400 });
       }
 
+      // Delete by ID or by Slug
       const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(target);
-      const query = isUuid
-        ? supabase.from('projects').delete().eq('id', target)
-        : supabase.from('projects').delete().eq('slug', target);
-
-      const { error } = await query;
-      if (error) {
-        return NextResponse.json({ error: error.message }, { status: 400 });
+      if (id && slug) {
+        await supabase.from('projects').delete().or(`id.eq.${id},slug.eq.${slug}`);
+      } else if (isUuid) {
+        await supabase.from('projects').delete().eq('id', target);
+      } else {
+        await supabase.from('projects').delete().eq('slug', target);
       }
       return NextResponse.json({ success: true });
     }
