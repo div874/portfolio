@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import Link from 'next/link';
 import { projectDetails, PROJECT_CATEGORIES, ProjectDetail } from '@/data/projectsData';
+import { getProjects } from '@/utils/projects';
 
 const projectColors = [
   'linear-gradient(135deg, #52525b 0%, #3f3f46 100%)',
@@ -16,14 +17,37 @@ const projectColors = [
 
 interface ProjectsProps {
   showFilter?: boolean;
+  initialProjects?: ProjectDetail[];
 }
 
-const Projects = ({ showFilter = true }: ProjectsProps) => {
+const Projects = ({ showFilter = true, initialProjects }: ProjectsProps) => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [projectsList, setProjectsList] = useState<ProjectDetail[]>(initialProjects || projectDetails);
+
+  useEffect(() => {
+    let mounted = true;
+    getProjects().then(list => {
+      if (mounted && list && list.length > 0) {
+        setProjectsList(list);
+      }
+    }).catch(err => {
+      console.warn('Failed to load dynamic projects:', err);
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Compute available categories dynamically
+  const categories = ['All', ...Array.from(new Set([
+    ...PROJECT_CATEGORIES.filter(c => c !== 'All'),
+    ...projectsList.map(p => p.category)
+  ]))];
 
   const filteredProjects = activeCategory === 'All'
-    ? projectDetails
-    : projectDetails.filter(p => p.category === activeCategory);
+    ? projectsList
+    : projectsList.filter(p => p.category === activeCategory);
 
   return (
     <section className="section" id="projects" style={{ padding: '80px 10%' }}>
@@ -43,7 +67,7 @@ const Projects = ({ showFilter = true }: ProjectsProps) => {
       {/* Category Filter Tabs */}
       {showFilter && (
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '50px' }}>
-          {PROJECT_CATEGORIES.map(cat => (
+          {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}

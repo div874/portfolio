@@ -1,7 +1,8 @@
 export interface ProjectDetail {
+  id?: string;
   slug: string;
   title: string;
-  category: 'AI Projects' | 'SEO Projects' | 'Digital Marketing Projects' | 'Web Development Projects';
+  category: 'AI Projects' | 'SEO Projects' | 'Digital Marketing Projects' | 'Web Development Projects' | string;
   role: string;
   type: string;
   tagline: string;
@@ -12,6 +13,9 @@ export interface ProjectDetail {
   results: string[];
   learnings: string;
   links: { live: string; code: string };
+  featured?: boolean;
+  order_index?: number;
+  created_at?: string;
 }
 
 export const PROJECT_CATEGORIES = [

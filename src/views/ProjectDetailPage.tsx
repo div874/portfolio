@@ -1,21 +1,55 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 
-import { projectDetails } from '@/data/projectsData';
+import { projectDetails, ProjectDetail } from '@/data/projectsData';
+import { getProjectBySlug } from '@/utils/projects';
 
 interface ProjectDetailPageProps {
   slug?: string;
+  initialProject?: ProjectDetail | null;
 }
 
-const ProjectDetailPage = ({ slug: propSlug }: ProjectDetailPageProps) => {
+const ProjectDetailPage = ({ slug: propSlug, initialProject }: ProjectDetailPageProps) => {
   const params = useParams();
   const slug = propSlug || (params?.slug as string);
-  const project = projectDetails.find(p => p.slug === slug);
+  const [project, setProject] = useState<ProjectDetail | null>(
+    initialProject || projectDetails.find(p => p.slug === slug) || null
+  );
+  const [loading, setLoading] = useState(!project);
+
+  useEffect(() => {
+    let mounted = true;
+    if (slug) {
+      getProjectBySlug(slug).then(p => {
+        if (mounted) {
+          if (p) setProject(p);
+          setLoading(false);
+        }
+      }).catch(() => {
+        if (mounted) setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <main style={{ paddingTop: '160px', minHeight: '60vh', textAlign: 'center' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Loading project details...</p>
+      </main>
+    );
+  }
 
   if (!project) {
     return (

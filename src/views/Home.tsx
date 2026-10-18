@@ -10,6 +10,7 @@ import { X, ExternalLink, TrendingUp, Bot, Zap, BarChart3, Star } from 'lucide-r
 
 import { getJournals } from '../utils/journals';
 import type { JournalEntry } from '../utils/journals';
+import { getProjects } from '../utils/projects';
 
 interface HomeProps {
   onConnectClick?: () => void;
@@ -268,6 +269,7 @@ const getClientDetails = (name: string) => {
 const Home = ({ onConnectClick }: HomeProps) => {
   const [selectedClient, setSelectedClient] = useState<any>(null);
   const [featuredJournal, setFeaturedJournal] = useState<JournalEntry>(defaultFeaturedJournal);
+  const [homeProjects, setHomeProjects] = useState(featuredProjects);
 
   useEffect(() => {
     getJournals().then(entries => {
@@ -286,6 +288,26 @@ const Home = ({ onConnectClick }: HomeProps) => {
         const chosen = dbFeatured || localFeatured || entries[0];
         setFeaturedJournal(chosen);
       }
+    });
+
+    getProjects().then(list => {
+      if (list && list.length > 0) {
+        const featuredList = list.filter(p => p.featured);
+        const chosen = featuredList.length > 0 ? featuredList.slice(0, 4) : list.slice(0, 2);
+        const formatted = chosen.map(p => ({
+          title: p.title,
+          category: p.category,
+          desc: p.tagline || p.problem,
+          metric: p.results && p.results.length > 0 ? p.results[0] : (p.tagline || ''),
+          tags: p.technologies.slice(0, 4),
+          slug: p.slug,
+          role: p.role,
+          type: p.type
+        }));
+        setHomeProjects(formatted);
+      }
+    }).catch(err => {
+      console.warn('Could not load dynamic projects on home:', err);
     });
   }, []);
 
@@ -589,7 +611,7 @@ const Home = ({ onConnectClick }: HomeProps) => {
         </motion.div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          {featuredProjects.map((proj, i) => (
+          {homeProjects.map((proj, i) => (
             <motion.div
               key={proj.title}
               initial={{ opacity: 0, y: 30 }}

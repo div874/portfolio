@@ -109,6 +109,21 @@ async function generateSitemap() {
         }
       }
 
+      // Fetch dynamic projects with dates
+      const { data: dbProjects, error: pError } = await supabase
+        .from('projects')
+        .select('slug, updated_at, created_at');
+
+      if (!pError && dbProjects) {
+        for (const p of dbProjects) {
+          if (p.slug) {
+            const rawDate = p.updated_at || p.created_at || today;
+            const dateStr = typeof rawDate === 'string' ? rawDate.split('T')[0] : today;
+            addUrl(`https://www.divyanshchandra.online/projects/${p.slug}`, '0.8', 'monthly', dateStr);
+          }
+        }
+      }
+
     } catch (err) {
       console.error('Error querying Supabase for sitemap:', err);
     }
