@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/supabase';
 import { projectDetails } from '@/data/projectsData';
-import { normalizeProject } from '@/utils/projects';
+import { normalizeProject, sanitizeExternalUrl } from '@/utils/projects';
 
 export async function GET() {
   try {
@@ -104,7 +104,10 @@ export async function POST(req: NextRequest) {
       technologies: project.technologies || [],
       results: project.results || [],
       learnings: project.learnings || '',
-      links: project.links || { live: '#', code: '#' },
+      links: {
+        live: sanitizeExternalUrl(project.links?.live) || '#',
+        code: sanitizeExternalUrl(project.links?.code) || '#',
+      },
       featured: Boolean(project.featured),
       order_index: project.order_index ?? 0,
       image: project.image?.trim() || '',

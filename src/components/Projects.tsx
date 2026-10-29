@@ -6,7 +6,7 @@ import { ExternalLink, ArrowRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import Link from 'next/link';
 import { projectDetails, PROJECT_CATEGORIES, ProjectDetail } from '@/data/projectsData';
-import { getProjects } from '@/utils/projects';
+import { getProjects, sanitizeExternalUrl } from '@/utils/projects';
 
 const projectColors = [
   'linear-gradient(135deg, #52525b 0%, #3f3f46 100%)',
@@ -162,8 +162,8 @@ const Projects = ({ showFilter = true, initialProjects }: ProjectsProps) => {
                 <Link href={`/projects/${project.slug}`} style={{ textDecoration: 'none', color: 'var(--accent-color)', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   View Project Detail <ArrowRight size={16} />
                 </Link>
-                {project.links.code && project.links.code !== '#' && (
-                  <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="project-link" style={{ fontSize: '0.85rem' }}>
+                {Boolean(sanitizeExternalUrl(project.links?.code)) && (
+                  <a href={sanitizeExternalUrl(project.links.code)} target="_blank" rel="noopener noreferrer" className="project-link" style={{ fontSize: '0.85rem' }}>
                     <FaGithub size={16} /> Code
                   </a>
                 )}

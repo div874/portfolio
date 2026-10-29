@@ -5,6 +5,30 @@ import { normalizeAttachments, DocumentAttachment } from './attachments';
 
 const LOCAL_STORAGE_KEY = 'portfolio_custom_projects_cache';
 
+/**
+ * Cleans and formats external URLs (GitHub, Live demo, etc.)
+ * Strips accidental '#' prefixes (e.g. '#https://github.com/...' -> 'https://github.com/...')
+ * Ensures proper protocol (e.g. 'github.com/...' -> 'https://github.com/...')
+ */
+export function sanitizeExternalUrl(url?: string): string {
+  if (!url) return '';
+  let clean = url.trim();
+
+  // Strip all leading '#' characters (e.g. pasted into default '#' input)
+  while (clean.startsWith('#')) {
+    clean = clean.substring(1).trim();
+  }
+
+  if (!clean) return '';
+
+  // Ensure https:// prefix if user entered just domain or path
+  if (!/^https?:\/\//i.test(clean)) {
+    clean = `https://${clean}`;
+  }
+
+  return clean;
+}
+
 export const normalizeProject = (item: any): ProjectDetail => {
   let approachArr: string[] = [];
   if (Array.isArray(item.approach)) {
@@ -39,19 +63,27 @@ export const normalizeProject = (item: any): ProjectDetail => {
     }
   }
 
-  let linksObj = { live: '#', code: '#' };
+  let rawLive = '';
+  let rawCode = '';
   if (item.links && typeof item.links === 'object') {
-    linksObj = {
-      live: item.links.live || '#',
-      code: item.links.code || '#',
-    };
+    rawLive = item.links.live || '';
+    rawCode = item.links.code || '';
   } else if (typeof item.links === 'string') {
     try {
-      linksObj = JSON.parse(item.links);
+      const parsed = JSON.parse(item.links);
+      rawLive = parsed.live || '';
+      rawCode = parsed.code || '';
     } catch {
       // keep default
     }
   }
+
+  const cleanLive = sanitizeExternalUrl(rawLive);
+  const cleanCode = sanitizeExternalUrl(rawCode);
+  const linksObj = {
+    live: cleanLive || '#',
+    code: cleanCode || '#',
+  };
 
   return {
     id: item.id ? String(item.id) : undefined,
@@ -189,7 +221,10 @@ export const saveProject = async (
     technologies: project.technologies || [],
     results: project.results || [],
     learnings: project.learnings || '',
-    links: project.links || { live: '#', code: '#' },
+    links: {
+      live: sanitizeExternalUrl(project.links?.live) || '#',
+      code: sanitizeExternalUrl(project.links?.code) || '#',
+    },
     featured: Boolean(project.featured),
     order_index: project.order_index ?? 0,
     image: project.image?.trim() || '',

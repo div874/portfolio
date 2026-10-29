@@ -5,7 +5,7 @@ import { supabase } from '../supabase';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { PROJECT_CATEGORIES, ProjectDetail } from '../data/projectsData';
-import { getProjects, getProjectBySlug, saveProject, deleteProject } from '../utils/projects';
+import { getProjects, getProjectBySlug, saveProject, deleteProject, sanitizeExternalUrl } from '../utils/projects';
 import { ArrowLeft, Plus, Trash2, ExternalLink, Save, CheckCircle2, Image as ImageIcon, UploadCloud } from 'lucide-react';
 import { AttachmentManager } from '../components/AttachmentManager';
 import { DocumentAttachment, uploadAttachmentFile } from '../utils/attachments';
@@ -39,8 +39,8 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
   const [technologiesText, setTechnologiesText] = useState('');
   const [results, setResults] = useState<string[]>(['']);
   const [learnings, setLearnings] = useState('');
-  const [liveLink, setLiveLink] = useState('#');
-  const [codeLink, setCodeLink] = useState('#');
+  const [liveLink, setLiveLink] = useState('');
+  const [codeLink, setCodeLink] = useState('');
   const [featured, setFeatured] = useState(false);
   const [orderIndex, setOrderIndex] = useState(0);
   const [coverImage, setCoverImage] = useState('');
@@ -114,8 +114,8 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
         setTechnologiesText(found.technologies ? found.technologies.join(', ') : '');
         setResults(found.results && found.results.length > 0 ? found.results : ['']);
         setLearnings(found.learnings || '');
-        setLiveLink(found.links?.live || '#');
-        setCodeLink(found.links?.code || '#');
+        setLiveLink(found.links?.live && found.links.live !== '#' ? sanitizeExternalUrl(found.links.live) : '');
+        setCodeLink(found.links?.code && found.links.code !== '#' ? sanitizeExternalUrl(found.links.code) : '');
         setFeatured(Boolean(found.featured));
         setOrderIndex(found.order_index ?? 0);
         setCoverImage(found.image || '');
@@ -219,8 +219,8 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
       results: finalResults,
       learnings: learnings.trim(),
       links: {
-        live: liveLink.trim() || '#',
-        code: codeLink.trim() || '#',
+        live: sanitizeExternalUrl(liveLink) || '#',
+        code: sanitizeExternalUrl(codeLink) || '#',
       },
       featured,
       order_index: Number(orderIndex) || 0,
@@ -706,9 +706,9 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
             </label>
             <input
               type="text"
-              placeholder="https://... or # if not public"
+              placeholder="https://... (leave blank if not public)"
               value={liveLink}
-              onChange={e => setLiveLink(e.target.value)}
+              onChange={e => setLiveLink(e.target.value.replace(/^#+/, ''))}
               style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #ced4da', fontSize: '14px' }}
             />
           </div>
@@ -719,9 +719,9 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
             </label>
             <input
               type="text"
-              placeholder="https://github.com/... or # if private"
+              placeholder="https://github.com/... (leave blank if private)"
               value={codeLink}
-              onChange={e => setCodeLink(e.target.value)}
+              onChange={e => setCodeLink(e.target.value.replace(/^#+/, ''))}
               style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid #ced4da', fontSize: '14px' }}
             />
           </div>

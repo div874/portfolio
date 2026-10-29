@@ -8,7 +8,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 
 import { projectDetails, ProjectDetail } from '@/data/projectsData';
-import { getProjectBySlug } from '@/utils/projects';
+import { getProjectBySlug, sanitizeExternalUrl } from '@/utils/projects';
 import { AttachmentList } from '@/components/AttachmentList';
 
 interface ProjectDetailPageProps {
@@ -218,13 +218,13 @@ const ProjectDetailPage = ({ slug: propSlug, initialProject }: ProjectDetailPage
 
         {/* Footer actions */}
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>
-          {project.links.code !== '#' && (
-            <a href={project.links.code} target="_blank" rel="noopener noreferrer" className="project-link">
+          {Boolean(sanitizeExternalUrl(project.links.code)) && (
+            <a href={sanitizeExternalUrl(project.links.code)} target="_blank" rel="noopener noreferrer" className="project-link">
               <FaGithub size={18} /> Source Code
             </a>
           )}
-          {project.links.live !== '#' && (
-            <a href={project.links.live} target="_blank" rel="noopener noreferrer" className="project-link">
+          {Boolean(sanitizeExternalUrl(project.links.live)) && (
+            <a href={sanitizeExternalUrl(project.links.live)} target="_blank" rel="noopener noreferrer" className="project-link">
               <ExternalLink size={18} /> Live Demo
             </a>
           )}
