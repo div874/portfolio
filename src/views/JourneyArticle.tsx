@@ -9,6 +9,8 @@ import rehypeRaw from 'rehype-raw';
 import { getJournals } from '../utils/journals';
 import type { JournalEntry } from '../utils/journals';
 import LearningComparison from '../components/LearningComparison';
+import { AttachmentList } from '../components/AttachmentList';
+import { FileText, ExternalLink } from 'lucide-react';
 
 interface JourneyArticleProps {
   initialEntry?: JournalEntry | null;
@@ -107,7 +109,49 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
           <h1 className="editorial-article-title">{entry.title}</h1>
           
           {entry.image && (
-            <img src={entry.image} alt={entry.title} width="800" height="500" fetchPriority="high" className="editorial-article-image" />
+            entry.image.match(/\.(pdf|ppt|pptx|doc|docx)$/i) ? (
+              <div style={{
+                margin: '20px 0',
+                padding: '16px 20px',
+                borderRadius: '10px',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <FileText size={24} color="#2563eb" />
+                  <div>
+                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#2563eb', textTransform: 'uppercase' }}>Attached Featured Document</span>
+                    <p style={{ margin: 0, fontWeight: 600, fontSize: '14px', color: '#1e293b' }}>{entry.image.split('/').pop()}</p>
+                  </div>
+                </div>
+                <a
+                  href={entry.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    background: '#2563eb',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    fontSize: '13px',
+                    fontWeight: 600
+                  }}
+                >
+                  <ExternalLink size={14} /> Open Document
+                </a>
+              </div>
+            ) : (
+              <img src={entry.image} alt={entry.title} width="800" height="500" fetchPriority="high" className="editorial-article-image" />
+            )
           )}
 
           <div className="journal-content editorial-markdown">
@@ -115,6 +159,14 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
               {entry.content}
             </ReactMarkdown>
           </div>
+
+          {/* Attached Presentations, Whitepapers & Documents */}
+          {entry.attachments && entry.attachments.length > 0 && (
+            <AttachmentList
+              attachments={entry.attachments}
+              title="Attached Presentations, Whitepapers & Documents"
+            />
+          )}
 
           <hr className="editorial-divider" />
 

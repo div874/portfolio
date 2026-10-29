@@ -6,6 +6,9 @@ import { triggerDeploy } from '../utils/deploy';
 import { useRouter, useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import type { Category } from './AdminDashboard';
+import { AttachmentManager } from '../components/AttachmentManager';
+import { DocumentAttachment, normalizeAttachments, uploadAttachmentFile } from '../utils/attachments';
+import { Paperclip, Image as ImageIcon, Trash2, ExternalLink } from 'lucide-react';
 
 const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
   ssr: false,
@@ -34,6 +37,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
   const [content, setContent] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [existingImage, setExistingImage] = useState('');
+  const [attachments, setAttachments] = useState<DocumentAttachment[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -66,6 +70,7 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
           setExcerpt(data.excerpt || '');
           setContent(data.content || '');
           setExistingImage(data.image || '');
+          setAttachments(normalizeAttachments(data.attachments));
         }
       };
       fetchEntry();
@@ -100,24 +105,14 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     let imageUrl = existingImage;
 
     if (imageFile) {
-      const fileExt = imageFile.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('journal-images')
-        .upload(fileName, imageFile);
-
-      if (uploadError) {
-        alert("Image upload failed: " + uploadError.message);
+      const uploadRes = await uploadAttachmentFile(imageFile, 'journal-images');
+      if (uploadRes.success && uploadRes.attachment) {
+        imageUrl = uploadRes.attachment.url;
+      } else {
+        alert("File upload failed: " + (uploadRes.error || 'Unknown error'));
         setIsSaving(false);
         return;
       }
-
-      const { data: publicUrlData } = supabase.storage
-        .from('journal-images')
-        .getPublicUrl(fileName);
-
-      imageUrl = publicUrlData.publicUrl;
     }
 
     const finalStatus = isDraftMode ? 'DRAFT' : (status || 'PUBLISHED');
@@ -137,7 +132,8 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
       reading_time: readingTime,
       excerpt,
       content,
-      image: imageUrl
+      image: imageUrl,
+      attachments: attachments
     };
 
     if (tag === 'FEATURED') {
@@ -148,10 +144,22 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
     }
 
     let result;
-    if (id) {
-      result = await supabase.from('journals').update(payload).eq('id', id);
-    } else {
-      result = await supabase.from('journals').insert([payload]);
+    const executeSave = async (dataPayload: any) => {
+      if (id) {
+        return await supabase.from('journals').update(dataPayload).eq('id', id);
+      } else {
+        return await supabase.from('journals').insert([dataPayload]);
+      }
+    };
+
+    result = await executeSave(payload);
+
+    // If attachments column is missing from Supabase journals table, retry without it
+    if (result.error && (result.error.message?.includes('attachments') || result.error.code === 'PGRST204')) {
+      console.warn('Journals table missing attachments column, retrying without it:', result.error.message);
+      const fallback = { ...payload };
+      delete fallback.attachments;
+      result = await executeSave(fallback);
     }
 
     setIsSaving(false);
@@ -281,11 +289,82 @@ export const AdminEditor: React.FC<AdminEditorProps> = ({ id: propId }) => {
           <textarea value={excerpt} onChange={e => setExcerpt(e.target.value)} rows={2} style={{ width: '100%', padding: '8px' }} />
         </div>
 
-        <div>
-          <label style={{ display: 'block', fontWeight: 'bold' }}>Cover Image</label>
-          <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files?.[0] || null)} style={{ marginBottom: '10px' }} />
-          {existingImage && <div style={{ fontSize: '12px', color: '#666' }}>Current Image URL: {existingImage}</div>}
+        <div style={{ background: '#fdfdfd', border: '1px solid #e2e8f0', padding: '16px', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '4px' }}>
+            Cover Media / Header Image (or Document)
+          </label>
+          <p style={{ margin: '0 0 10px', fontSize: '12px', color: '#64748b' }}>
+            Upload an image, PDF preview, or presentation slide cover for this journal entry.
+          </p>
+          
+          <input 
+            type="file" 
+            accept="image/*,.pdf,.ppt,.pptx,.doc,.docx" 
+            onChange={e => setImageFile(e.target.files?.[0] || null)} 
+            style={{ marginBottom: '8px', display: 'block' }} 
+          />
+
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '6px' }}>
+            <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 500 }}>Or Direct URL:</span>
+            <input
+              type="text"
+              placeholder="https://... cover image or document URL"
+              value={existingImage}
+              onChange={e => setExistingImage(e.target.value)}
+              style={{ flex: 1, padding: '6px 10px', fontSize: '13px', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+            />
+            {existingImage && (
+              <button
+                type="button"
+                onClick={() => setExistingImage('')}
+                title="Remove cover media"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '6px 10px',
+                  background: '#fef2f2',
+                  border: '1px solid #fecaca',
+                  borderRadius: '4px',
+                  color: '#dc2626',
+                  fontSize: '12px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Trash2 size={13} /> Clear
+              </button>
+            )}
+          </div>
+
+          {existingImage && (
+            <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {existingImage.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i) || existingImage.includes('supabase') ? (
+                <img 
+                  src={existingImage} 
+                  alt="Cover Preview" 
+                  style={{ maxHeight: '80px', borderRadius: '4px', border: '1px solid #ddd', objectFit: 'cover' }} 
+                />
+              ) : null}
+              <a
+                href={existingImage}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: '12px', color: '#2563eb', display: 'inline-flex', alignItems: 'center', gap: '4px', textDecoration: 'none' }}
+              >
+                <ExternalLink size={13} /> View Current Media
+              </a>
+            </div>
+          )}
         </div>
+
+        {/* PPTs, PDFs, and Other Document Attachments */}
+        <AttachmentManager
+          attachments={attachments}
+          onChange={setAttachments}
+          title="Document & Presentation Attachments"
+          description="Attach PPT/PPTX slide decks, PDF whitepapers, Word docs, spreadsheets, or research papers for visitors to view or download."
+          preferredBucket="journal-images"
+        />
 
         <div>
           <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>Journal Content (Rich Text / HTML)</label>

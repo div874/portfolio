@@ -1,6 +1,7 @@
 import { supabase } from '../supabase';
 import { projectDetails, ProjectDetail } from '../data/projectsData';
 import { triggerDeploy } from './deploy';
+import { normalizeAttachments, DocumentAttachment } from './attachments';
 
 const LOCAL_STORAGE_KEY = 'portfolio_custom_projects_cache';
 
@@ -70,6 +71,8 @@ export const normalizeProject = (item: any): ProjectDetail => {
     featured: Boolean(item.featured),
     order_index: typeof item.order_index === 'number' ? item.order_index : 0,
     created_at: item.created_at || undefined,
+    image: item.image ? String(item.image).trim() : undefined,
+    attachments: normalizeAttachments(item.attachments),
   };
 };
 
@@ -189,23 +192,22 @@ export const saveProject = async (
     links: project.links || { live: '#', code: '#' },
     featured: Boolean(project.featured),
     order_index: project.order_index ?? 0,
+    image: project.image?.trim() || '',
+    attachments: project.attachments || [],
     updated_at: new Date().toISOString(),
   };
 
   let supabaseResult: { data: any; error: any } = { data: null, error: null };
 
-  try {
+  const executeSave = async (dataPayload: any) => {
     if (project.id) {
-      // Update by ID
-      const { data, error } = await supabase
+      return await supabase
         .from('projects')
-        .update(payload)
+        .update(dataPayload)
         .eq('id', project.id)
         .select()
         .single();
-      supabaseResult = { data, error };
     } else {
-      // Check if project with same slug exists
       const { data: existing } = await supabase
         .from('projects')
         .select('id')
@@ -213,21 +215,36 @@ export const saveProject = async (
         .maybeSingle();
 
       if (existing?.id) {
-        const { data, error } = await supabase
+        return await supabase
           .from('projects')
-          .update(payload)
+          .update(dataPayload)
           .eq('id', existing.id)
           .select()
           .single();
-        supabaseResult = { data, error };
       } else {
-        const { data, error } = await supabase
+        return await supabase
           .from('projects')
-          .insert([payload])
+          .insert([dataPayload])
           .select()
           .single();
-        supabaseResult = { data, error };
       }
+    }
+  };
+
+  try {
+    supabaseResult = await executeSave(payload);
+
+    // If Supabase failed because columns 'attachments' or 'image' don't exist yet in DB, retry without them
+    if (supabaseResult.error && (
+      supabaseResult.error.message?.includes('attachments') ||
+      supabaseResult.error.message?.includes('image') ||
+      supabaseResult.error.code === 'PGRST204'
+    )) {
+      console.warn('Projects table may be missing attachments/image columns. Retrying without them for DB sync:', supabaseResult.error.message);
+      const fallbackPayload = { ...payload };
+      delete (fallbackPayload as any).attachments;
+      delete (fallbackPayload as any).image;
+      supabaseResult = await executeSave(fallbackPayload);
     }
   } catch (err: any) {
     supabaseResult = { data: null, error: err };

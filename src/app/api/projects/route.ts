@@ -107,38 +107,56 @@ export async function POST(req: NextRequest) {
       links: project.links || { live: '#', code: '#' },
       featured: Boolean(project.featured),
       order_index: project.order_index ?? 0,
+      image: project.image?.trim() || '',
+      attachments: project.attachments || [],
       updated_at: new Date().toISOString(),
     };
 
     let result;
-    if (project.id) {
-      result = await supabase
-        .from('projects')
-        .update(payload)
-        .eq('id', project.id)
-        .select()
-        .single();
-    } else {
-      const { data: existing } = await supabase
-        .from('projects')
-        .select('id')
-        .eq('slug', project.slug)
-        .maybeSingle();
-
-      if (existing?.id) {
-        result = await supabase
+    const runSave = async (dataPayload: any) => {
+      if (project.id) {
+        return await supabase
           .from('projects')
-          .update(payload)
-          .eq('id', existing.id)
+          .update(dataPayload)
+          .eq('id', project.id)
           .select()
           .single();
       } else {
-        result = await supabase
+        const { data: existing } = await supabase
           .from('projects')
-          .insert([payload])
-          .select()
-          .single();
+          .select('id')
+          .eq('slug', project.slug)
+          .maybeSingle();
+
+        if (existing?.id) {
+          return await supabase
+            .from('projects')
+            .update(dataPayload)
+            .eq('id', existing.id)
+            .select()
+            .single();
+        } else {
+          return await supabase
+            .from('projects')
+            .insert([dataPayload])
+            .select()
+            .single();
+        }
       }
+    };
+
+    result = await runSave(payload);
+
+    // If columns do not exist yet in DB, retry without attachments & image
+    if (result.error && (
+      result.error.message?.includes('attachments') ||
+      result.error.message?.includes('image') ||
+      result.error.code === 'PGRST204'
+    )) {
+      const fallbackPayload = { ...payload };
+      delete (fallbackPayload as any).attachments;
+      delete (fallbackPayload as any).image;
+      result = await runSave(fallbackPayload);
     }
 
     if (result.error) {

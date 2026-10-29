@@ -1,5 +1,6 @@
 import { supabase } from '../supabase';
 import { articlesData } from '../data/articlesData';
+import { normalizeAttachments, DocumentAttachment } from './attachments';
 
 export interface JournalEntry {
   slug: string;
@@ -13,7 +14,8 @@ export interface JournalEntry {
   image: string;
   tags: string[];
   content: string;
-  id: string; 
+  id: string;
+  attachments?: DocumentAttachment[];
 }
 
 const mapArticleToJournal = (item: any): JournalEntry => ({
@@ -28,7 +30,8 @@ const mapArticleToJournal = (item: any): JournalEntry => ({
   image: item.image || '',
   tags: Array.isArray(item.tags) ? item.tags : [],
   content: item.content || '',
-  id: String(item.id || item.slug)
+  id: String(item.id || item.slug),
+  attachments: normalizeAttachments(item.attachments),
 });
 
 export const getJournals = async (includeDrafts: boolean = false): Promise<JournalEntry[]> => {
@@ -50,7 +53,8 @@ export const getJournals = async (includeDrafts: boolean = false): Promise<Journ
           combinedEntries.push({
             ...item,
             readingTime: item.reading_time || item.readingTime || '3 min read',
-            tags: Array.isArray(item.tags) ? item.tags : []
+            tags: Array.isArray(item.tags) ? item.tags : [],
+            attachments: normalizeAttachments(item.attachments),
           });
         }
       }
@@ -104,7 +108,8 @@ export const getJournalBySlug = async (slug: string, includeDrafts: boolean = fa
       return {
         ...data,
         readingTime: data.reading_time || data.readingTime || '3 min read',
-        tags: Array.isArray(data.tags) ? data.tags : []
+        tags: Array.isArray(data.tags) ? data.tags : [],
+        attachments: normalizeAttachments(data.attachments),
       } as JournalEntry;
     }
   } catch (err) {

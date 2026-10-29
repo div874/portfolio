@@ -207,13 +207,20 @@ CREATE TABLE IF NOT EXISTS public.projects (
   links JSONB DEFAULT '{"live": "#", "code": "#"}'::jsonb,
   featured BOOLEAN DEFAULT false,
   order_index INTEGER DEFAULT 0,
+  image TEXT DEFAULT '',
+  attachments JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public read access to projects" ON public.projects FOR SELECT USING (true);
 CREATE POLICY "Allow authenticated full access to projects" ON public.projects FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow service role full access to projects" ON public.projects FOR ALL TO service_role USING (true) WITH CHECK (true);`;
+CREATE POLICY "Allow service role full access to projects" ON public.projects FOR ALL TO service_role USING (true) WITH CHECK (true);
+
+-- Ensure attachments & image columns exist on existing tables:
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS image TEXT DEFAULT '';
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.journals ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]'::jsonb;`;
 
     navigator.clipboard.writeText(sql);
     setSqlCopied(true);

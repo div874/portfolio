@@ -9,6 +9,7 @@ import { FaGithub } from 'react-icons/fa6';
 
 import { projectDetails, ProjectDetail } from '@/data/projectsData';
 import { getProjectBySlug } from '@/utils/projects';
+import { AttachmentList } from '@/components/AttachmentList';
 
 interface ProjectDetailPageProps {
   slug?: string;
@@ -113,6 +114,12 @@ const ProjectDetailPage = ({ slug: propSlug, initialProject }: ProjectDetailPage
           <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
             {project.tagline}
           </p>
+
+          {project.image && (
+            <div style={{ marginTop: '24px', borderRadius: '14px', overflow: 'hidden', border: '1px solid var(--border-color)', maxHeight: '420px' }}>
+              <img src={project.image} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+          )}
         </motion.div>
 
         {/* Main Content Sections */}
@@ -193,6 +200,21 @@ const ProjectDetailPage = ({ slug: propSlug, initialProject }: ProjectDetailPage
             {section.content}
           </motion.section>
         ))}
+
+        {/* Project Attachments & Presentations */}
+        {project.attachments && project.attachments.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <AttachmentList
+              attachments={project.attachments}
+              title="Project Presentations & Documents"
+            />
+          </motion.div>
+        )}
 
         {/* Footer actions */}
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>

@@ -6,7 +6,9 @@ import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { PROJECT_CATEGORIES, ProjectDetail } from '../data/projectsData';
 import { getProjects, getProjectBySlug, saveProject, deleteProject } from '../utils/projects';
-import { ArrowLeft, Plus, Trash2, ExternalLink, Save, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, ExternalLink, Save, CheckCircle2, Image as ImageIcon, UploadCloud } from 'lucide-react';
+import { AttachmentManager } from '../components/AttachmentManager';
+import { DocumentAttachment, uploadAttachmentFile } from '../utils/attachments';
 
 interface AdminProjectEditorProps {
   id?: string;
@@ -41,6 +43,10 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
   const [codeLink, setCodeLink] = useState('#');
   const [featured, setFeatured] = useState(false);
   const [orderIndex, setOrderIndex] = useState(0);
+  const [coverImage, setCoverImage] = useState('');
+  const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
+  const [attachments, setAttachments] = useState<DocumentAttachment[]>([]);
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -112,6 +118,8 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
         setCodeLink(found.links?.code || '#');
         setFeatured(Boolean(found.featured));
         setOrderIndex(found.order_index ?? 0);
+        setCoverImage(found.image || '');
+        setAttachments(found.attachments || []);
       }
     } catch (err: any) {
       console.error('Failed to load project:', err);
@@ -188,6 +196,14 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
 
     setIsSaving(true);
 
+    let finalImage = coverImage.trim();
+    if (coverImageFile) {
+      const uploadRes = await uploadAttachmentFile(coverImageFile, 'journal-images');
+      if (uploadRes.success && uploadRes.attachment) {
+        finalImage = uploadRes.attachment.url;
+      }
+    }
+
     const projectPayload: Partial<ProjectDetail> & { slug: string; title: string } = {
       id: projectId || undefined,
       slug: finalSlug,
@@ -208,6 +224,8 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
       },
       featured,
       order_index: Number(orderIndex) || 0,
+      image: finalImage || undefined,
+      attachments: attachments,
     };
 
     try {
@@ -708,6 +726,84 @@ export const AdminProjectEditor: React.FC<AdminProjectEditorProps> = ({ id: prop
             />
           </div>
         </div>
+
+        {/* Project Media & Cover */}
+        <div style={{ background: '#f8f9fa', border: '1px solid #e9ecef', borderRadius: '8px', padding: '18px' }}>
+          <label style={{ display: 'block', fontWeight: 600, fontSize: '14px', marginBottom: '4px', color: '#212529' }}>
+            Project Preview Image / Banner
+          </label>
+          <p style={{ margin: '0 0 10px', fontSize: '12px', color: '#6c757d' }}>
+            Upload a preview screenshot, diagram, or banner image for this project.
+          </p>
+
+          <input
+            type="file"
+            accept="image/*,.pdf,.ppt,.pptx"
+            onChange={e => setCoverImageFile(e.target.files?.[0] || null)}
+            style={{ marginBottom: '8px', display: 'block' }}
+          />
+
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '6px' }}>
+            <span style={{ fontSize: '12px', color: '#6c757d', fontWeight: 500 }}>Or Direct URL:</span>
+            <input
+              type="text"
+              placeholder="https://... image or preview asset URL"
+              value={coverImage}
+              onChange={e => setCoverImage(e.target.value)}
+              style={{ flex: 1, padding: '7px 10px', fontSize: '13px', border: '1px solid #ced4da', borderRadius: '4px' }}
+            />
+            {coverImage && (
+              <button
+                type="button"
+                onClick={() => setCoverImage('')}
+                title="Remove image"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '6px 10px',
+                  background: '#fff1f0',
+                  border: '1px solid #ffa39e',
+                  borderRadius: '4px',
+                  color: '#cf1322',
+                  fontSize: '12px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Trash2 size={13} /> Clear
+              </button>
+            )}
+          </div>
+
+          {coverImage && (
+            <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {coverImage.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i) || coverImage.includes('supabase') ? (
+                <img
+                  src={coverImage}
+                  alt="Project Preview"
+                  style={{ maxHeight: '80px', borderRadius: '4px', border: '1px solid #dee2e6', objectFit: 'cover' }}
+                />
+              ) : null}
+              <a
+                href={coverImage}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: '12px', color: '#228be6', display: 'inline-flex', alignItems: 'center', gap: '4px', textDecoration: 'none' }}
+              >
+                <ExternalLink size={13} /> View Preview Media
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* PPTs, PDFs, and Other Document Attachments */}
+        <AttachmentManager
+          attachments={attachments}
+          onChange={setAttachments}
+          title="Project Presentations, Pitch Decks & Documents"
+          description="Attach PowerPoint slides (PPT/PPTX), PDF whitepapers, architectural design documents, or reports for visitors to view or download."
+          preferredBucket="journal-images"
+        />
 
         {/* Extra Options: Featured & Order */}
         <div style={{ display: 'flex', gap: '30px', alignItems: 'center', background: '#fdf7e7', padding: '16px', borderRadius: '8px', border: '1px solid #fce8b3', flexWrap: 'wrap' }}>

@@ -1,3 +1,5 @@
+import type { DocumentAttachment } from '../utils/attachments';
+
 export interface ProjectDetail {
   id?: string;
   slug: string;
@@ -16,6 +18,8 @@ export interface ProjectDetail {
   featured?: boolean;
   order_index?: number;
   created_at?: string;
+  image?: string;
+  attachments?: DocumentAttachment[];
 }
 
 export const PROJECT_CATEGORIES = [
