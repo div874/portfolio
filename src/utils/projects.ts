@@ -118,7 +118,26 @@ export const getProjects = async (): Promise<ProjectDetail[]> => {
       .order('created_at', { ascending: false });
 
     if (!error && data) {
-      const list = data.map(normalizeProject);
+      let localCache: ProjectDetail[] = [];
+      if (typeof window !== 'undefined') {
+        try {
+          const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+          if (raw) localCache = JSON.parse(raw);
+        } catch {}
+      }
+
+      const list = data.map(item => {
+        const norm = normalizeProject(item);
+        const cached = localCache.find(c => c.slug === norm.slug || (c.id && norm.id && c.id === norm.id));
+        if (!norm.image && cached?.image) {
+          norm.image = cached.image;
+        }
+        if ((!norm.attachments || norm.attachments.length === 0) && cached?.attachments && cached.attachments.length > 0) {
+          norm.attachments = cached.attachments;
+        }
+        return norm;
+      });
+
       if (typeof window !== 'undefined') {
         try {
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(list));
@@ -178,7 +197,23 @@ export const getProjectBySlug = async (slug: string): Promise<ProjectDetail | nu
       .maybeSingle();
 
     if (!error && data) {
-      return normalizeProject(data);
+      const norm = normalizeProject(data);
+      if (typeof window !== 'undefined') {
+        try {
+          const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+          if (cached) {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed)) {
+              const match = parsed.find((p: any) => p.slug === slug);
+              if (!norm.image && match?.image) norm.image = match.image;
+              if ((!norm.attachments || norm.attachments.length === 0) && match?.attachments) {
+                norm.attachments = match.attachments;
+              }
+            }
+          }
+        } catch {}
+      }
+      return norm;
     }
   } catch (err) {
     console.warn('Could not query Supabase for project slug:', slug, err);

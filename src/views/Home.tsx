@@ -302,7 +302,8 @@ const Home = ({ onConnectClick }: HomeProps) => {
           tags: p.technologies.slice(0, 4),
           slug: p.slug,
           role: p.role,
-          type: p.type
+          type: p.type,
+          image: p.image,
         }));
         setHomeProjects(formatted);
       }
@@ -621,6 +622,11 @@ const Home = ({ onConnectClick }: HomeProps) => {
               className="glass-card"
               style={{ display: 'flex', flexDirection: 'column' }}
             >
+              {'image' in proj && proj.image && (
+                <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '16px', maxHeight: '180px', border: '1px solid var(--border-color)' }}>
+                  <img src={proj.image as string} alt={proj.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                </div>
+              )}
               <div style={{ fontSize: '0.8rem', color: 'var(--accent-color)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '10px' }}>
                 {proj.category}
               </div>

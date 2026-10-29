@@ -100,29 +100,55 @@ const Projects = ({ showFilter = true, initialProjects }: ProjectsProps) => {
             className="project-row"
             style={{ display: 'flex', flexDirection: index % 2 === 0 ? 'row' : 'row-reverse', gap: '40px', alignItems: 'stretch', flexWrap: 'wrap' }}
           >
-            {/* Visual fallback card */}
-            <div className="project-image-wrapper" style={{ flex: '1 1 380px', overflow: 'hidden', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative', minHeight: '300px' }}>
-              <div 
-                className="project-image-fallback"
-                style={{ 
-                  background: projectColors[index % projectColors.length],
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '12px',
-                  padding: '30px'
-                }}
-              >
-                <span style={{ fontSize: '4rem', fontWeight: 800, color: 'rgba(255,255,255,0.15)', fontFamily: '"Outfit", sans-serif', lineHeight: 1 }}>
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600 }}>
-                  {project.category}
-                </span>
-              </div>
+            {/* Visual Preview Image or Fallback Card */}
+            <div className="project-image-wrapper" style={{ flex: '1 1 380px', overflow: 'hidden', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative', minHeight: '300px', background: '#0a0a0c' }}>
+              {project.image ? (
+                <Link href={`/projects/${project.slug}`} style={{ display: 'block', width: '100%', height: '100%', minHeight: '300px', position: 'relative' }}>
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      minHeight: '300px',
+                      objectFit: 'cover',
+                      display: 'block',
+                      transition: 'transform 0.4s ease',
+                    }}
+                  />
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                </Link>
+              ) : (
+                <div 
+                  className="project-image-fallback"
+                  style={{ 
+                    background: projectColors[index % projectColors.length],
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    padding: '30px'
+                  }}
+                >
+                  <span style={{ fontSize: '4rem', fontWeight: 800, color: 'rgba(255,255,255,0.15)', fontFamily: '"Outfit", sans-serif', lineHeight: 1 }}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600 }}>
+                    {project.category}
+                  </span>
+                </div>
+              )}
             </div>
             
             {/* Content */}
