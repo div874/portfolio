@@ -220,7 +220,15 @@ CREATE POLICY "Allow service role full access to projects" ON public.projects FO
 -- Ensure attachments & image columns exist on existing tables:
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS image TEXT DEFAULT '';
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]'::jsonb;
-ALTER TABLE public.journals ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]'::jsonb;`;
+ALTER TABLE public.journals ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]'::jsonb;
+
+-- Storage Buckets & Policies for Document/Media Uploads:
+INSERT INTO storage.buckets (id, name, public) VALUES ('journal-images', 'journal-images', true) ON CONFLICT (id) DO UPDATE SET public = true;
+INSERT INTO storage.buckets (id, name, public) VALUES ('portfolio-attachments', 'portfolio-attachments', true) ON CONFLICT (id) DO UPDATE SET public = true;
+
+CREATE POLICY IF NOT EXISTS "Allow public uploads to storage" ON storage.objects FOR INSERT WITH CHECK (bucket_id IN ('journal-images', 'portfolio-attachments'));
+CREATE POLICY IF NOT EXISTS "Allow public reads from storage" ON storage.objects FOR SELECT USING (bucket_id IN ('journal-images', 'portfolio-attachments'));
+CREATE POLICY IF NOT EXISTS "Allow public updates to storage" ON storage.objects FOR UPDATE USING (bucket_id IN ('journal-images', 'portfolio-attachments'));`;
 
     navigator.clipboard.writeText(sql);
     setSqlCopied(true);

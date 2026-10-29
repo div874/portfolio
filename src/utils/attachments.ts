@@ -62,6 +62,31 @@ export async function uploadAttachmentFile(
   file: File,
   preferredBucket: string = 'journal-images'
 ): Promise<{ success: boolean; attachment?: DocumentAttachment; error?: string }> {
+  // 1. Primary approach: Upload via server-side API endpoint (uses Service Role Key to bypass RLS)
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('bucket', preferredBucket);
+
+    const apiRes = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (apiRes.ok) {
+      const resData = await apiRes.json();
+      if (resData.success && resData.attachment) {
+        return {
+          success: true,
+          attachment: resData.attachment,
+        };
+      }
+    }
+  } catch (apiErr) {
+    console.warn('API route /api/upload unavailable, falling back to direct client upload:', apiErr);
+  }
+
+  // 2. Fallback: Direct client-side Supabase Storage upload
   try {
     const fileExt = file.name.includes('.') ? file.name.split('.').pop() : '';
     const safeBase = file.name.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
@@ -79,7 +104,6 @@ export async function uploadAttachmentFile(
 
     // Fallback attempt to 'portfolio-attachments' if primary fails
     if (uploadResult.error) {
-      console.warn(`Upload to ${preferredBucket} failed:`, uploadResult.error.message);
       const fallbackBucket = preferredBucket === 'journal-images' ? 'portfolio-attachments' : 'journal-images';
       const secondAttempt = await supabase.storage.from(fallbackBucket).upload(fileName, file, {
         cacheControl: '3600',
@@ -93,6 +117,13 @@ export async function uploadAttachmentFile(
     }
 
     if (uploadResult.error) {
+      const msg = uploadResult.error.message || '';
+      if (msg.includes('row-level security policy') || msg.includes('RLS')) {
+        return {
+          success: false,
+          error: 'Upload blocked by Supabase Storage RLS policy. Run the SQL fix in Admin Dashboard or link via URL.',
+        };
+      }
       return {
         success: false,
         error: uploadResult.error.message || 'File upload failed to storage bucket',
