@@ -125,6 +125,46 @@ export default function CaseStudiesPage() {
           ))}
         </div>
 
+        {/* Cross-linking to Technical Journal & Projects */}
+        <div style={{ marginTop: '70px', padding: '32px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+          <h3 style={{ fontSize: '1.25rem', color: '#fff', marginBottom: '8px' }}>
+            Featured Technical Essays & Engineering Work
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '20px' }}>
+            Explore technical deep dives into AI architectures, growth systems, and production software:
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
+            <Link 
+              href="/journey/what-is-rag-in-ai"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'block' }}
+            >
+              <div style={{ color: '#a855f7', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>AI Architecture</div>
+              <div style={{ color: '#fff', fontSize: '0.95rem', fontWeight: 600 }}>What is RAG in AI? Retrieval-Augmented Generation Explained</div>
+            </Link>
+            <Link 
+              href="/journey/starting-my-ai-journey-what-i-learned-about-llms-rag-and-ai-agents"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'block' }}
+            >
+              <div style={{ color: '#a855f7', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>AI Journey</div>
+              <div style={{ color: '#fff', fontSize: '0.95rem', fontWeight: 600 }}>Starting My AI Journey: LLMs, RAG, & AI Agents</div>
+            </Link>
+            <Link 
+              href="/journey/zepto-zomato-customer-loyalty-marketing-growth"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'block' }}
+            >
+              <div style={{ color: '#a855f7', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>Growth Teardown</div>
+              <div style={{ color: '#fff', fontSize: '0.95rem', fontWeight: 600 }}>Zepto vs Zomato: Retention & Quick Commerce Growth</div>
+            </Link>
+            <Link 
+              href="/projects/attribution-marketing-analytics"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'block' }}
+            >
+              <div style={{ color: '#a855f7', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>Engineering Project</div>
+              <div style={{ color: '#fff', fontSize: '0.95rem', fontWeight: 600 }}>Attribution Marketing Analytics Platform</div>
+            </Link>
+          </div>
+        </div>
+
       </div>
     </main>
   );

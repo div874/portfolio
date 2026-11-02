@@ -216,6 +216,38 @@ const ProjectDetailPage = ({ slug: propSlug, initialProject }: ProjectDetailPage
           </motion.div>
         )}
 
+        {/* Cross-Silo Internal Links */}
+        <section style={{ marginTop: '48px', marginBottom: '32px', padding: '24px 28px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--accent-color)', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>
+            Related Case Studies & Architecture Notes
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+            <Link 
+              href="/case-studies/b2b-seo-ai-traffic-growth"
+              style={{ textDecoration: 'none', color: 'inherit', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--glass-border)' }}
+            >
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600 }}>CASE STUDY</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.92rem', fontWeight: 600, marginTop: '3px' }}>Scaling B2B Organic Traffic by 240%</div>
+            </Link>
+
+            <Link 
+              href="/journey/what-is-rag-in-ai"
+              style={{ textDecoration: 'none', color: 'inherit', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--glass-border)' }}
+            >
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600 }}>RESEARCH ESSAY</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.92rem', fontWeight: 600, marginTop: '3px' }}>What is RAG in AI? Retrieval-Augmented Generation</div>
+            </Link>
+
+            <Link 
+              href="/journey/starting-my-ai-journey-what-i-learned-about-llms-rag-and-ai-agents"
+              style={{ textDecoration: 'none', color: 'inherit', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--glass-border)' }}
+            >
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600 }}>TECHNICAL JOURNAL</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.92rem', fontWeight: 600, marginTop: '3px' }}>LLMs, Vector Databases & Multi-Agent Workflows</div>
+            </Link>
+          </div>
+        </section>
+
         {/* Footer actions */}
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>
           {Boolean(sanitizeExternalUrl(project.links.code)) && (

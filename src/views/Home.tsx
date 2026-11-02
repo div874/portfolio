@@ -31,6 +31,33 @@ const defaultFeaturedJournal: JournalEntry = {
   content: ''
 };
 
+const curatedInsights = [
+  {
+    slug: 'what-is-rag-in-ai',
+    title: 'What is RAG in AI? Retrieval-Augmented Generation Explained',
+    category: 'AI & Engineering',
+    date: '2026-09-20',
+    readingTime: '6 min read',
+    excerpt: 'Connecting LLMs with real-world private data, eliminating hallucinations, and powering production AI apps.'
+  },
+  {
+    slug: 'starting-my-ai-journey-what-i-learned-about-llms-rag-and-ai-agents',
+    title: 'Starting My AI Journey: LLMs, RAG & Multi-Agent Systems',
+    category: 'AI Journey',
+    date: '2026-10-05',
+    readingTime: '5 min read',
+    excerpt: 'Key technical insights on prompt chaining, vector embeddings, LangChain pipelines, and multi-agent workflows.'
+  },
+  {
+    slug: 'zepto-zomato-customer-loyalty-marketing-growth',
+    title: 'Zepto vs Zomato: Customer Loyalty & Retention Engineering',
+    category: 'Growth Engineering',
+    date: '2026-09-22',
+    readingTime: '4 min read',
+    excerpt: 'Deep breakdown of quick-commerce unit economics, gamified retention funnels, and repeat purchase loyalty.'
+  }
+];
+
 const expertiseData = [
   {
     icon: <Bot size={32} style={{ color: 'var(--accent-secondary)' }} />,
@@ -269,6 +296,7 @@ const getClientDetails = (name: string) => {
 const Home = ({ onConnectClick }: HomeProps) => {
   const [selectedClient, setSelectedClient] = useState<any>(null);
   const [featuredJournal, setFeaturedJournal] = useState<JournalEntry>(defaultFeaturedJournal);
+  const [recentInsights, setRecentInsights] = useState(curatedInsights);
   const [homeProjects, setHomeProjects] = useState(featuredProjects);
 
   useEffect(() => {
@@ -287,6 +315,22 @@ const Home = ({ onConnectClick }: HomeProps) => {
         // Choose pinned post, otherwise default to first entry
         const chosen = dbFeatured || localFeatured || entries[0];
         setFeaturedJournal(chosen);
+
+        // Populate curated insights excluding featured
+        const otherEntries = entries
+          .filter(e => e.slug !== chosen.slug && e.status !== 'DRAFT')
+          .slice(0, 3)
+          .map(e => ({
+            slug: e.slug,
+            title: e.title,
+            category: e.category || 'Journal',
+            date: e.date || '',
+            readingTime: e.readingTime || '4 min read',
+            excerpt: e.excerpt || ''
+          }));
+        if (otherEntries.length > 0) {
+          setRecentInsights(otherEntries);
+        }
       }
     });
 
@@ -397,6 +441,59 @@ const Home = ({ onConnectClick }: HomeProps) => {
             )}
           </Link>
         </motion.div>
+
+        {/* Curated Insights Grid (Internal Crawl Engine) */}
+        <div style={{ marginTop: '28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          {recentInsights.map(item => (
+            <Link
+              key={item.slug}
+              href={`/journey/${item.slug}`}
+              className="glass-card"
+              style={{
+                textDecoration: 'none',
+                padding: '24px',
+                borderRadius: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                transition: 'all 0.25s ease',
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  {item.category}
+                </span>
+                <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 700, lineHeight: 1.35, marginTop: '8px', marginBottom: '10px' }}>
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                  {item.excerpt}
+                </p>
+              </div>
+              <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <span>{item.date}</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Read Article →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ marginTop: '20px', textAlign: 'right' }}>
+          <Link
+            href="/journey"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              color: 'var(--accent-color)',
+              textDecoration: 'none'
+            }}
+          >
+            Explore all journal entries & insights →
+          </Link>
+        </div>
       </section>
 
       {/* About & Stats */}
@@ -607,6 +704,53 @@ const Home = ({ onConnectClick }: HomeProps) => {
                   View Paper →
                 </a>
               </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Featured Case Study Hub Link */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card"
+          style={{ marginBottom: '32px', padding: '28px 32px', border: '1px solid rgba(168, 85, 247, 0.25)', background: 'rgba(168, 85, 247, 0.04)' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+            <div style={{ flex: 1, minWidth: '280px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--accent-color)', background: 'rgba(168, 85, 247, 0.12)', padding: '3px 10px', borderRadius: '12px' }}>
+                  FEATURED CASE STUDY
+                </span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>• B2B Organic Search & Lead Pipeline</span>
+              </div>
+              <h3 style={{ fontSize: '1.45rem', color: 'var(--text-primary)', fontWeight: 700, margin: '6px 0 10px', lineHeight: 1.3 }}>
+                SEO & AI Automation: Scaling B2B Organic Traffic by 240%
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, margin: 0, maxWidth: '720px' }}>
+                How combining semantic content architecture with automated Python rank tracking and generative workflows produced 240% traffic growth and a 3.5x boost in qualified sales leads.
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <Link 
+                href="/case-studies/b2b-seo-ai-traffic-growth" 
+                className="glow-button"
+                style={{ textDecoration: 'none', padding: '12px 24px', fontSize: '0.9rem', whiteSpace: 'nowrap' }}
+              >
+                Read Case Study →
+              </Link>
+              <Link
+                href="/case-studies"
+                style={{
+                  color: 'var(--text-secondary)',
+                  textDecoration: 'none',
+                  fontSize: '0.88rem',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                All Case Studies
+              </Link>
             </div>
           </div>
         </motion.div>

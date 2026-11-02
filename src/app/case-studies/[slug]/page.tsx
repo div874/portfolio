@@ -136,13 +136,45 @@ export default async function CaseStudyDetailPage({ params }: Props) {
         </section>
 
         {/* Section: Key Takeaways */}
-        <section style={{ marginBottom: '60px', backgroundColor: 'rgba(255,255,255,0.02)', padding: '28px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <section style={{ marginBottom: '40px', backgroundColor: 'rgba(255,255,255,0.02)', padding: '28px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)' }}>
           <h2 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', marginBottom: '16px' }}>Key Takeaways</h2>
           <ul style={{ paddingLeft: '20px', margin: 0, color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {cs.keyTakeaways.map((t, i) => (
               <li key={i} style={{ fontSize: '0.95rem', lineHeight: 1.6 }}>{t}</li>
             ))}
           </ul>
+        </section>
+
+        {/* Internal Linking: Related Engineering & Journal Articles */}
+        <section style={{ marginBottom: '60px', padding: '28px', borderRadius: '16px', backgroundColor: 'rgba(168, 85, 247, 0.04)', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-color)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+            RELATED TECHNICAL ESSAYS & PROJECTS
+          </span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginTop: '16px' }}>
+            <Link 
+              href="/journey/what-is-rag-in-ai"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600, textTransform: 'uppercase' }}>AI & Engineering</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 600, marginTop: '4px' }}>What is RAG in AI? Retrieval-Augmented Generation</div>
+            </Link>
+
+            <Link 
+              href="/projects/seo-reporting-automation"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600, textTransform: 'uppercase' }}>Automation Pipeline</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 600, marginTop: '4px' }}>Automated SEO Reporting & Analytics Dashboard</div>
+            </Link>
+
+            <Link 
+              href="/projects/attribution-marketing-analytics"
+              style={{ textDecoration: 'none', padding: '16px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600, textTransform: 'uppercase' }}>Data Analytics</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 600, marginTop: '4px' }}>Multi-Touch Marketing Attribution Engine</div>
+            </Link>
+          </div>
         </section>
 
         {/* CTA */}

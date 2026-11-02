@@ -71,7 +71,7 @@ export const articlesData: Article[] = [
 </ol>
 
 <h2 id="key-components">4. Core Technical Components</h2>
-<p>Here is a conceptual view of how Python vector similarity works when implementing lightweight RAG pipelines with tools like FAISS or LangChain:</p>
+<p>Here is a conceptual view of how Python vector similarity works when implementing lightweight RAG pipelines with tools like FAISS or LangChain. (I applied a similar FAISS high-dimensional vector indexing pattern in my <a href="/projects/wallcurry-ai-recommendation">Wallcurry AI Product Recommendation Engine</a> to perform real-time nearest-neighbor retrieval):</p>
 <pre><code># Python Conceptual RAG Retrieval Snippet
 import numpy as np
 import faiss
@@ -95,10 +95,11 @@ print(f"Top matching document indices: {indices}")
   <li><strong>Internal Knowledge Base Search:</strong> Employees querying HR policies, engineering guidelines, or company wikis instantly.</li>
   <li><strong>Automated Customer Support:</strong> AI agents fetching real-time order tracking, warranty terms, and product manuals to resolve tickets automatically.</li>
   <li><strong>Financial & Legal Research:</strong> Parsing thousands of quarterly SEC filings or contracts to extract risks and comparison metrics.</li>
+  <li><strong>SEO & Content Architecture:</strong> Ingesting domain-specific keyword clusters to create high-ranking programmatic content. See my detailed case study on <a href="/case-studies/b2b-seo-ai-traffic-growth">Scaling B2B Organic Traffic by 240% using AI & Technical SEO</a>.</li>
 </ul>
 
 <h2 id="conclusion">6. Summary & Next Steps</h2>
-<p>Retrieval-Augmented Generation is the single most effective paradigm for deploying reliable, business-grounded AI solutions today. By pairing the reasoning power of foundation LLMs with fast vector search, organizations build AI applications that users can trust.</p>
+<p>Retrieval-Augmented Generation is the single most effective paradigm for deploying reliable, business-grounded AI solutions today. By pairing the reasoning power of foundation LLMs with fast vector search, organizations build AI applications that users can trust. Continue reading my technical exploration in <a href="/journey/starting-my-ai-journey-what-i-learned-about-llms-rag-and-ai-agents">Starting My AI Journey: LLMs, RAG & AI Agents</a> or explore my work on <a href="/projects/brand-sutra">Brand Sutra: AI Brand Governance Platform</a>.</p>
 `
   }
 ];

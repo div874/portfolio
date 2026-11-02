@@ -62,9 +62,14 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
   const previousEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
   const nextEntry = currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null;
   
-  const relatedEntries = allEntries
-    .filter(e => e.category === entry.category && e.id !== entry.id)
-    .slice(0, 3);
+  const categoryRelated = allEntries
+    .filter(e => e.category === entry.category && e.id !== entry.id);
+
+  // If fewer than 3 in same category, pull in other popular articles so there are always recommended links
+  const otherPopular = allEntries
+    .filter(e => e.id !== entry.id && !categoryRelated.some(c => c.id === e.id));
+  
+  const relatedEntries = [...categoryRelated, ...otherPopular].slice(0, 4);
 
   // Custom components for Markdown rendering
   const MarkdownComponents = {
@@ -195,19 +200,41 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
             </section>
           )}
 
-          {/* More From Category */}
+          {/* More Articles & Related Reading */}
           {relatedEntries.length > 0 && (
-            <section className="related-entries">
-              <h3 className="related-entries-title">MORE FROM {entry.category?.toUpperCase()}</h3>
-              <ul className="related-list">
+            <section className="related-entries" style={{ marginTop: '36px', paddingTop: '24px', borderTop: '1px solid #eee' }}>
+              <h3 className="related-entries-title" style={{ fontSize: '0.85rem', letterSpacing: '1.5px', color: '#666', marginBottom: '14px' }}>
+                RECOMMENDED READING & RELATED INSIGHTS
+              </h3>
+              <ul className="related-list" style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {relatedEntries.map(related => (
                   <li key={related.id}>
-                    <Link href={`/journey/${related.slug}`}>&rarr; {related.title}</Link>
+                    <Link href={`/journey/${related.slug}`} style={{ color: '#111', textDecoration: 'none', fontWeight: 600, fontSize: '0.98rem' }}>
+                      &rarr; {related.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </section>
           )}
+
+          {/* Cross-Silo: Relevant Engineering & Case Studies */}
+          <section style={{ marginTop: '28px', padding: '18px 20px', borderRadius: '10px', background: '#f9f9f9', border: '1px solid #e8e8e8' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#666', letterSpacing: '1px', textTransform: 'uppercase' }}>
+              EXPLORE CASE STUDIES & ENGINEERING WORK
+            </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
+              <Link href="/case-studies/b2b-seo-ai-traffic-growth" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.92rem', fontWeight: 600 }}>
+                • SEO & AI Automation: Scaling B2B Organic Traffic by 240% (Case Study)
+              </Link>
+              <Link href="/projects/wallcurry-ai-recommendation" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.92rem', fontWeight: 600 }}>
+                • Wallcurry AI Recommendation Engine (ResNet-50 & FAISS)
+              </Link>
+              <Link href="/projects/brand-sutra" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.92rem', fontWeight: 600 }}>
+                • Brand Sutra - AI Brand Governance & Content Review Platform
+              </Link>
+            </div>
+          </section>
 
           <div className="article-share">
             <button className="share-btn" onClick={() => navigator.clipboard.writeText(window.location.href)}>
