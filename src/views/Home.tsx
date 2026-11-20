@@ -346,7 +346,8 @@ const Home = ({ onConnectClick }: HomeProps) => {
             category: e.category || 'Journal',
             date: e.date || '',
             readingTime: e.readingTime || '4 min read',
-            excerpt: e.excerpt || ''
+            excerpt: e.excerpt || '',
+            image: e.image || ''
           }));
         if (otherEntries.length > 0) {
           setRecentInsights(otherEntries);
@@ -818,7 +819,7 @@ const Home = ({ onConnectClick }: HomeProps) => {
           </Link>
         </motion.div>
 
-        {/* Curated Insights Grid (Internal Crawl Engine & Secondary Reading) */}
+        {/* Curated Insights Grid (Clean Cards: Image + Heading + Read More) */}
         <div style={{ marginTop: '28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
           {recentInsights.map(item => (
             <Link
@@ -836,19 +837,26 @@ const Home = ({ onConnectClick }: HomeProps) => {
               }}
             >
               <div>
+                {'image' in item && Boolean(item.image) && (
+                  <div style={{ borderRadius: '10px', overflow: 'hidden', marginBottom: '16px', maxHeight: '160px', width: '100%' }}>
+                    <img
+                      src={item.image as string}
+                      alt={item.title}
+                      loading="lazy"
+                      style={{ width: '100%', height: '140px', objectFit: 'cover', display: 'block' }}
+                    />
+                  </div>
+                )}
                 <span style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
                   {item.category}
                 </span>
-                <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 700, lineHeight: 1.35, marginTop: '8px', marginBottom: '10px' }}>
+                <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 700, lineHeight: 1.35, marginTop: '8px', marginBottom: '12px' }}>
                   {item.title}
                 </h3>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
-                  {item.excerpt}
-                </p>
               </div>
-              <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                 <span>{item.date}</span>
-                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Read Article →</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Read More →</span>
               </div>
             </Link>
           ))}
