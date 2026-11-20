@@ -88,21 +88,21 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             fontWeight: 800,
             letterSpacing: '0.02em',
             color: 'var(--text-primary)',
-            marginBottom: '16px',
+            marginBottom: '6px',
             lineHeight: 1.2
           }}>
-            <span className="accent-text">AI & AUTOMATION ENGINEER</span>
+            <span className="accent-text">MARKETING TECHNOLOGY<br />& AUTOMATION</span>
           </h2>
-          <p style={{
-            color: 'var(--text-secondary)',
-            fontSize: 'clamp(0.95rem, 1.25vw, 1.12rem)',
-            fontWeight: 400,
-            marginBottom: '10px',
-            lineHeight: 1.6,
-            maxWidth: '92%'
+          <div style={{
+            fontFamily: '"Outfit", sans-serif',
+            fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
+            fontWeight: 600,
+            color: 'var(--text-primary)',
+            marginBottom: '14px',
+            letterSpacing: '-0.01em'
           }}>
-            Building production-grade AI applications, Python workflow automation, and scalable growth systems.
-          </p>
+            Engineering smarter marketing systems.
+          </div>
           <p style={{
             color: 'var(--text-secondary)',
             fontSize: 'clamp(0.95rem, 1.25vw, 1.12rem)',
@@ -111,11 +111,11 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             lineHeight: 1.6,
             maxWidth: '92%'
           }}>
-            <strong style={{ color: 'var(--text-primary)', fontWeight: 700 }}>Published IEEE researcher</strong> in Transformer models; engineered AI pipelines that drove <strong style={{ color: 'var(--text-primary)', fontWeight: 700 }}>240% organic growth</strong> across 12+ industry verticals.
+            Building data-driven marketing solutions, intelligent automation workflows, and AI-powered applications that connect technology with business growth. Combining marketing analytics, Python automation, SEO systems, and AI to improve operational efficiency and decision-making.
           </p>
 
           <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '32px', maxWidth: '90%' }}>
-            {['AI Agents & RAG', 'Python & FastAPI', 'Next.js & TypeScript', 'Automated Data Pipelines', 'IEEE Published (CONIT 2026)'].map((tag) => (
+            {['Marketing Analytics', 'Python Automation', 'AI & RAG', 'SEO Systems', 'Data Pipelines'].map((tag) => (
               <span
                 key={tag}
                 style={{
