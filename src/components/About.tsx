@@ -102,11 +102,11 @@ const About = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
                   <strong style={{ color: 'var(--text-primary)' }}>Role: </strong>
-                  <span style={{ color: 'var(--text-secondary)' }}>AI & Automation Engineer / Full-Stack Builder</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>Marketing Technology & Automation Specialist</span>
                 </div>
                 <div style={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
                   <strong style={{ color: 'var(--text-primary)' }}>Core Strengths: </strong>
-                  <span style={{ color: 'var(--text-secondary)' }}>Production LLM/RAG systems, end-to-end Python process automation, and full-stack web platforms (Next.js, React, FastAPI, Supabase).</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>Data-driven marketing solutions, Python automation workflows, SEO systems, and AI applications connecting technology with business growth.</span>
                 </div>
                 <div style={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
                   <strong style={{ color: 'var(--text-primary)' }}>Strongest Achievement: </strong>

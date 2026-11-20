@@ -87,23 +87,34 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             fontWeight: 700,
             letterSpacing: '0.02em',
             color: 'var(--text-primary)',
-            marginBottom: '12px'
+            marginBottom: '6px',
+            lineHeight: 1.2
           }}>
-            <span className="accent-text">AI & AUTOMATION ENGINEER</span>
+            <span className="accent-text">MARKETING TECHNOLOGY & AUTOMATION</span>
           </h2>
+          <div style={{
+            fontFamily: '"Outfit", sans-serif',
+            fontSize: 'clamp(1rem, 1.8vw, 1.35rem)',
+            fontWeight: 600,
+            color: 'var(--text-primary)',
+            marginBottom: '14px',
+            letterSpacing: '-0.01em'
+          }}>
+            Engineering smarter marketing systems.
+          </div>
           <p style={{
             color: 'var(--text-secondary)',
-            fontSize: 'clamp(0.95rem, 1.25vw, 1.15rem)',
+            fontSize: 'clamp(0.95rem, 1.25vw, 1.12rem)',
             fontWeight: 400,
             marginBottom: '20px',
-            lineHeight: 1.55,
+            lineHeight: 1.6,
             maxWidth: '92%'
           }}>
-            Building production-grade AI applications, Python workflow automation, and scalable growth systems. <strong>Published IEEE researcher</strong> in Transformer models; engineered AI pipelines that drove <strong>240% organic growth</strong> across 12+ industry verticals.
+            Building data-driven marketing solutions, intelligent automation workflows, and AI-powered applications that connect technology with business growth. Combining marketing analytics, Python automation, SEO systems, and AI to improve operational efficiency and decision-making.
           </p>
 
           <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
-            {['AI Agents & RAG', 'Python & FastAPI', 'Next.js & TypeScript', 'Automated Data Pipelines', 'IEEE Published (CONIT 2026)'].map((tag) => (
+            {['Marketing Technology', 'Python Automation', 'AI & LLMs', 'SEO Systems', 'Marketing Analytics'].map((tag) => (
               <span
                 key={tag}
                 style={{
