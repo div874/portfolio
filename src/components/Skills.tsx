@@ -133,8 +133,6 @@ const supportingTools = [
   { name: 'GA4 & GSC', role: 'Search & web analytics', icon: <SiGoogleanalytics size={26} />, color: '#E37400' },
   { name: 'Power BI & Tableau', role: 'Business intelligence & reporting', icon: <TbBrandGoogleAnalytics size={26} />, color: '#F2C811' },
   { name: 'WordPress', role: 'Content management & AI plugins', icon: <SiWordpress size={26} />, color: '#21759B' },
-  { name: 'Looker Studio', role: 'Secondary reporting dashboards', icon: <TbBrandGoogleAnalytics size={26} />, color: '#4285F4' },
-  { name: 'Docker', role: 'Local containerization', icon: <SiDocker size={26} />, color: '#2496ED' },
   { name: 'OpenAI / Claude', role: 'LLM APIs & Prompting', icon: <SiOpenai size={26} />, color: '#10A37F' }
 ];
 

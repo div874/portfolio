@@ -11,7 +11,7 @@ import {
   SiGithub,
   SiOpenai
 } from 'react-icons/si';
-import { TbBrandGoogleAnalytics } from 'react-icons/tb';
+import { TbBrandGoogleAnalytics, TbBulb, TbCode } from 'react-icons/tb';
 import { FaChartLine, FaCss3Alt } from 'react-icons/fa6';
 import { VscVscode } from 'react-icons/vsc';
 
@@ -30,11 +30,13 @@ const SiLangchain = (props: any) => (
   </svg>
 );
 
+// Row 1: Programming Languages & Core Dev (Selected from Resume)
 const slidingTechSkillsRow1 = [
   { name: 'Python', icon: SiPython, color: '#3776AB' },
-  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
   { name: 'SQL', icon: TbBrandGoogleAnalytics, color: '#4169E1' },
+  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
   { name: 'C++', icon: VscVscode, color: '#00599C' },
+  { name: 'REST APIs', icon: TbCode, color: '#10B981' },
   { name: 'HTML5', icon: SiHtml5, color: '#E34F26' },
   { name: 'CSS3', icon: FaCss3Alt, color: '#1572B6' },
   { name: 'VS Code', icon: VscVscode, color: '#007ACC' },
@@ -42,14 +44,17 @@ const slidingTechSkillsRow1 = [
   { name: 'GitHub', icon: SiGithub, color: '#171717' }
 ];
 
+// Row 2: AI, Analytics & Product Strategy (Selected from Resume)
 const slidingTechSkillsRow2 = [
-  { name: 'Transformers', icon: SiOpenai, color: '#a855f7' },
-  { name: 'XLM-RoBERTa / BERT', icon: SiOpenai, color: '#10A37F' },
-  { name: 'LangChain', icon: SiLangchain, color: '#38A3F1' },
+  { name: 'AI Product Strategy', icon: TbBulb, color: '#F59E0B' },
+  { name: 'Transformers (XLM-RoBERTa & BERT)', icon: SiOpenai, color: '#A855F7' },
   { name: 'LLM APIs & Prompting', icon: SiOpenai, color: '#10A37F' },
+  { name: 'RAG & LangChain', icon: SiLangchain, color: '#38A3F1' },
+  { name: 'Deep Learning & NLP', icon: SiOpenai, color: '#8B5CF6' },
   { name: 'Google Analytics 4', icon: SiGoogleanalytics, color: '#E37400' },
   { name: 'Search Console', icon: SiGoogle, color: '#4285F4' },
-  { name: 'Power BI & Tableau', icon: TbBrandGoogleAnalytics, color: '#F2C811' },
+  { name: 'Power BI', icon: TbBrandGoogleAnalytics, color: '#F2C811' },
+  { name: 'Tableau', icon: FaChartLine, color: '#E97627' },
   { name: 'Technical SEO', icon: FaChartLine, color: '#FF6900' },
   { name: 'WordPress', icon: SiWordpress, color: '#21759B' }
 ];
@@ -75,7 +80,7 @@ const TechMarquee = () => {
         <div className="tech-marquee-mask">
           <div className="tech-marquee-track">
             {marqueeRow1.map((item, idx) => (
-              <div key={`row1-${idx}`} className="tech-marquee-item">
+              <div key={`row1-${idx}`} className="tech-marquee-card">
                 <span className="tech-marquee-icon" style={{ color: item.color }}>
                   <item.icon />
                 </span>
@@ -87,9 +92,9 @@ const TechMarquee = () => {
 
         {/* Track Row 2 - Right Sliding */}
         <div className="tech-marquee-mask" style={{ marginTop: '16px' }}>
-          <div className="tech-marquee-track tech-marquee-track--reverse">
+          <div className="tech-marquee-track tech-marquee-track-reverse">
             {marqueeRow2.map((item, idx) => (
-              <div key={`row2-${idx}`} className="tech-marquee-item">
+              <div key={`row2-${idx}`} className="tech-marquee-card">
                 <span className="tech-marquee-icon" style={{ color: item.color }}>
                   <item.icon />
                 </span>
