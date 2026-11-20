@@ -477,53 +477,7 @@ const Home = ({ onConnectClick }: HomeProps) => {
           </div>
         </motion.div>
 
-        {/* Featured Case Study Hub Link */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="glass-card"
-          style={{ marginBottom: '32px', padding: '28px 32px', border: '1px solid rgba(168, 85, 247, 0.25)', background: 'rgba(168, 85, 247, 0.04)' }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
-            <div style={{ flex: 1, minWidth: '280px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--accent-color)', background: 'rgba(168, 85, 247, 0.12)', padding: '3px 10px', borderRadius: '12px' }}>
-                  FEATURED CASE STUDY
-                </span>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>• B2B Organic Search & Lead Pipeline</span>
-              </div>
-              <h3 style={{ fontSize: '1.45rem', color: 'var(--text-primary)', fontWeight: 700, margin: '6px 0 10px', lineHeight: 1.3 }}>
-                SEO & AI Automation: Scaling B2B Organic Traffic by 240%
-              </h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, margin: 0, maxWidth: '720px' }}>
-                How combining semantic content architecture with automated Python rank tracking and generative workflows produced 240% traffic growth and a 3.5x boost in qualified sales leads.
-              </p>
-            </div>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <Link 
-                href="/case-studies/b2b-seo-ai-traffic-growth" 
-                className="glow-button"
-                style={{ textDecoration: 'none', padding: '12px 24px', fontSize: '0.9rem', whiteSpace: 'nowrap' }}
-              >
-                Read Case Study →
-              </Link>
-              <Link
-                href="/case-studies"
-                style={{
-                  color: 'var(--text-secondary)',
-                  textDecoration: 'none',
-                  fontSize: '0.88rem',
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                All Case Studies
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-
+        {/* Projects Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
           {homeProjects.map((proj, i) => (
             <motion.div
@@ -572,11 +526,11 @@ const Home = ({ onConnectClick }: HomeProps) => {
                 </div>
               </div>
 
-              {/* Case Study CTA */}
+              {/* Project Details CTA */}
               <div style={{ marginTop: 'auto' }}>
                 <Link
                   href={`/projects/${proj.slug}`}
-                  aria-label={`View Case Study for ${proj.title}`}
+                  aria-label={`View Details for ${proj.title}`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -592,7 +546,7 @@ const Home = ({ onConnectClick }: HomeProps) => {
                   onMouseEnter={e => (e.currentTarget.style.opacity = '0.6')}
                   onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                 >
-                  View Case Study →
+                  View Project →
                 </Link>
               </div>
             </motion.div>

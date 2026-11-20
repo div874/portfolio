@@ -34,7 +34,20 @@ export default function CaseStudiesPage() {
 
         {/* Case Studies Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-          {caseStudiesData.map((cs) => (
+          {caseStudiesData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', borderRadius: '16px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)' }}>
+              <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', marginBottom: '10px', fontWeight: 700 }}>
+                Case Studies Coming Soon
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '520px', margin: '0 auto 24px', lineHeight: 1.6 }}>
+                In-depth commercial and technical case studies are currently being prepared and documented.
+              </p>
+              <Link href="/projects" className="glow-button" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', fontSize: '0.95rem' }}>
+                Explore Featured Projects →
+              </Link>
+            </div>
+          ) : (
+            caseStudiesData.map((cs) => (
             <article 
               key={cs.slug}
               style={{
@@ -122,7 +135,7 @@ export default function CaseStudiesPage() {
                 </Link>
               </div>
             </article>
-          ))}
+          ))) }
         </div>
 
         {/* Cross-linking to Technical Journal & Projects */}

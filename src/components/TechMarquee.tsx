@@ -46,17 +46,16 @@ const slidingTechSkillsRow1 = [
 
 // Row 2: AI, Analytics & Product Strategy (Selected from Resume)
 const slidingTechSkillsRow2 = [
-  { name: 'AI Product Strategy', icon: TbBulb, color: '#F59E0B' },
-  { name: 'Transformers (XLM-RoBERTa & BERT)', icon: SiOpenai, color: '#A855F7' },
   { name: 'LLM APIs & Prompting', icon: SiOpenai, color: '#10A37F' },
-  { name: 'RAG & LangChain', icon: SiLangchain, color: '#38A3F1' },
-  { name: 'Deep Learning & NLP', icon: SiOpenai, color: '#8B5CF6' },
   { name: 'Google Analytics 4', icon: SiGoogleanalytics, color: '#E37400' },
   { name: 'Search Console', icon: SiGoogle, color: '#4285F4' },
-  { name: 'Power BI', icon: TbBrandGoogleAnalytics, color: '#F2C811' },
-  { name: 'Tableau', icon: FaChartLine, color: '#E97627' },
+  { name: 'Power BI & Tableau', icon: TbBrandGoogleAnalytics, color: '#F2C811' },
   { name: 'Technical SEO', icon: FaChartLine, color: '#FF6900' },
-  { name: 'WordPress', icon: SiWordpress, color: '#21759B' }
+  { name: 'WordPress', icon: SiWordpress, color: '#21759B' },
+  { name: 'Transformers (XLM-RoBERTa & BERT)', icon: SiOpenai, color: '#A855F7' },
+  { name: 'RAG & LangChain', icon: SiLangchain, color: '#38A3F1' },
+  { name: 'Deep Learning & NLP', icon: SiOpenai, color: '#8B5CF6' },
+  { name: 'AI Product Strategy', icon: TbBulb, color: '#F59E0B' }
 ];
 
 const TechMarquee = () => {

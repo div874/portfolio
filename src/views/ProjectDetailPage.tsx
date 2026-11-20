@@ -223,11 +223,11 @@ const ProjectDetailPage = ({ slug: propSlug, initialProject }: ProjectDetailPage
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
             <Link 
-              href="/case-studies/b2b-seo-ai-traffic-growth"
+              href="/journey/starting-my-ai-journey-what-i-learned-about-llms-rag-and-ai-agents"
               style={{ textDecoration: 'none', color: 'inherit', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--glass-border)' }}
             >
-              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600 }}>CASE STUDY</div>
-              <div style={{ color: 'var(--text-primary)', fontSize: '0.92rem', fontWeight: 600, marginTop: '3px' }}>Scaling B2B Organic Traffic by 240%</div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 600 }}>RESEARCH ESSAY</div>
+              <div style={{ color: 'var(--text-primary)', fontSize: '0.92rem', fontWeight: 600, marginTop: '3px' }}>Starting My AI Journey: LLMs & RAG</div>
             </Link>
 
             <Link 

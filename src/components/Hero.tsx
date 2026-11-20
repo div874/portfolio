@@ -84,61 +84,62 @@ const Hero = ({ onConnectClick }: HeroProps) => {
 
           <h2 style={{
             fontFamily: '"Outfit", sans-serif',
-            fontSize: 'clamp(1.2rem, 3vw, 2.2rem)',
-            fontWeight: 700,
+            fontSize: 'clamp(1.4rem, 3.2vw, 2.4rem)',
+            fontWeight: 800,
             letterSpacing: '0.02em',
             color: 'var(--text-primary)',
-            marginBottom: '6px',
+            marginBottom: '16px',
             lineHeight: 1.2
           }}>
-            <span className="accent-text">MARKETING TECHNOLOGY & AUTOMATION</span>
+            <span className="accent-text">AI & AUTOMATION ENGINEER</span>
           </h2>
-          <div style={{
-            fontFamily: '"Outfit", sans-serif',
-            fontSize: 'clamp(1rem, 1.8vw, 1.35rem)',
-            fontWeight: 600,
-            color: 'var(--text-primary)',
-            marginBottom: '14px',
-            letterSpacing: '-0.01em'
-          }}>
-            Engineering smarter marketing systems.
-          </div>
           <p style={{
             color: 'var(--text-secondary)',
             fontSize: 'clamp(0.95rem, 1.25vw, 1.12rem)',
             fontWeight: 400,
-            marginBottom: '20px',
+            marginBottom: '10px',
             lineHeight: 1.6,
             maxWidth: '92%'
           }}>
-            Building data-driven marketing solutions, intelligent automation workflows, and AI-powered applications that connect technology with business growth. Combining marketing analytics, Python automation, SEO systems, and AI to improve operational efficiency and decision-making.
+            Building production-grade AI applications, Python workflow automation, and scalable growth systems.
+          </p>
+          <p style={{
+            color: 'var(--text-secondary)',
+            fontSize: 'clamp(0.95rem, 1.25vw, 1.12rem)',
+            fontWeight: 400,
+            marginBottom: '26px',
+            lineHeight: 1.6,
+            maxWidth: '92%'
+          }}>
+            <strong style={{ color: 'var(--text-primary)', fontWeight: 700 }}>Published IEEE researcher</strong> in Transformer models; engineered AI pipelines that drove <strong style={{ color: 'var(--text-primary)', fontWeight: 700 }}>240% organic growth</strong> across 12+ industry verticals.
           </p>
 
-          <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
-            {['Marketing Analytics', 'Python Automation', 'AI & RAG', 'SEO Systems', 'Data Pipelines'].map((tag) => (
+          <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '32px', maxWidth: '90%' }}>
+            {['AI Agents & RAG', 'Python & FastAPI', 'Next.js & TypeScript', 'Automated Data Pipelines', 'IEEE Published (CONIT 2026)'].map((tag) => (
               <span
                 key={tag}
                 style={{
                   display: 'inline-block',
-                  padding: '5px 14px',
+                  padding: '6px 16px',
                   borderRadius: '999px',
-                  border: '1px solid var(--text-secondary)',
+                  border: '1px solid rgba(0, 0, 0, 0.18)',
                   color: 'var(--text-secondary)',
-                  fontSize: 'clamp(0.7rem, 1vw, 0.85rem)',
+                  fontSize: 'clamp(0.75rem, 1vw, 0.88rem)',
                   fontWeight: 500,
                   letterSpacing: '0.02em',
                   transition: 'all 0.2s ease',
                   cursor: 'default',
+                  background: 'rgba(0, 0, 0, 0.02)'
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLSpanElement).style.color = 'var(--text-primary)';
                   (e.currentTarget as HTMLSpanElement).style.borderColor = 'var(--text-primary)';
-                  (e.currentTarget as HTMLSpanElement).style.background = 'rgba(0,0,0,0.05)';
+                  (e.currentTarget as HTMLSpanElement).style.background = 'rgba(0,0,0,0.06)';
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLSpanElement).style.color = 'var(--text-secondary)';
-                  (e.currentTarget as HTMLSpanElement).style.borderColor = 'var(--text-secondary)';
-                  (e.currentTarget as HTMLSpanElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLSpanElement).style.borderColor = 'rgba(0, 0, 0, 0.18)';
+                  (e.currentTarget as HTMLSpanElement).style.background = 'rgba(0, 0, 0, 0.02)';
                 }}
               >
                 {tag}

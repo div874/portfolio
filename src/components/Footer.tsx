@@ -7,7 +7,6 @@ import { Mail, ArrowUpRight } from 'lucide-react';
 const mainNavigation = [
   { label: 'Home', href: '/' },
   { label: 'Selected Projects', href: '/projects' },
-  { label: 'In-Depth Case Studies', href: '/case-studies' },
   { label: 'Journal & Insights', href: '/journey' },
   { label: 'Work Experience', href: '/experience' },
   { label: 'Technical Skills', href: '/skills' },
@@ -43,11 +42,6 @@ const featuredArticles = [
 ];
 
 const featuredWork = [
-  {
-    label: 'Scaling B2B Organic Traffic by 240% (Case Study)',
-    href: '/case-studies/b2b-seo-ai-traffic-growth',
-    tag: 'SEO & AI'
-  },
   {
     label: 'Customer Complaint Auto Resolver (IEEE CONIT 2026)',
     href: '/projects/customer-complaint-auto-resolver',

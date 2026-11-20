@@ -224,8 +224,8 @@ const JourneyArticle = ({ initialEntry = null, initialAllEntries = [] }: Journey
               EXPLORE CASE STUDIES & ENGINEERING WORK
             </span>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
-              <Link href="/case-studies/b2b-seo-ai-traffic-growth" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.92rem', fontWeight: 600 }}>
-                • SEO & AI Automation: Scaling B2B Organic Traffic by 240% (Case Study)
+              <Link href="/projects/customer-complaint-auto-resolver" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.92rem', fontWeight: 600 }}>
+                • Customer Complaint Auto Resolver (IEEE CONIT 2026 Research)
               </Link>
               <Link href="/projects/wallcurry-ai-recommendation" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.92rem', fontWeight: 600 }}>
                 • Wallcurry AI Recommendation Engine (ResNet-50 & FAISS)

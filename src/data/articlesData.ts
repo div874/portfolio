@@ -95,7 +95,7 @@ print(f"Top matching document indices: {indices}")
   <li><strong>Internal Knowledge Base Search:</strong> Employees querying HR policies, engineering guidelines, or company wikis instantly.</li>
   <li><strong>Automated Customer Support:</strong> AI agents fetching real-time order tracking, warranty terms, and product manuals to resolve tickets automatically.</li>
   <li><strong>Financial & Legal Research:</strong> Parsing thousands of quarterly SEC filings or contracts to extract risks and comparison metrics.</li>
-  <li><strong>SEO & Content Architecture:</strong> Ingesting domain-specific keyword clusters to create high-ranking programmatic content. See my detailed case study on <a href="/case-studies/b2b-seo-ai-traffic-growth">Scaling B2B Organic Traffic by 240% using AI & Technical SEO</a>.</li>
+  <li><strong>SEO & Content Architecture:</strong> Ingesting domain-specific keyword clusters and Search Console API datasets to optimize indexing velocity and programmatic rankings.</li>
 </ul>
 
 <h2 id="conclusion">6. Summary & Next Steps</h2>

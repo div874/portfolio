@@ -119,10 +119,15 @@ export const getProjects = async (): Promise<ProjectDetail[]> => {
 
     if (!error && data) {
       let localCache: ProjectDetail[] = [];
+      let deletedSlugs = new Set<string>();
       if (typeof window !== 'undefined') {
         try {
           const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
           if (raw) localCache = JSON.parse(raw);
+          const storedDeleted = localStorage.getItem('portfolio_deleted_slugs');
+          if (storedDeleted) {
+            JSON.parse(storedDeleted).forEach((s: string) => deletedSlugs.add(s));
+          }
         } catch {}
       }
 
@@ -138,14 +143,23 @@ export const getProjects = async (): Promise<ProjectDetail[]> => {
         return norm;
       });
 
+      // Merge baseline projects from code that haven't been migrated to Supabase yet
+      const existingSlugs = new Set(list.map(p => p.slug));
+      const missingBaselines = projectDetails
+        .filter(p => !existingSlugs.has(p.slug) && !deletedSlugs.has(p.slug))
+        .map(normalizeProject);
+
+      const combined = [...list, ...missingBaselines];
+      combined.sort((a, b) => (a.order_index ?? 99) - (b.order_index ?? 99));
+
       if (typeof window !== 'undefined') {
         try {
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(list));
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(combined));
         } catch {
           // ignore localStorage write errors
         }
       }
-      return list;
+      return combined;
     }
   } catch (err) {
     console.warn('Could not query Supabase projects table:', err);

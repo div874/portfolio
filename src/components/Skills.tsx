@@ -120,7 +120,7 @@ const coreCompetencyStack = [
     ],
     proofOfWork: [
       { label: '1page.info Growth Systems (30+ Clients, 9.3+ Scores)', link: '/experience' },
-      { label: 'B2B SEO & AI Automation Case Study (+240% Traffic)', link: '/case-studies/b2b-seo-ai-traffic-growth' },
+      { label: 'Customer Complaint Auto Resolver (IEEE CONIT 2026)', link: '/projects/customer-complaint-auto-resolver' },
       { label: 'Brandloom WordPress & AI Campaign Workflows', link: '/experience' }
     ]
   }
