@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Download } from 'lucide-react';
+import { Download, Mail } from 'lucide-react';
+import { FaLinkedinIn, FaGithub, FaWhatsapp } from 'react-icons/fa6';
 import Counter from './Counter';
 
 interface HeroProps {
@@ -243,6 +244,164 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             >
               Let's Connect
             </motion.button>
+
+            {/* Direct Contact Socials Tray */}
+            <div style={{ marginTop: '22px' }}>
+              <span style={{ 
+                display: 'block', 
+                fontSize: '0.78rem', 
+                fontWeight: 600, 
+                letterSpacing: '1px', 
+                textTransform: 'uppercase', 
+                color: 'var(--text-secondary)', 
+                marginBottom: '10px' 
+              }}>
+                Or reach out directly:
+              </span>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <motion.a
+                  href="mailto:divyansh.chandra.work@gmail.com"
+                  whileHover={{ scale: 1.12, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Email: divyansh.chandra.work@gmail.com"
+                  aria-label="Send email to Divyansh Chandra"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    background: 'rgba(0, 0, 0, 0.05)',
+                    border: '1px solid rgba(0, 0, 0, 0.12)',
+                    color: 'var(--text-primary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = '#171717';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.borderColor = '#171717';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.12)';
+                  }}
+                >
+                  <Mail size={18} />
+                </motion.a>
+
+                <motion.a
+                  href="https://www.linkedin.com/in/div08/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.12, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="LinkedIn: in/div08"
+                  aria-label="Divyansh Chandra LinkedIn Profile"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    background: 'rgba(0, 0, 0, 0.05)',
+                    border: '1px solid rgba(0, 0, 0, 0.12)',
+                    color: 'var(--text-primary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = '#0a66c2';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.borderColor = '#0a66c2';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.12)';
+                  }}
+                >
+                  <FaLinkedinIn size={18} />
+                </motion.a>
+
+                <motion.a
+                  href="https://github.com/div874"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.12, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="GitHub: div874"
+                  aria-label="Divyansh Chandra GitHub Profile"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    background: 'rgba(0, 0, 0, 0.05)',
+                    border: '1px solid rgba(0, 0, 0, 0.12)',
+                    color: 'var(--text-primary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = '#24292e';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.borderColor = '#24292e';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.12)';
+                  }}
+                >
+                  <FaGithub size={18} />
+                </motion.a>
+
+                <motion.a
+                  href="https://wa.me/917974780810"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.12, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="WhatsApp: +91 7974780810"
+                  aria-label="Chat on WhatsApp"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    background: 'rgba(0, 0, 0, 0.05)',
+                    border: '1px solid rgba(0, 0, 0, 0.12)',
+                    color: 'var(--text-primary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = '#25D366';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.borderColor = '#25D366';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.12)';
+                  }}
+                >
+                  <FaWhatsapp size={18} />
+                </motion.a>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
