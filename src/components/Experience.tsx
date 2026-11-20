@@ -1,31 +1,20 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
-const experiences = [
-  {
-    company: '1page.info',
-    role: 'Marketing Intern',
-    period: 'Apr 2026 – Sep 2026',
-    points: [
-      { bold: 'Client SEO Strategy:', text: 'Managed SEO & keyword strategies across 30+ client websites to support organic visibility and inbound lead generation.' },
-      { bold: 'Content Performance & Audits:', text: 'Improved content performance through technical SEO optimization and AI-assisted workflows, achieving SEO scores of 9.3+ across client pages.' },
-      { bold: 'AI Content Pipelines:', text: 'Streamlined AI-driven content workflows, scaling keyword-to-content execution and topical authority coverage across 30+ clients.' }
-    ]
-  },
-  {
-    company: 'Brandloom',
-    role: 'AI & Marketing Intern',
-    period: 'May 2025 – Sep 2025',
-    points: [
-      { bold: 'WordPress & AI Plugins:', text: 'Built and optimized WordPress websites using AI-powered plugins to enhance site functionality and user experience.' },
-      { bold: 'Campaign Execution & Growth:', text: 'Applied AI-driven tools and analytical techniques to improve digital marketing performance, boosting engagement and campaign efficiency.' },
-      { bold: 'Technical Schema & Speed:', text: 'Implemented structured schema markup, speed optimization, and on-page SEO best practices for client brand websites.' }
-    ]
-  }
-];
+import Link from 'next/link';
+import { getExperiences, defaultExperiences, ExperienceItem } from '@/utils/experiences';
 
 const Experience = () => {
+  const [experiences, setExperiences] = useState<ExperienceItem[]>(defaultExperiences);
+
+  useEffect(() => {
+    getExperiences().then(data => {
+      if (data && data.length > 0) {
+        setExperiences(data);
+      }
+    });
+  }, []);
   return (
     <section className="section" id="experience">
       <motion.div
@@ -74,8 +63,8 @@ const Experience = () => {
         viewport={{ once: true }}
         style={{ marginTop: '60px', textAlign: 'center' }}
       >
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '1.05rem' }}>Want to see the actual results from these projects?</p>
-        <a href="#projects" className="glow-button" style={{ textDecoration: 'none', display: 'inline-block' }}>View Case Studies →</a>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '1.05rem' }}>Want to see the technical systems and architectures behind my work?</p>
+        <Link href="/projects" className="glow-button" style={{ textDecoration: 'none', display: 'inline-block' }}>Explore Featured Projects →</Link>
       </motion.div>
     </section>
   );

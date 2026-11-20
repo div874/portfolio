@@ -22,8 +22,13 @@ import {
   Copy, 
   Check, 
   AlertCircle, 
-  LogOut 
+  LogOut,
+  Briefcase,
+  ChevronUp,
+  ChevronDown,
+  X
 } from 'lucide-react';
+import { getExperiences, saveExperience, deleteExperience, ExperienceItem, ExperiencePoint } from '../utils/experiences';
 
 export interface Category {
   id: string;
@@ -35,8 +40,8 @@ export interface Category {
 export const AdminDashboard: React.FC = () => {
   const router = useRouter();
 
-  // Active Tab: 'projects' | 'journals' | 'categories'
-  const [activeTab, setActiveTab] = useState<'projects' | 'journals' | 'categories'>('projects');
+  // Active Tab: 'projects' | 'experiences' | 'journals' | 'categories'
+  const [activeTab, setActiveTab] = useState<'projects' | 'experiences' | 'journals' | 'categories'>('projects');
 
   // Journals State
   const [journals, setJournals] = useState<JournalEntry[]>([]);
@@ -53,6 +58,20 @@ export const AdminDashboard: React.FC = () => {
   const [sqlCopied, setSqlCopied] = useState(false);
   const [hasSupabaseProjectsTable, setHasSupabaseProjectsTable] = useState<boolean | null>(null);
 
+  // Experiences State
+  const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
+  const [experiencesLoading, setExperiencesLoading] = useState(false);
+  const [experienceSearch, setExperienceSearch] = useState('');
+  const [isExpModalOpen, setIsExpModalOpen] = useState(false);
+  const [editingExpId, setEditingExpId] = useState<string | null>(null);
+  const [expCompany, setExpCompany] = useState('');
+  const [expRole, setExpRole] = useState('');
+  const [expPeriod, setExpPeriod] = useState('');
+  const [expOrderIndex, setExpOrderIndex] = useState(0);
+  const [expPoints, setExpPoints] = useState<ExperiencePoint[]>([]);
+  const [isSavingExp, setIsSavingExp] = useState(false);
+  const [expSqlCopied, setExpSqlCopied] = useState(false);
+
   // Featured post state (Journals)
   const [selectedFeaturedId, setSelectedFeaturedId] = useState<string>('');
   const [isUpdatingFeatured, setIsUpdatingFeatured] = useState<boolean>(false);
@@ -67,8 +86,8 @@ export const AdminDashboard: React.FC = () => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
-      if (tabParam === 'journals' || tabParam === 'categories' || tabParam === 'projects') {
-        setActiveTab(tabParam);
+      if (tabParam === 'journals' || tabParam === 'categories' || tabParam === 'projects' || tabParam === 'experiences') {
+        setActiveTab(tabParam as any);
       }
     }
 
@@ -79,6 +98,7 @@ export const AdminDashboard: React.FC = () => {
       } else {
         await Promise.all([
           fetchProjects(),
+          fetchExperiences(),
           fetchJournals(),
           fetchCategories(),
         ]);
@@ -113,6 +133,133 @@ export const AdminDashboard: React.FC = () => {
     if (!error && data) {
       setCategories(data as Category[]);
     }
+  };
+
+  const fetchExperiences = async () => {
+    setExperiencesLoading(true);
+    try {
+      const list = await getExperiences();
+      setExperiences(list);
+    } catch (err) {
+      console.error('Error fetching experiences:', err);
+    } finally {
+      setExperiencesLoading(false);
+    }
+  };
+
+  const handleOpenNewExperience = () => {
+    setEditingExpId(null);
+    setExpCompany('');
+    setExpRole('');
+    setExpPeriod('');
+    setExpOrderIndex(experiences.length);
+    setExpPoints([
+      { bold: 'Key Responsibility:', text: '' }
+    ]);
+    setIsExpModalOpen(true);
+  };
+
+  const handleOpenEditExperience = (item: ExperienceItem) => {
+    setEditingExpId(item.id);
+    setExpCompany(item.company);
+    setExpRole(item.role);
+    setExpPeriod(item.period);
+    setExpOrderIndex(item.order_index ?? 0);
+    setExpPoints(item.points && item.points.length > 0 ? item.points : [{ bold: '', text: '' }]);
+    setIsExpModalOpen(true);
+  };
+
+  const handleAddExpPoint = () => {
+    setExpPoints(prev => [...prev, { bold: '', text: '' }]);
+  };
+
+  const handleRemoveExpPoint = (index: number) => {
+    setExpPoints(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleExpPointChange = (index: number, field: 'bold' | 'text', value: string) => {
+    setExpPoints(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  };
+
+  const handleSaveExperience = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!expCompany.trim() || !expRole.trim()) {
+      alert('Company and Role are required.');
+      return;
+    }
+
+    setIsSavingExp(true);
+    try {
+      const filteredPoints = expPoints.filter(p => p.bold.trim() || p.text.trim());
+      const payload: ExperienceItem = {
+        id: editingExpId || `exp-${Date.now()}`,
+        company: expCompany.trim(),
+        role: expRole.trim(),
+        period: expPeriod.trim(),
+        order_index: expOrderIndex,
+        points: filteredPoints
+      };
+
+      await saveExperience(payload);
+      await fetchExperiences();
+      setIsExpModalOpen(false);
+      alert('Experience successfully saved! It is now directly reflected on the Experience section.');
+    } catch (err: any) {
+      alert('Error saving experience: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsSavingExp(false);
+    }
+  };
+
+  const handleDeleteExperience = async (id: string, role: string, company: string) => {
+    if (window.confirm(`Are you sure you want to delete experience "${role} at ${company}"?`)) {
+      setExperiences(prev => prev.filter(e => e.id !== id));
+      await deleteExperience(id);
+      await fetchExperiences();
+    }
+  };
+
+  const handleMoveExperience = async (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= experiences.length) return;
+
+    const copy = [...experiences];
+    const itemA = { ...copy[index], order_index: targetIndex };
+    const itemB = { ...copy[targetIndex], order_index: index };
+    copy[index] = itemB;
+    copy[targetIndex] = itemA;
+    setExperiences(copy);
+
+    await Promise.all([
+      saveExperience(itemA),
+      saveExperience(itemB)
+    ]);
+    await fetchExperiences();
+  };
+
+  const handleCopyExpSql = () => {
+    const sql = `CREATE TABLE IF NOT EXISTS public.experiences (
+  id TEXT PRIMARY KEY,
+  company TEXT NOT NULL,
+  role TEXT NOT NULL,
+  period TEXT NOT NULL,
+  order_index INTEGER DEFAULT 0,
+  points JSONB DEFAULT '[]'::jsonb,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE public.experiences ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access to experiences" ON public.experiences FOR SELECT USING (true);
+CREATE POLICY "Allow authenticated full access to experiences" ON public.experiences FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow service role full access to experiences" ON public.experiences FOR ALL TO service_role USING (true) WITH CHECK (true);`;
+
+    navigator.clipboard.writeText(sql);
+    setExpSqlCopied(true);
+    setTimeout(() => setExpSqlCopied(false), 2500);
   };
 
   const fetchJournals = async () => {
@@ -362,6 +509,26 @@ CREATE POLICY IF NOT EXISTS "Allow public updates to storage" ON storage.objects
             >
               <Plus size={16} /> New Project
             </Link>
+          ) : activeTab === 'experiences' ? (
+            <button
+              onClick={handleOpenNewExperience}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '9px 18px',
+                background: '#0284c7',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                fontWeight: 600,
+                fontSize: '14px',
+                boxShadow: '0 1px 3px rgba(2,132,199,0.3)',
+                cursor: 'pointer'
+              }}
+            >
+              <Plus size={16} /> New Experience
+            </button>
           ) : (
             <Link
               href="/admin/edit"
@@ -434,6 +601,37 @@ CREATE POLICY IF NOT EXISTS "Allow public updates to storage" ON storage.objects
             fontWeight: 700,
           }}>
             {projects.length}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('experiences')}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '12px 20px',
+            border: 'none',
+            borderBottom: activeTab === 'experiences' ? '3px solid #0284c7' : '3px solid transparent',
+            background: 'none',
+            color: activeTab === 'experiences' ? '#0284c7' : '#6b7280',
+            fontWeight: activeTab === 'experiences' ? 700 : 500,
+            fontSize: '15px',
+            cursor: 'pointer',
+            marginBottom: '-2px',
+          }}
+        >
+          <Briefcase size={18} />
+          <span>Experiences</span>
+          <span style={{
+            background: activeTab === 'experiences' ? '#e0f2fe' : '#f3f4f6',
+            color: activeTab === 'experiences' ? '#0369a1' : '#6b7280',
+            padding: '2px 8px',
+            borderRadius: '12px',
+            fontSize: '12px',
+            fontWeight: 700,
+          }}>
+            {experiences.length}
           </span>
         </button>
 
@@ -1060,6 +1258,594 @@ CREATE POLICY IF NOT EXISTS "Allow public updates to storage" ON storage.objects
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: EXPERIENCES MANAGEMENT */}
+      {activeTab === 'experiences' && (
+        <div>
+          {/* Action Header & Search */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ position: 'relative', flex: '1', minWidth: '260px', maxWidth: '400px' }}>
+              <Search size={16} color="#9ca3af" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+              <input
+                type="text"
+                placeholder="Search by role, company, or bullet point..."
+                value={experienceSearch}
+                onChange={e => setExperienceSearch(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '9px 12px 9px 36px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '14px',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={handleCopyExpSql}
+                title="Copy Supabase SQL script to create public.experiences table"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 14px',
+                  borderRadius: '6px',
+                  border: '1px solid #d1d5db',
+                  background: '#fff',
+                  color: '#374151',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                {expSqlCopied ? <Check size={14} color="#059669" /> : <Copy size={14} />}
+                {expSqlCopied ? 'Copied SQL!' : 'Copy Supabase SQL'}
+              </button>
+
+              <Link
+                href="/experience"
+                target="_blank"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 14px',
+                  borderRadius: '6px',
+                  border: '1px solid #d1d5db',
+                  background: '#fff',
+                  color: '#374151',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  textDecoration: 'none'
+                }}
+              >
+                View Live Page <ExternalLink size={13} />
+              </Link>
+
+              <button
+                onClick={handleOpenNewExperience}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  background: '#0284c7',
+                  color: '#fff',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 3px rgba(2,132,199,0.3)'
+                }}
+              >
+                <Plus size={15} /> Add Experience
+              </button>
+            </div>
+          </div>
+
+          {/* Experiences List Table */}
+          {experiencesLoading ? (
+            <div style={{ textAlign: 'center', padding: '50px 0', color: '#6b7280' }}>
+              Loading experiences...
+            </div>
+          ) : experiences.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', background: '#f9fafb', borderRadius: '12px', border: '1px dashed #d1d5db' }}>
+              <Briefcase size={36} color="#9ca3af" style={{ margin: '0 auto 12px' }} />
+              <h3 style={{ margin: '0 0 6px 0', fontSize: '16px', color: '#111827', fontWeight: 700 }}>
+                No experiences added yet
+              </h3>
+              <p style={{ margin: '0 0 16px 0', color: '#6b7280', fontSize: '14px' }}>
+                Add your internship and professional roles so they appear directly in the experience timeline.
+              </p>
+              <button
+                onClick={handleOpenNewExperience}
+                style={{
+                  padding: '8px 16px',
+                  background: '#0284c7',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                + Add First Experience
+              </button>
+            </div>
+          ) : (
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+                  <thead>
+                    <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb', color: '#4b5563', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      <th style={{ padding: '12px 16px', width: '80px' }}>Order</th>
+                      <th style={{ padding: '12px 16px' }}>Role & Company</th>
+                      <th style={{ padding: '12px 16px' }}>Period</th>
+                      <th style={{ padding: '12px 16px' }}>Bullet Points</th>
+                      <th style={{ padding: '12px 16px', textAlign: 'right', width: '130px' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {experiences
+                      .filter(e => {
+                        if (!experienceSearch) return true;
+                        const q = experienceSearch.toLowerCase();
+                        return (
+                          e.company.toLowerCase().includes(q) ||
+                          e.role.toLowerCase().includes(q) ||
+                          e.period.toLowerCase().includes(q) ||
+                          (e.points && e.points.some(p => p.bold.toLowerCase().includes(q) || p.text.toLowerCase().includes(q)))
+                        );
+                      })
+                      .map((exp, idx) => (
+                        <tr 
+                          key={exp.id} 
+                          style={{ borderBottom: '1px solid #f3f4f6', transition: 'background-color 0.15s ease' }}
+                          onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f9fafb')}
+                          onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                        >
+                          {/* Reordering */}
+                          <td style={{ padding: '14px 16px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <span style={{ fontWeight: 700, color: '#6b7280', fontSize: '13px', minWidth: '16px' }}>
+                                #{idx + 1}
+                              </span>
+                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <button
+                                  disabled={idx === 0}
+                                  onClick={() => handleMoveExperience(idx, 'up')}
+                                  title="Move Up"
+                                  style={{
+                                    border: 'none',
+                                    background: 'none',
+                                    cursor: idx === 0 ? 'default' : 'pointer',
+                                    opacity: idx === 0 ? 0.25 : 1,
+                                    padding: '0',
+                                    color: '#4b5563'
+                                  }}
+                                >
+                                  <ChevronUp size={14} />
+                                </button>
+                                <button
+                                  disabled={idx === experiences.length - 1}
+                                  onClick={() => handleMoveExperience(idx, 'down')}
+                                  title="Move Down"
+                                  style={{
+                                    border: 'none',
+                                    background: 'none',
+                                    cursor: idx === experiences.length - 1 ? 'default' : 'pointer',
+                                    opacity: idx === experiences.length - 1 ? 0.25 : 1,
+                                    padding: '0',
+                                    color: '#4b5563'
+                                  }}
+                                >
+                                  <ChevronDown size={14} />
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Role & Company */}
+                          <td style={{ padding: '14px 16px' }}>
+                            <div style={{ fontWeight: 700, color: '#111827', fontSize: '15px' }}>
+                              {exp.role}
+                            </div>
+                            <div style={{ color: '#0284c7', fontWeight: 600, fontSize: '13px', marginTop: '2px' }}>
+                              {exp.company}
+                            </div>
+                          </td>
+
+                          {/* Period */}
+                          <td style={{ padding: '14px 16px', whiteSpace: 'nowrap' }}>
+                            <span style={{
+                              display: 'inline-block',
+                              padding: '3px 10px',
+                              background: '#f3f4f6',
+                              color: '#374151',
+                              borderRadius: '12px',
+                              fontSize: '12px',
+                              fontWeight: 600
+                            }}>
+                              {exp.period}
+                            </span>
+                          </td>
+
+                          {/* Bullet Points Preview */}
+                          <td style={{ padding: '14px 16px', maxWidth: '380px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                              {exp.points && exp.points.slice(0, 2).map((pt, pIdx) => (
+                                <div key={pIdx} style={{ fontSize: '12px', color: '#4b5563', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  <strong style={{ color: '#111827' }}>{pt.bold}</strong> {pt.text}
+                                </div>
+                              ))}
+                              {exp.points && exp.points.length > 2 && (
+                                <span style={{ fontSize: '11px', color: '#9ca3af', fontWeight: 600 }}>
+                                  +{exp.points.length - 2} more points
+                                </span>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Actions */}
+                          <td style={{ padding: '14px 16px', textAlign: 'right' }}>
+                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
+                              <button
+                                onClick={() => handleOpenEditExperience(exp)}
+                                title="Edit Experience"
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                  padding: '6px 10px',
+                                  borderRadius: '6px',
+                                  border: '1px solid #d1d5db',
+                                  background: '#fff',
+                                  color: '#2563eb',
+                                  fontSize: '12px',
+                                  fontWeight: 600,
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                <Edit3 size={13} /> Edit
+                              </button>
+                              <button
+                                onClick={() => handleDeleteExperience(exp.id, exp.role, exp.company)}
+                                title="Delete Experience"
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  padding: '6px 8px',
+                                  borderRadius: '6px',
+                                  border: '1px solid #fee2e2',
+                                  background: '#fff',
+                                  color: '#dc2626',
+                                  fontSize: '12px',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                <Trash2 size={13} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* EXPERIENCE MODAL EDITOR */}
+      {isExpModalOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '20px'
+          }}
+          onClick={e => {
+            if (e.target === e.currentTarget) setIsExpModalOpen(false);
+          }}
+        >
+          <div 
+            style={{
+              background: '#fff',
+              borderRadius: '16px',
+              maxWidth: '680px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+              border: '1px solid #e5e7eb',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid #f3f4f6' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0284c7' }}>
+                  <Briefcase size={20} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#111827' }}>
+                    {editingExpId ? 'Edit Experience' : 'Add New Experience'}
+                  </h3>
+                  <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#6b7280' }}>
+                    Changes reflect immediately on your live Experience page.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsExpModalOpen(false)}
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  color: '#9ca3af',
+                  cursor: 'pointer',
+                  padding: '4px',
+                  borderRadius: '6px'
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Body / Form */}
+            <form onSubmit={handleSaveExperience} style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              
+              {/* Row 1: Role & Company */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                    Job Role / Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Marketing Intern, AI Engineer"
+                    value={expRole}
+                    onChange={e => setExpRole(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      fontSize: '14px',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                    Company / Organization *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. 1page.info, Brandloom"
+                    value={expCompany}
+                    onChange={e => setExpCompany(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      fontSize: '14px',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Period & Order */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                    Timeframe / Period *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Apr 2026 – Sep 2026"
+                    value={expPeriod}
+                    onChange={e => setExpPeriod(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      fontSize: '14px',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                    Display Order Index
+                  </label>
+                  <input
+                    type="number"
+                    value={expOrderIndex}
+                    onChange={e => setExpOrderIndex(parseInt(e.target.value) || 0)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      fontSize: '14px',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Bullet Points Section */}
+              <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: '18px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <div>
+                    <label style={{ fontSize: '14px', fontWeight: 700, color: '#111827', display: 'block' }}>
+                      Key Responsibilities & Achievements
+                    </label>
+                    <span style={{ fontSize: '12px', color: '#6b7280' }}>
+                      The bold text serves as the highlighted prefix (e.g. "Client SEO Strategy:").
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddExpPoint}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid #bae6fd',
+                      background: '#f0f9ff',
+                      color: '#0284c7',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Plus size={13} /> Add Point
+                  </button>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {expPoints.map((pt, pIdx) => (
+                    <div 
+                      key={pIdx} 
+                      style={{ 
+                        padding: '12px', 
+                        borderRadius: '8px', 
+                        background: '#f9fafb', 
+                        border: '1px solid #e5e7eb',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px'
+                      }}
+                    >
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <input
+                          type="text"
+                          placeholder="Bold Prefix (e.g. Client SEO Strategy:)"
+                          value={pt.bold}
+                          onChange={e => handleExpPointChange(pIdx, 'bold', e.target.value)}
+                          style={{
+                            flex: '1',
+                            padding: '8px 10px',
+                            borderRadius: '6px',
+                            border: '1px solid #d1d5db',
+                            fontSize: '13px',
+                            fontWeight: 600,
+                            outline: 'none',
+                            background: '#fff'
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveExpPoint(pIdx)}
+                          title="Remove point"
+                          disabled={expPoints.length === 1}
+                          style={{
+                            border: 'none',
+                            background: 'none',
+                            color: expPoints.length === 1 ? '#d1d5db' : '#ef4444',
+                            cursor: expPoints.length === 1 ? 'not-allowed' : 'pointer',
+                            padding: '4px'
+                          }}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+
+                      <textarea
+                        rows={2}
+                        placeholder="Detailed description of the achievement or task..."
+                        value={pt.text}
+                        onChange={e => handleExpPointChange(pIdx, 'text', e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '8px 10px',
+                          borderRadius: '6px',
+                          border: '1px solid #d1d5db',
+                          fontSize: '13px',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          background: '#fff',
+                          resize: 'vertical'
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Form Footer Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', borderTop: '1px solid #f3f4f6', paddingTop: '18px', marginTop: '6px' }}>
+                <button
+                  type="button"
+                  onClick={() => setIsExpModalOpen(false)}
+                  style={{
+                    padding: '9px 18px',
+                    borderRadius: '6px',
+                    border: '1px solid #d1d5db',
+                    background: '#fff',
+                    color: '#4b5563',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingExp}
+                  style={{
+                    padding: '9px 24px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    background: '#0284c7',
+                    color: '#fff',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: isSavingExp ? 'not-allowed' : 'pointer',
+                    boxShadow: '0 1px 3px rgba(2,132,199,0.3)',
+                    opacity: isSavingExp ? 0.7 : 1
+                  }}
+                >
+                  {isSavingExp ? 'Saving...' : editingExpId ? 'Save Changes' : 'Create Experience'}
+                </button>
+              </div>
+
+            </form>
           </div>
         </div>
       )}
