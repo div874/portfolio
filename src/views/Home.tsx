@@ -87,24 +87,34 @@ const expertiseData = [
 
 const featuredProjects = [
   {
-    title: 'Wallcurry AI Recommendation Model',
-    category: 'AI & Recommendation Engine',
-    desc: 'Built an ML-powered product recommendation engine combining ResNet-50 visual feature extraction, 512-dimensional embeddings, and collaborative filtering to generate personalized recommendations.',
-    metric: '88% recommendation accuracy & 30% increase in mural purchases',
-    tags: ['Python', 'TensorFlow', 'FAISS', 'React'],
-    slug: 'wallcurry-ai-recommendation',
-    role: 'AI/ML Developer',
-    type: 'Personal Project'
+    title: 'Humara Sheher – City Discovery Platform',
+    category: 'Product Development & Discovery',
+    desc: 'Building a hyper-local platform for discovering events, eateries, and unique city experiences with automated event aggregation, categorization, and deduplication.',
+    metric: 'Automated event collection & deduplication pipeline with instant ticket redirects',
+    tags: ['Product Strategy', 'Python', 'Product Analytics', 'Next.js', 'React'],
+    slug: 'humara-sheher',
+    role: 'Product Development',
+    type: 'Product Project'
   },
   {
-    title: 'SEO Reporting Automation Dashboard',
-    category: 'Automation & Data Engineering',
-    desc: 'Built an automated SEO reporting system that pulls Google Search Console and GA4 API data, calculates month-over-month trends, and generates client PDF reports automatically.',
-    metric: 'Saved 6 hrs/week reporting time across 3 client accounts',
-    tags: ['Python', 'Search Console API · GA4 API', 'Pandas', 'Flask'],
-    slug: 'seo-reporting-automation',
-    role: 'Automation Developer',
-    type: 'Professional Project'
+    title: 'Brand Sutra – AI Brand Governance Platform',
+    category: 'AI Product Strategy & LLMs',
+    desc: 'Conceptualized an AI platform that audits and reviews marketing content against brand guidelines, facts, tone of voice, and visual assets before publication.',
+    metric: 'Deterministic brand compliance auditing & automated guideline verification',
+    tags: ['AI Product Strategy', 'LLM APIs', 'Prompt Engineering', 'LangChain'],
+    slug: 'brand-sutra',
+    role: 'AI Product Strategy',
+    type: 'AI Product Strategy'
+  },
+  {
+    title: 'Wallcurry AI Recommendation Model',
+    category: 'Computer Vision & Recommendations',
+    desc: 'Developed an AI-driven personalized mural recommendation system integrating wall and object detection, lighting analysis, and user tastes for an art catalog.',
+    metric: '88% recommendation accuracy & 30% increase in mural purchases',
+    tags: ['Python', 'Deep Learning', 'Computer Vision', 'FAISS', 'VS Code'],
+    slug: 'wallcurry-ai-recommendation',
+    role: 'Design and Development',
+    type: 'AI/ML Project'
   }
 ];
 
@@ -149,33 +159,33 @@ const defaultDetails: ClientCaseStudy = {
 const clientDetailsMap: Record<string, ClientCaseStudy> = {
   '1page.info': {
     websiteUrl: 'https://www.1page.info/',
-    role: 'SEO & Content Automation',
-    summary: 'Scaled organic search visibility and built high-performance content pipelines.',
+    role: 'Marketing Intern (Apr 2026 – Sep 2026)',
+    summary: 'Managed SEO & keyword strategies across 30+ client websites, achieving 9.3+ SEO scores and scaling AI-driven content pipelines.',
     contributions: [
-      'Created 25+ SEO-optimized articles targeting healthcare and agriculture verticals.',
-      'Integrated Claude API for content generation with a custom 19-point humanization ruleset.',
-      'Designed technical internal linking registry to boost indexing and keyword authority.'
+      'Managed SEO & keyword strategies across 30+ client websites, targeting improved rankings and organic visibility.',
+      'Optimized content and search performance, contributing to 9.3+ SEO scores across client pages.',
+      'Streamlined AI-driven content workflows, scaling keyword-to-content execution across 30+ clients.'
     ],
     results: [
-      '+35% average organic traffic lift within 8 weeks.',
-      'Sub-20% AI detection scores across all bulk-generated pages.',
-      'Reduced crawl errors and improved indexing rate by 15%.'
+      'Achieved 9.3+ average SEO scores across audited client pages.',
+      'Scaled keyword-to-content execution across 30+ diverse client accounts.',
+      'Expanded organic search visibility and inbound lead generation.'
     ],
     embeddable: false
   },
   'brandloom': {
     websiteUrl: 'https://www.brandloom.com',
-    role: 'WordPress & AI Integration',
-    summary: 'Optimized speed performance and technical SEO setups for multiple client brands.',
+    role: 'AI & Marketing Intern (May 2025 – Sep 2025)',
+    summary: 'Built and optimized WordPress websites using AI-powered plugins to enhance functionality, UX, and campaign efficiency.',
     contributions: [
-      'Developed and speed-optimized 8 WordPress brand websites.',
-      'Implemented Yoast SEO and RankMath schemas, setting up custom JSON-LD schemas.',
-      'Optimized page assets, images, and scripting, improving load speed by 22%.'
+      'Built and optimized WordPress websites by integrating AI-powered plugins to improve functionality and user experience.',
+      'Applied AI-driven tools and techniques to improve digital marketing performance and campaign efficiency.',
+      'Implemented structured schema and asset speed optimizations.'
     ],
     results: [
-      'Successfully pushed 5 sites to Page 1 Google rankings for primary keywords.',
-      'Maintained 4.8/5 client satisfaction score across completed projects.',
-      '22% reduction in initial page load speed.'
+      'Enhanced user experience and engagement across managed client websites.',
+      'Boosted marketing campaign efficiency through AI-assisted workflows.',
+      'Integrated AI tooling smoothly into day-to-day web development tasks.'
     ],
     embeddable: false
   },

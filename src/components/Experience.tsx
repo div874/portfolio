@@ -4,38 +4,23 @@ import { motion } from 'framer-motion';
 
 const experiences = [
   {
-    company: '1pageinfo, Virtual',
-    role: 'Digital Marketing Intern',
-    period: 'Apr 2026 - Present',
+    company: '1page.info',
+    role: 'Marketing Intern',
+    period: 'Apr 2026 – Sep 2026',
     points: [
-      { bold: 'Content Optimization:', text: 'Created 25+ SEO-optimized blog posts across Healthcare & Food & Agriculture verticals; achieved 35% average organic traffic increase within 8 weeks' },
-      { bold: 'Keyword Research:', text: 'Researched and validated 200+ target keywords; identified 15 high-intent, low-competition opportunities using competitive analysis frameworks' },
-      { bold: 'Technical SEO:', text: 'Audited 50+ website pages for Core Web Vitals, meta optimization, schema markup, and crawlability; fixed critical issues improving indexability' },
-      { bold: 'AI Content Pipeline:', text: 'Integrated Claude API for bulk content generation; developed 19-point humanization ruleset achieving sub-20% AI detection scores across 100+ pages' },
-      { bold: 'Automation:', text: 'Built Python scripts automating competitor analysis and monthly SEO reporting, saving 8+ hours of manual work per month' },
-      { bold: 'Data Analysis:', text: 'Used GA4 advanced segments to identify top-performing content, traffic sources, and drop-off patterns; recommended optimizations reducing bounce rate by 12%' }
+      { bold: 'Client SEO Strategy:', text: 'Managed SEO & keyword strategies across 30+ client websites to support organic visibility and inbound lead generation.' },
+      { bold: 'Content Performance & Audits:', text: 'Improved content performance through technical SEO optimization and AI-assisted workflows, achieving SEO scores of 9.3+ across client pages.' },
+      { bold: 'AI Content Pipelines:', text: 'Streamlined AI-driven content workflows, scaling keyword-to-content execution and topical authority coverage across 30+ clients.' }
     ]
   },
   {
-    company: 'Unknown Discounts, Virtual',
-    role: 'Digital Marketing Intern',
-    period: 'Mar 2026 - Present',
-    points: [
-      { bold: 'Campaign Execution:', text: 'Managed social media calendar for 3 brands; published 40+ posts achieving 12% average engagement rate (Instagram), 8% CTR (Facebook)' },
-      { bold: 'SEO Support:', text: 'Optimized 15+ landing pages using keyword-driven copywriting and on-page best practices; contributed to 18% organic traffic increase' },
-      { bold: 'Content Strategy:', text: 'Assisted in competitive content analysis for 5 e-commerce brands; identified 10 high-ROI content gaps' },
-      { bold: 'Ads Management:', text: 'Managed Google Ads accounts (~$2K/month budget), optimized ad copy and targeting for 5% cost-per-click reduction' }
-    ]
-  },
-  {
-    company: 'Brandloom, Mumbai',
+    company: 'Brandloom',
     role: 'AI & Marketing Intern',
-    period: 'May 2025 - Sep 2025',
+    period: 'May 2025 – Sep 2025',
     points: [
-      { bold: 'WordPress Development:', text: 'Built and optimized 8 WordPress websites; integrated 15+ AI-powered plugins (Yoast SEO, RankMath, AI Content Generator) improving page load speed by 22%' },
-      { bold: 'On-Page SEO:', text: 'Implemented keyword-optimized meta tags, internal linking structures, and content formatting; improved average page rankings from position 15 → 6 within 2 months' },
-      { bold: 'Performance:', text: 'Achieved 5 websites to Page 1 Google rankings for primary keywords; tracked results via GSC and GA4' },
-      { bold: 'Client Results:', text: 'Delivered projects for 3 clients; average client satisfaction 4.8/5; repeat business from 2 clients' }
+      { bold: 'WordPress & AI Plugins:', text: 'Built and optimized WordPress websites using AI-powered plugins to enhance site functionality and user experience.' },
+      { bold: 'Campaign Execution & Growth:', text: 'Applied AI-driven tools and analytical techniques to improve digital marketing performance, boosting engagement and campaign efficiency.' },
+      { bold: 'Technical Schema & Speed:', text: 'Implemented structured schema markup, speed optimization, and on-page SEO best practices for client brand websites.' }
     ]
   }
 ];

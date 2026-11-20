@@ -4,109 +4,151 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { 
   SiPython, 
+  SiJavascript,
   SiTypescript, 
   SiReact, 
   SiNextdotjs, 
-  SiFastapi, 
   SiPostgresql, 
   SiGoogleanalytics, 
   SiGoogle, 
-  SiDocker, 
   SiGit, 
-  SiVercel, 
+  SiGithub,
   SiTailwindcss,
   SiOpenai,
   SiPandas
 } from 'react-icons/si';
-import { TbBrandGoogleAnalytics, TbShieldCheck, TbCode, TbCpu, TbDatabase, TbArrowRight } from 'react-icons/tb';
+import { 
+  TbBrandGoogleAnalytics, 
+  TbShieldCheck, 
+  TbCode, 
+  TbCpu, 
+  TbDatabase, 
+  TbArrowRight,
+  TbBulb,
+  TbChartDots
+} from 'react-icons/tb';
 import { FaChartLine } from 'react-icons/fa6';
 
-// Primary Stack: Technologies used independently in production to architect and deploy systems
-const independentProductionStack = [
+// 4 Core Competency Categories directly aligned with technical background & resume
+const coreCompetencyStack = [
   {
-    category: 'AI & Machine Learning Systems',
+    category: 'Product Management & Strategy',
+    icon: <TbBulb size={24} style={{ color: '#f59e0b' }} />,
+    tagline: 'Translating user problems into data-driven digital solutions',
+    skillsList: [
+      'Problem Framing',
+      'Feature Prioritization',
+      'Product Analytics',
+      'KPI Trees',
+      'Experimentation & A/B Testing',
+      'User Journey & Funnel Design'
+    ],
+    capabilities: [
+      'Framing user pain points into structured PRDs, roadmaps, and measurable metrics',
+      'Prioritizing features across early-stage discovery and AI product workflows',
+      'Designing event taxonomy, conversion funnels, and retention KPI trees',
+      'Formulating AI product governance frameworks and compliance rubrics'
+    ],
+    proofOfWork: [
+      { label: 'Humara Sheher – City Discovery Platform', link: '/projects/humara-sheher' },
+      { label: 'Brand Sutra – AI Brand Governance Platform', link: '/projects/brand-sutra' },
+      { label: 'Zepto vs Zomato: Loyalty & Retention Teardown', link: '/journey/zepto-zomato-customer-loyalty-marketing-growth' }
+    ]
+  },
+  {
+    category: 'AI & Machine Learning (AI & ML)',
     icon: <TbCpu size={24} style={{ color: '#a855f7' }} />,
-    tagline: 'Architected & deployed independently',
-    technologies: ['Python', 'LangChain', 'OpenAI & Claude APIs', 'FAISS Vector Search', 'Hugging Face Transformers'],
+    tagline: 'Deep learning, transformers, and production LLM workflows',
+    skillsList: [
+      'NLP (Natural Language Processing)',
+      'Deep Learning',
+      'Transformers (XLM-RoBERTa, BERT)',
+      'LLM APIs & Prompt Engineering',
+      'RAG (Retrieval-Augmented Generation)',
+      'LangChain',
+      'NER & Sentiment Analysis'
+    ],
     capabilities: [
-      'Retrieval-Augmented Generation (RAG) with custom vector embedding retrieval',
-      'Multi-step autonomous agent workflows & prompt engineering pipelines',
-      'NLP complaint categorization & transformer-based text analysis (BERT / XLM-R)',
-      'Automated LLM content evaluation, guardrails & humanization'
+      'Multilingual customer complaint triage with XLM-RoBERTa, BERT, and NER',
+      'Retrieval-Augmented Generation (RAG) with vector search and document grounding',
+      'Prompt chaining, automated guardrails, and context-aware resolution drafting',
+      'Computer vision for room detection, lighting analysis, and visual recommendations'
     ],
     proofOfWork: [
-      { label: 'Wallcurry AI Recommender (88% Precision)', link: '/projects/wallcurry-ai-recommendation' },
-      { label: 'Brand Sutra AI Governance Platform', link: '/projects/brand-sutra' },
-      { label: 'IEEE Published Research Paper (CONIT 2026)', link: 'https://ieeexplore.ieee.org/abstract/document/11621397', external: true }
+      { label: 'Customer Complaint Auto Resolver (IEEE CONIT 2026)', link: '/projects/customer-complaint-auto-resolver' },
+      { label: 'Wallcurry AI Recommendation Model (88% Accuracy)', link: '/projects/wallcurry-ai-recommendation' },
+      { label: 'Published IEEE Research Paper [DOI: 11621397]', link: 'https://ieeexplore.ieee.org/abstract/document/11621397', external: true }
     ]
   },
   {
-    category: 'Full-Stack Web Engineering',
+    category: 'Programming & Development',
     icon: <TbCode size={24} style={{ color: '#3b82f6' }} />,
-    tagline: 'End-to-end production development',
-    technologies: ['Next.js (App Router)', 'React 19', 'TypeScript', 'FastAPI', 'Tailwind CSS', 'Supabase (PostgreSQL)'],
+    tagline: 'Engineering full-stack web platforms and backend automation',
+    skillsList: [
+      'Python',
+      'SQL',
+      'JavaScript & TypeScript',
+      'C++',
+      'HTML/CSS',
+      'REST APIs',
+      'Git / GitHub',
+      'Next.js & React (VS Code)'
+    ],
     capabilities: [
-      'Production SSR, SSG, dynamic server rendering & Next.js Turbopack architectures',
-      'Secure server actions, REST API design & cloud database integrations',
-      'Role-based access control, file storage pipelines & administrative dashboards',
-      'Responsive, accessible UI with smooth micro-interactions & zero layout shift'
+      'Building performant, responsive web apps using Next.js App Router and React',
+      'Automated data collection, cleaning, and deduplication pipelines in Python',
+      'Designing RESTful API endpoints, server actions, and relational SQL queries',
+      'Version-controlled collaborative development with Git and GitHub CI/CD workflows'
     ],
     proofOfWork: [
-      { label: 'Brand Sutra Full-Stack App', link: '/projects/brand-sutra' },
-      { label: 'Next.js Production Engine & Headless CMS', link: '/projects/nextjs-portfolio-engine' }
+      { label: 'Humara Sheher Discovery Engine', link: '/projects/humara-sheher' },
+      { label: 'High-Performance Web Portfolio Engine', link: '/projects/nextjs-portfolio-engine' },
+      { label: 'Brand Sutra Codebase on GitHub', link: 'https://github.com/div874/Brand-Sutra', external: true }
     ]
   },
   {
-    category: 'Automated Data Pipelines & APIs',
-    icon: <TbDatabase size={24} style={{ color: '#10b981' }} />,
-    tagline: 'Eliminating manual data bottlenecks',
-    technologies: ['Python (Pandas, Requests, BeautifulSoup)', 'Google Search Console API', 'GA4 Data API', 'Selenium', 'CRON Automation'],
+    category: 'Analytics & MarTech',
+    icon: <TbChartDots size={24} style={{ color: '#10b981' }} />,
+    tagline: 'Search performance, data reporting, and organic growth systems',
+    skillsList: [
+      'Google Analytics 4 (GA4)',
+      'Google Search Console (GSC)',
+      'Power BI',
+      'Tableau',
+      'Technical SEO & Audits',
+      'Keyword Research & Strategy'
+    ],
     capabilities: [
-      'Automated ETL workflows extracting live search and traffic analytics via REST APIs',
-      'Automated client reporting pipelines generating PDF dashboards without manual input',
-      'SERP scraping and rank monitoring tools for multi-client accounts',
-      'Webhook synchronization connecting analytical databases to production interfaces'
+      'Managing SEO & keyword strategies across 30+ client websites with 9.3+ SEO scores',
+      'Building automated data extraction pipelines interfacing with GSC API and GA4 API',
+      'Topical authority clustering, crawl budget optimization, and JSON-LD schemas',
+      'Designing interactive executive dashboards in Power BI, Tableau, and Looker Studio'
     ],
     proofOfWork: [
-      { label: 'Automated SEO Reporting Dashboard (Saved 6 hrs/wk)', link: '/projects/seo-reporting-automation' },
-      { label: 'Attribution Marketing Analytics System', link: '/projects/attribution-marketing-analytics' }
-    ]
-  },
-  {
-    category: 'Technical Growth & Search Architecture',
-    icon: <FaChartLine size={20} style={{ color: '#f59e0b' }} />,
-    tagline: 'Proven measurable business outcomes',
-    technologies: ['Technical SEO Auditing', 'JSON-LD Schema Engineering', 'Core Web Vitals Optimization', 'Topical Authority Clustering'],
-    capabilities: [
-      'Programmatic keyword strategy and internal linking crawl trees for large-scale sites',
-      'Search crawler log diagnosis, sitemap structuring, and crawl budget optimization',
-      'Conversion rate optimization (CRO) & funnel analysis across landing pages',
-      'Multi-vertical organic search acquisition pipelines'
-    ],
-    proofOfWork: [
+      { label: '1page.info Growth Systems (30+ Clients, 9.3+ Scores)', link: '/experience' },
       { label: 'B2B SEO & AI Automation Case Study (+240% Traffic)', link: '/case-studies/b2b-seo-ai-traffic-growth' },
-      { label: '1page.info Content & SEO Systems (12+ Verticals)', link: '/experience' }
+      { label: 'SEO Reporting Automation Dashboard (Saved 6 hrs/wk)', link: '/projects/seo-reporting-automation' }
     ]
   }
 ];
 
-// Supporting Tools: Integrated into workflow for containerization, hosting & team shipping
-const supportingTools = [
-  { name: 'Git & GitHub', role: 'Version control & CI/CD', icon: <SiGit size={26} />, color: '#F05032' },
-  { name: 'Docker', role: 'Local containerization', icon: <SiDocker size={26} />, color: '#2496ED' },
-  { name: 'Vercel', role: 'Edge deployment & analytics', icon: <SiVercel size={26} />, color: '#171717' },
-  { name: 'Supabase', role: 'PostgreSQL, Auth & Storage', icon: <SiPostgresql size={26} />, color: '#4169E1' },
-  { name: 'Google Analytics 4', role: 'Event tracking & retention', icon: <SiGoogleanalytics size={26} />, color: '#E37400' },
-  { name: 'Search Console', role: 'Indexation & SERP metrics', icon: <SiGoogle size={26} />, color: '#4285F4' },
-  { name: 'Looker Studio', role: 'BI & performance reports', icon: <TbBrandGoogleAnalytics size={26} />, color: '#4285F4' },
-  { name: 'Tailwind CSS', role: 'Design system & styling', icon: <SiTailwindcss size={26} />, color: '#06B6D4' }
+// Tools & Platforms Verified in Active Development
+const toolsList = [
+  { name: 'Python', role: 'Data, AI & Automation', icon: <SiPython size={26} />, color: '#3776AB' },
+  { name: 'Next.js & React', role: 'Full-stack frontend', icon: <SiNextdotjs size={26} />, color: '#171717' },
+  { name: 'TypeScript', role: 'Type-safe applications', icon: <SiTypescript size={26} />, color: '#3178C6' },
+  { name: 'OpenAI / Claude', role: 'LLM APIs & Prompting', icon: <SiOpenai size={26} />, color: '#10A37F' },
+  { name: 'Pandas & SQL', role: 'Data transformations', icon: <SiPandas size={26} />, color: '#150458' },
+  { name: 'GA4 & GSC', role: 'Search & web analytics', icon: <SiGoogleanalytics size={26} />, color: '#E37400' },
+  { name: 'Git & GitHub', role: 'Version control', icon: <SiGit size={26} />, color: '#F05032' },
+  { name: 'Tailwind CSS', role: 'Design systems & UI', icon: <SiTailwindcss size={26} />, color: '#06B6D4' }
 ];
 
 const Skills = () => {
   return (
     <section className="section" id="skills" style={{ paddingTop: '20px', paddingBottom: '80px' }}>
       
-      {/* Header with Recruiter Assurance */}
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -115,10 +157,10 @@ const Skills = () => {
       >
         <span className="section-label">TECHNICAL COMPETENCE</span>
         <h1 className="accent-text" style={{ fontSize: 'clamp(2.4rem, 5vw, 3.5rem)', marginBottom: '16px' }}>
-          Skills & Production Stack
+          Technical Skills & Capabilities
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '800px', lineHeight: 1.6 }}>
-          Rather than an unverified laundry list of 30 buzzwords, here is an honest breakdown of <strong>what I build independently in production</strong>, paired with concrete proof of work.
+          A clear breakdown of my competencies across <strong>Product Management, AI & Machine Learning, Software Development, and Growth Analytics</strong>, supported by concrete proof of work.
         </p>
       </motion.div>
 
@@ -136,23 +178,14 @@ const Skills = () => {
       }}>
         <TbShieldCheck size={28} style={{ color: '#a855f7', flexShrink: 0 }} />
         <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-          <strong style={{ color: 'var(--text-primary)' }}>Recruiter Note:</strong> Every technology listed under the <em>Independent Production Stack</em> has been used to build and deploy live, functional software or client outcomes without hand-holding.
+          <strong style={{ color: 'var(--text-primary)' }}>Recruiter Verification:</strong> Every skill listed here represents hands-on, independent implementation applied across published academic research, live client campaigns, or shipped platforms.
         </div>
       </div>
 
-      {/* TIER 1: Independent Production Stack */}
+      {/* 4 Core Competency Cards */}
       <div style={{ marginBottom: '64px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
-          <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0 }}>
-            Core Independent Stack
-          </h2>
-          <span style={{ color: 'var(--accent-color)', fontSize: '0.9rem', fontWeight: 600 }}>
-            • Architected & Coded From Scratch
-          </span>
-        </div>
-
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-          {independentProductionStack.map((group, index) => (
+          {coreCompetencyStack.map((group, index) => (
             <motion.div
               key={group.category}
               initial={{ opacity: 0, y: 20 }}
@@ -183,39 +216,39 @@ const Skills = () => {
                     {group.icon}
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0 }}>
+                    <h2 style={{ fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0 }}>
                       {group.category}
-                    </h3>
+                    </h2>
                     <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
                       {group.tagline}
                     </span>
                   </div>
                 </div>
 
-                {/* Tech Pills */}
+                {/* Skills Badges */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
-                  {group.technologies.map(tech => (
+                  {group.skillsList.map(skill => (
                     <span
-                      key={tech}
+                      key={skill}
                       style={{
                         fontSize: '0.78rem',
                         fontWeight: 600,
                         padding: '4px 10px',
                         borderRadius: '6px',
-                        background: 'rgba(168, 85, 247, 0.1)',
+                        background: 'rgba(168, 85, 247, 0.08)',
                         color: 'var(--accent-color, #a855f7)',
                         border: '1px solid rgba(168, 85, 247, 0.2)'
                       }}
                     >
-                      {tech}
+                      {skill}
                     </span>
                   ))}
                 </div>
 
-                {/* What I Build Independently */}
+                {/* Key Capabilities */}
                 <div style={{ marginBottom: '24px' }}>
                   <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-secondary)', marginBottom: '10px' }}>
-                    What I Build Independently:
+                    Core Implementation Capabilities:
                   </div>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {group.capabilities.map((cap, i) => (
@@ -290,19 +323,19 @@ const Skills = () => {
         </div>
       </div>
 
-      {/* TIER 2: Supporting Tooling & Infrastructure */}
+      {/* Primary Toolset Grid */}
       <div style={{ marginBottom: '50px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
           <h2 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0 }}>
-            Supporting Tools & Infrastructure
+            Applied Development Tools & Platforms
           </h2>
           <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
-            • Workflow integration, hosting & containerization
+            • Daily development environment & tools
           </span>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-          {supportingTools.map((tool, index) => (
+          {toolsList.map((tool, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -343,14 +376,14 @@ const Skills = () => {
         }}
       >
         <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', marginBottom: '12px' }}>
-          Need these capabilities on your engineering or growth team?
+          Need these skills on your product or engineering team?
         </h3>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '600px', margin: '0 auto 24px' }}>
-          I am available for AI engineer, full-stack, and growth automation opportunities.
+          I am actively exploring roles in AI Product Management, MarTech & Analytics, and AI Solutions Engineering.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <Link href="/projects" className="glow-button" style={{ textDecoration: 'none', padding: '12px 24px' }}>
-            Explore Shipped Projects →
+            Explore All Projects →
           </Link>
           <a href="/Divyansh_Chandra_Resume.pdf" download="Divyansh_Chandra_Resume.pdf" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--text-primary)', textDecoration: 'none', fontWeight: 600, padding: '12px 20px' }}>
             Download Resume 📄
