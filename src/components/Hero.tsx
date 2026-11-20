@@ -108,10 +108,10 @@ const Hero = ({ onConnectClick }: HeroProps) => {
             fontSize: 'clamp(0.95rem, 1.25vw, 1.12rem)',
             fontWeight: 400,
             marginBottom: '26px',
-            lineHeight: 1.6,
+            lineHeight: 1.65,
             maxWidth: '92%'
           }}>
-            Building data-driven marketing solutions, intelligent automation workflows, and AI-powered applications that connect technology with business growth. Combining marketing analytics, Python automation, SEO systems, and AI to improve operational efficiency and decision-making.
+            I enjoy finding better ways for businesses to work, grow, and connect with customers. Whether it's improving website visibility, making sense of marketing data, automating routine tasks, or using AI to solve business challenges, I focus on making technology genuinely useful.
           </p>
 
           <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '32px', maxWidth: '90%' }}>
