@@ -114,7 +114,7 @@ const Hero = ({ onConnectClick }: HeroProps) => {
           </p>
 
           <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
-            {['Marketing Technology', 'Python Automation', 'AI & LLMs', 'SEO Systems', 'Marketing Analytics'].map((tag) => (
+            {['Marketing Analytics', 'Python Automation', 'AI & RAG', 'SEO Systems', 'Data Pipelines'].map((tag) => (
               <span
                 key={tag}
                 style={{
