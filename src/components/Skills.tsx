@@ -11,7 +11,8 @@ import {
   SiGoogle, 
   SiWordpress,
   SiDocker,
-  SiOpenai
+  SiOpenai,
+  SiAnthropic
 } from 'react-icons/si';
 import { 
   TbBrandGoogleAnalytics, 
@@ -20,9 +21,18 @@ import {
   TbCpu, 
   TbArrowRight,
   TbBulb,
-  TbChartDots
+  TbChartDots,
+  TbSparkles,
+  TbTerminal2,
+  TbCodeDots
 } from 'react-icons/tb';
 import { VscVscode } from 'react-icons/vsc';
+
+const CursorIcon = ({ size = 26, color = '#171717' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 3L11.5 21L14.5 13.5L21.5 10.5L4 3Z" fill={color} stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+  </svg>
+);
 
 // 4 Core Competency Categories aligned strictly with your resume
 const coreCompetencyStack = [
@@ -129,6 +139,10 @@ const coreCompetencyStack = [
 // Supporting Development Tools
 const supportingTools = [
   { name: 'VS Code', role: 'Primary development environment', icon: <VscVscode size={26} />, color: '#007ACC' },
+  { name: 'Cursor', role: 'AI-first IDE & multi-file coding', icon: <CursorIcon size={26} color="#171717" />, color: '#171717' },
+  { name: 'Claude Code', role: 'Terminal AI agent & codebase reasoning', icon: <SiAnthropic size={26} />, color: '#D97706' },
+  { name: 'Codex', role: 'Code intelligence & programmatic generation', icon: <SiOpenai size={26} />, color: '#10A37F' },
+  { name: 'Antigravity', role: 'Agentic orchestration & AI workflows', icon: <TbSparkles size={26} />, color: '#4285F4' },
   { name: 'Git & GitHub', role: 'Version control & collaboration', icon: <SiGit size={26} />, color: '#F05032' },
   { name: 'GA4 & GSC', role: 'Search & web analytics', icon: <SiGoogleanalytics size={26} />, color: '#E37400' },
   { name: 'Power BI & Tableau', role: 'Business intelligence & reporting', icon: <TbBrandGoogleAnalytics size={26} />, color: '#F2C811' },
