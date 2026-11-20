@@ -50,41 +50,29 @@ const SiLangchain = (props: any) => (
 
 const slidingTechSkillsRow1 = [
   { name: 'Python', icon: SiPython, color: '#3776AB' },
-  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
   { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
   { name: 'React', icon: SiReact, color: '#61DAFB' },
   { name: 'Next.js', icon: SiNextdotjs, color: '#171717' },
-  { name: 'Node.js', icon: SiNodedotjs, color: '#5FA04E' },
-  { name: 'HTML5', icon: SiHtml5, color: '#E34F26' },
-  { name: 'CSS3', icon: FaCss3Alt, color: '#1572B6' },
-  { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#71717a' },
+  { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
+  { name: 'PostgreSQL', icon: SiPostgresql, color: '#4169E1' },
+  { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
+  { name: 'Docker', icon: SiDocker, color: '#2496ED' },
   { name: 'Git', icon: SiGit, color: '#F05032' },
   { name: 'GitHub', icon: SiGithub, color: '#171717' },
-  { name: 'Docker', icon: SiDocker, color: '#2496ED' },
-  { name: 'PostgreSQL', icon: SiPostgresql, color: '#4169E1' },
-  { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
-  { name: 'MongoDB', icon: SiMongodb, color: '#47A248' }
+  { name: 'Vercel', icon: SiVercel, color: '#171717' }
 ];
 
 const slidingTechSkillsRow2 = [
   { name: 'OpenAI / LLMs', icon: SiOpenai, color: '#10A37F' },
   { name: 'LangChain', icon: SiLangchain, color: '#38A3F1' },
   { name: 'Pandas', icon: SiPandas, color: '#150458' },
-  { name: 'Scikit-Learn', icon: SiScikitlearn, color: '#F7931E' },
-  { name: 'TensorFlow', icon: SiTensorflow, color: '#FF6F00' },
-  { name: 'PyTorch', icon: SiPytorch, color: '#EE4C2C' },
   { name: 'Google Analytics 4', icon: SiGoogleanalytics, color: '#E37400' },
   { name: 'Search Console', icon: SiGoogle, color: '#4285F4' },
-  { name: 'WordPress', icon: SiWordpress, color: '#21759B' },
   { name: 'Ahrefs / SEO', icon: FaChartLine, color: '#FF6900' },
   { name: 'Looker Studio', icon: TbBrandGoogleAnalytics, color: '#4285F4' },
-  { name: 'Zapier', icon: SiZapier, color: '#FF4A00' },
-  { name: 'Figma', icon: SiFigma, color: '#F24E1E' },
-  { name: 'AWS Cloud', icon: FaAws, color: '#FF9900' },
-  { name: 'Google Cloud', icon: SiGooglecloud, color: '#4285F4' },
-  { name: 'Vercel', icon: SiVercel, color: '#171717' },
   { name: 'Selenium', icon: SiSelenium, color: '#43B02A' },
-  { name: 'FastAPI', icon: SiFastapi, color: '#009688' }
+  { name: 'WordPress', icon: SiWordpress, color: '#21759B' },
+  { name: 'Figma', icon: SiFigma, color: '#F24E1E' }
 ];
 
 const TechMarquee = () => {
@@ -93,6 +81,15 @@ const TechMarquee = () => {
 
   return (
     <section className="section" style={{ paddingTop: '20px', paddingBottom: '60px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+        <span className="section-label" style={{ opacity: 0.85 }}>PRODUCTION TOOLKIT</span>
+        <h3 style={{ fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)', color: 'var(--text-primary)', margin: '4px 0 8px', fontWeight: 700 }}>
+          Technologies Used Across Shipped Work
+        </h3>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', maxWidth: '650px', margin: '0 auto' }}>
+          Production languages, modern web frameworks, AI libraries, and deployment tools verified in my projects.
+        </p>
+      </div>
       <div className="tech-marquee-wrapper">
         {/* Track Row 1 - Left Sliding */}
         <div className="tech-marquee-mask">

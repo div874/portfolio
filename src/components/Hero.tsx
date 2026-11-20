@@ -84,26 +84,26 @@ const Hero = ({ onConnectClick }: HeroProps) => {
           <h2 style={{
             fontFamily: '"Outfit", sans-serif',
             fontSize: 'clamp(1.2rem, 3vw, 2.2rem)',
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: '0.02em',
             color: 'var(--text-primary)',
-            marginBottom: '10px'
+            marginBottom: '12px'
           }}>
-            <span className="accent-text">AI, AUTOMATION & DIGITAL MARKETING</span>
+            <span className="accent-text">AI & AUTOMATION ENGINEER</span>
           </h2>
           <p style={{
             color: 'var(--text-secondary)',
-            fontSize: 'clamp(0.9rem, 1.2vw, 1.1rem)',
+            fontSize: 'clamp(0.95rem, 1.25vw, 1.15rem)',
             fontWeight: 400,
             marginBottom: '20px',
-            lineHeight: 1.5,
-            maxWidth: '90%'
+            lineHeight: 1.55,
+            maxWidth: '92%'
           }}>
-            I build AI-powered applications, automate workflows, and use data-driven marketing to solve real business problems.
+            Building production-grade AI applications, Python workflow automation, and scalable growth systems. <strong>Published IEEE researcher</strong> in Transformer models; engineered AI pipelines that drove <strong>240% organic growth</strong> across 12+ industry verticals.
           </p>
 
           <div className="hero-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px', maxWidth: '90%' }}>
-            {['Generative AI', 'LLMs', 'Python', 'AI Automation', 'SEO', 'Analytics'].map((tag) => (
+            {['AI Agents & RAG', 'Python & FastAPI', 'Next.js & TypeScript', 'Automated Data Pipelines', 'IEEE Published (CONIT 2026)'].map((tag) => (
               <span
                 key={tag}
                 style={{

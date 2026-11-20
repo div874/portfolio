@@ -390,265 +390,13 @@ const Home = ({ onConnectClick }: HomeProps) => {
       {/* Hero Header */}
       <Hero onConnectClick={handleConnectClick} />
 
-      {/* Featured Journal Card */}
-      <section className="section" style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: '16px' }}
-        >
-          <span className="editorial-section-label">FEATURED</span>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <Link 
-            href={`/journey/${featuredJournal.slug}`} 
-            className="editorial-featured-card"
-            style={{ marginBottom: 0 }}
-          >
-            <div className="featured-card-content">
-              <div className="featured-card-tag">{featuredJournal.category}</div>
-              <h2 className="featured-card-title">{featuredJournal.title}</h2>
-              <div className="featured-card-meta" style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.85rem', color: '#777', marginBottom: '16px' }}>
-                {featuredJournal.date} &middot; {featuredJournal.readingTime || '3 min read'}
-              </div>
-              {featuredJournal.excerpt && (
-                <p className="featured-card-excerpt" style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#444', marginBottom: '20px' }}>
-                  {featuredJournal.excerpt}
-                </p>
-              )}
-              <div className="read-more-btn" style={{ fontWeight: 600, fontSize: '0.9rem', color: '#171717', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                Read journal &rarr;
-              </div>
-            </div>
-            {featuredJournal.image && (
-              <div className="featured-card-visual">
-                <img 
-                  src={featuredJournal.image} 
-                  alt={featuredJournal.title} 
-                  loading="lazy" 
-                  width="600" 
-                  height="400" 
-                  style={{ borderRadius: '4px', objectFit: 'cover', width: '100%', height: 'auto', maxHeight: '280px' }}
-                />
-              </div>
-            )}
-          </Link>
-        </motion.div>
-
-        {/* Curated Insights Grid (Internal Crawl Engine) */}
-        <div style={{ marginTop: '28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-          {recentInsights.map(item => (
-            <Link
-              key={item.slug}
-              href={`/journey/${item.slug}`}
-              className="glass-card"
-              style={{
-                textDecoration: 'none',
-                padding: '24px',
-                borderRadius: '16px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                transition: 'all 0.25s ease',
-              }}
-            >
-              <div>
-                <span style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  {item.category}
-                </span>
-                <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 700, lineHeight: 1.35, marginTop: '8px', marginBottom: '10px' }}>
-                  {item.title}
-                </h3>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
-                  {item.excerpt}
-                </p>
-              </div>
-              <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                <span>{item.date}</span>
-                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Read Article →</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div style={{ marginTop: '20px', textAlign: 'right' }}>
-          <Link
-            href="/journey"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              color: 'var(--accent-color)',
-              textDecoration: 'none'
-            }}
-          >
-            Explore all journal entries & insights →
-          </Link>
-        </div>
-      </section>
-
-      {/* About & Stats */}
-      <About />
-
-      {/* 1. Core Expertise Pillars Grid */}
-      <section className="section" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: '40px' }}
-        >
-          <span className="section-label">EXPERTISE & FOCUS</span>
-          <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Core Capabilities
-          </h2>
-        </motion.div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-          {expertiseData.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="glass-card"
-            >
-              <div style={{ display: 'flex', alignItems: 'center', height: '36px', marginBottom: '16px' }}>{item.icon}</div>
-              <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', marginBottom: '10px', fontWeight: 700 }}>
-                {item.title}
-              </h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.65', marginBottom: '20px' }}>
-                {item.description}
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {item.tags.map(tag => (
-                  <span key={tag} className="tech-tag">{tag}</span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Tech Stack Sliding Icons Marquee */}
-      <TechMarquee />
-
-      {/* 2. Clients I've Worked With (Logos Only) */}
-      <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: '40px', textAlign: 'center' }}
-        >
-          <span className="section-label">SELECTED EXPERIENCE</span>
-          <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Organizations I've Worked With
-          </h2>
-        </motion.div>
-
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '20px',
-          flexWrap: 'wrap',
-          background: 'rgba(255,255,255,0.6)',
-          border: '1px solid rgba(0,0,0,0.08)',
-          borderRadius: '16px',
-          padding: '40px 30px'
-        }}>
-          {clientLogos.map((client, idx) => (
-            <motion.div
-              key={client.name}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.08, duration: 0.4 }}
-              onClick={() => setSelectedClient(client)}
-              whileHover={{ scale: 1.02, borderColor: 'var(--border-hover)' }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '220px',
-                height: '90px',
-                padding: '16px',
-                borderRadius: '10px',
-                background: '#ffffff',
-                border: '1px solid rgba(0,0,0,0.08)',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                cursor: 'pointer'
-              }}
-            >
-              <img
-                src={client.logo}
-                alt={client.name}
-                loading="lazy"
-                width="220"
-                height="90"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  const sibling = e.currentTarget.nextSibling as HTMLElement;
-                  if (sibling) sibling.style.display = 'block';
-                }}
-                style={{
-                  maxHeight: '100%',
-                  maxWidth: '100%',
-                  objectFit: 'contain'
-                }}
-              />
-              <span
-                style={{
-                  display: 'none',
-                  fontSize: '1.25rem',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 800,
-                  letterSpacing: '1px',
-                  color: 'var(--text-primary)',
-                  textAlign: 'center'
-                }}
-              >
-                {client.name}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-
-        <div style={{ 
-          marginTop: '20px', 
-          textAlign: 'center'
-        }}>
-          <p style={{ 
-            color: 'var(--text-secondary)', 
-            fontSize: '0.85rem', 
-            fontStyle: 'italic', 
-            margin: '0 auto',
-            maxWidth: '600px',
-            lineHeight: '1.4'
-          }}>
-            Some organizations were worked with through internship or agency roles and were not direct personal clients.
-          </p>
-        </div>
-      </section>
-
-      {/* 3. Featured Projects Preview */}
+      {/* 1. Featured Projects & Engineering Systems */}
       <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <span className="section-label">SELECTED WORK</span>
             <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-              Featured Projects
+              Featured Projects & Systems
             </h2>
           </div>
           <Link href="/projects" className="glow-button" style={{ textDecoration: 'none', padding: '10px 20px', fontSize: '0.9rem' }}>
@@ -831,7 +579,280 @@ const Home = ({ onConnectClick }: HomeProps) => {
         </div>
       </section>
 
-      {/* 4. Minimal Professional CTA Banner */}
+      {/* 2. Clients I've Worked With (Selected Experience) */}
+      <section className="section" style={{ paddingTop: '20px', paddingBottom: '60px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: '40px', textAlign: 'center' }}
+        >
+          <span className="section-label">SELECTED EXPERIENCE</span>
+          <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            Organizations & Client Systems
+          </h2>
+        </motion.div>
+
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '20px',
+          flexWrap: 'wrap',
+          background: 'rgba(255,255,255,0.6)',
+          border: '1px solid rgba(0,0,0,0.08)',
+          borderRadius: '16px',
+          padding: '40px 30px'
+        }}>
+          {clientLogos.map((client, idx) => (
+            <motion.div
+              key={client.name}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.08, duration: 0.4 }}
+              onClick={() => setSelectedClient(client)}
+              whileHover={{ scale: 1.02, borderColor: 'var(--border-hover)' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '220px',
+                height: '90px',
+                padding: '16px',
+                borderRadius: '10px',
+                background: '#ffffff',
+                border: '1px solid rgba(0,0,0,0.08)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                cursor: 'pointer'
+              }}
+            >
+              <img
+                src={client.logo}
+                alt={client.name}
+                loading="lazy"
+                width="220"
+                height="90"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  const sibling = e.currentTarget.nextSibling as HTMLElement;
+                  if (sibling) sibling.style.display = 'block';
+                }}
+                style={{
+                  maxHeight: '100%',
+                  maxWidth: '100%',
+                  objectFit: 'contain'
+                }}
+              />
+              <span
+                style={{
+                  display: 'none',
+                  fontSize: '1.25rem',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontWeight: 800,
+                  letterSpacing: '1px',
+                  color: 'var(--text-primary)',
+                  textAlign: 'center'
+                }}
+              >
+                {client.name}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+
+        <div style={{ 
+          marginTop: '20px', 
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <p style={{ 
+            color: 'var(--text-secondary)', 
+            fontSize: '0.85rem', 
+            fontStyle: 'italic', 
+            margin: 0,
+            maxWidth: '600px',
+            lineHeight: '1.4'
+          }}>
+            Some organizations were worked with through internship or agency roles and were not direct personal clients.
+          </p>
+          <Link
+            href="/experience"
+            style={{
+              color: 'var(--accent-color)',
+              textDecoration: 'none',
+              fontWeight: 600,
+              fontSize: '0.9rem'
+            }}
+          >
+            Explore Full Experience Timeline →
+          </Link>
+        </div>
+      </section>
+
+      {/* 3. About Me (Recruiter Fast-Track) */}
+      <About />
+
+      {/* 4. Core Expertise Pillars Grid */}
+      <section className="section" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: '40px' }}
+        >
+          <span className="section-label">EXPERTISE & FOCUS</span>
+          <h2 className="accent-text" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            Core Capabilities
+          </h2>
+        </motion.div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          {expertiseData.map((item, index) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="glass-card"
+            >
+              <div style={{ display: 'flex', alignItems: 'center', height: '36px', marginBottom: '16px' }}>{item.icon}</div>
+              <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', marginBottom: '10px', fontWeight: 700 }}>
+                {item.title}
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.65', marginBottom: '20px' }}>
+                {item.description}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {item.tags.map(tag => (
+                  <span key={tag} className="tech-tag">{tag}</span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Tech Stack Sliding Icons Marquee */}
+      <TechMarquee />
+
+      {/* 5. Technical Journal & Analytical Insights (Secondary) */}
+      <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: '24px' }}
+        >
+          <span className="editorial-section-label">TECHNICAL WRITING & RESEARCH</span>
+          <h2 className="accent-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', margin: '8px 0 6px' }}>
+            Curiosity & Architecture Teardowns
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '720px' }}>
+            In-depth technical essays and case analyses demonstrating architectural curiosity, RAG systems evaluation, and business model mechanics.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <Link 
+            href={`/journey/${featuredJournal.slug}`} 
+            className="editorial-featured-card"
+            style={{ marginBottom: 0 }}
+          >
+            <div className="featured-card-content">
+              <div className="featured-card-tag">{featuredJournal.category}</div>
+              <h2 className="featured-card-title">{featuredJournal.title}</h2>
+              <div className="featured-card-meta" style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.85rem', color: '#777', marginBottom: '16px' }}>
+                {featuredJournal.date} &middot; {featuredJournal.readingTime || '3 min read'}
+              </div>
+              {featuredJournal.excerpt && (
+                <p className="featured-card-excerpt" style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#444', marginBottom: '20px' }}>
+                  {featuredJournal.excerpt}
+                </p>
+              )}
+              <div className="read-more-btn" style={{ fontWeight: 600, fontSize: '0.9rem', color: '#171717', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                Read essay &rarr;
+              </div>
+            </div>
+            {featuredJournal.image && (
+              <div className="featured-card-visual">
+                <img 
+                  src={featuredJournal.image} 
+                  alt={featuredJournal.title} 
+                  loading="lazy" 
+                  width="600" 
+                  height="400" 
+                  style={{ borderRadius: '4px', objectFit: 'cover', width: '100%', height: 'auto', maxHeight: '280px' }}
+                />
+              </div>
+            )}
+          </Link>
+        </motion.div>
+
+        {/* Curated Insights Grid (Internal Crawl Engine & Secondary Reading) */}
+        <div style={{ marginTop: '28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          {recentInsights.map(item => (
+            <Link
+              key={item.slug}
+              href={`/journey/${item.slug}`}
+              className="glass-card"
+              style={{
+                textDecoration: 'none',
+                padding: '24px',
+                borderRadius: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                transition: 'all 0.25s ease',
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  {item.category}
+                </span>
+                <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 700, lineHeight: 1.35, marginTop: '8px', marginBottom: '10px' }}>
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                  {item.excerpt}
+                </p>
+              </div>
+              <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <span>{item.date}</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Read Article →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ marginTop: '20px', textAlign: 'right' }}>
+          <Link
+            href="/journey"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              color: 'var(--accent-color)',
+              textDecoration: 'none'
+            }}
+          >
+            Explore all essays & research notes →
+          </Link>
+        </div>
+      </section>
+
+      {/* 6. Minimal Professional CTA Banner */}
       <section className="section" style={{ paddingTop: '40px', paddingBottom: '100px' }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

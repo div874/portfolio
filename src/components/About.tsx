@@ -67,7 +67,7 @@ const About = () => {
         </motion.div>
 
         {/* Content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -75,27 +75,54 @@ const About = () => {
             transition={{ duration: 0.6 }}
             className="about-content"
           >
-            <div className="about-lead" style={{ borderBottom: 'none', paddingBottom: '0', marginBottom: '20px' }}>
-              <ScrollReveal
-                baseOpacity={0.1}
-                enableBlur={true}
-                baseRotation={3}
-                blurStrength={4}
-                textClassName="about-lead-text"
-              >
-                I work at the intersection of AI, automation, and digital marketing - building practical systems that make businesses smarter, faster, and more scalable.
-              </ScrollReveal>
+            {/* Recruiter Fast-Track Card (Role, Strengths, Strongest Achievement) */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%)',
+              border: '1px solid rgba(168, 85, 247, 0.25)',
+              borderRadius: '16px',
+              padding: '24px 28px',
+              marginBottom: '24px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                <span style={{ 
+                  background: 'var(--accent-color, #a855f7)', 
+                  color: '#fff', 
+                  fontSize: '0.72rem', 
+                  fontWeight: 700, 
+                  letterSpacing: '1px', 
+                  padding: '3px 10px', 
+                  borderRadius: '20px',
+                  textTransform: 'uppercase'
+                }}>
+                  Recruiter Fast-Track
+                </span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>• Executive Overview</span>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Role: </strong>
+                  <span style={{ color: 'var(--text-secondary)' }}>AI & Automation Engineer / Full-Stack Builder</span>
+                </div>
+                <div style={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Core Strengths: </strong>
+                  <span style={{ color: 'var(--text-secondary)' }}>Production LLM/RAG systems, end-to-end Python process automation, and full-stack web platforms (Next.js, React, FastAPI, Supabase).</span>
+                </div>
+                <div style={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Strongest Achievement: </strong>
+                  <span style={{ color: 'var(--text-secondary)' }}>
+                    <strong>Published IEEE author</strong> (6th CONIT 2026, Multilingual Transformer Models) and built automated AI pipelines delivering <strong>+240% organic growth</strong> across 12+ industry verticals.
+                  </span>
+                </div>
+              </div>
             </div>
 
             <div className="about-body">
               <p>
-                <strong>Divyansh Chandra</strong> is an MBA Tech student at <strong>NMIMS (SVKM's NMIMS University)</strong> specializing in Artificial Intelligence, Python process automation, technical SEO, and digital marketing data analytics. His work combines Generative AI, LLMs, automated data engineering, and performance marketing to solve complex business problems.
+                I build software at the intersection of <strong>AI, automated data engineering, and scalable growth systems</strong>. Rather than treating AI as a novelty, I turn complex manual processes into deterministic, production-ready workflows that generate measurable business ROI.
               </p>
               <p>
-                He turns repetitive manual processes into automated Python workflows, connects live business data with intelligent models, and builds scalable growth systems.
-              </p>
-              <p>
-                Currently, he leads AI-powered content and SEO automation workflows for <strong style={{ color: 'var(--text-primary)' }}>1page.info</strong> across <strong style={{ color: 'var(--accent-color)' }}>12+ industry verticals</strong>, designing automated keyword strategy, internal linking registries, and content optimization systems.
+                Currently, I lead AI-powered content and technical SEO automation for <strong style={{ color: 'var(--text-primary)' }}>1page.info</strong> across <strong style={{ color: 'var(--accent-color)' }}>12+ industry verticals</strong>—architecting programmatic keyword mapping, semantic internal linking trees, and automated reporting systems.
               </p>
             </div>
 
