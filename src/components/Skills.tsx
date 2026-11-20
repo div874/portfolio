@@ -4,32 +4,27 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { 
   SiPython, 
-  SiJavascript,
-  SiTypescript, 
-  SiReact, 
-  SiNextdotjs, 
-  SiPostgresql, 
+  SiJavascript, 
+  SiGit, 
+  SiGithub, 
   SiGoogleanalytics, 
   SiGoogle, 
-  SiGit, 
-  SiGithub,
-  SiTailwindcss,
-  SiOpenai,
-  SiPandas
+  SiWordpress,
+  SiDocker,
+  SiOpenai
 } from 'react-icons/si';
 import { 
   TbBrandGoogleAnalytics, 
   TbShieldCheck, 
   TbCode, 
   TbCpu, 
-  TbDatabase, 
   TbArrowRight,
   TbBulb,
   TbChartDots
 } from 'react-icons/tb';
-import { FaChartLine } from 'react-icons/fa6';
+import { VscVscode } from 'react-icons/vsc';
 
-// 4 Core Competency Categories directly aligned with technical background & resume
+// 4 Core Competency Categories aligned strictly with your resume
 const coreCompetencyStack = [
   {
     category: 'Product Management & Strategy',
@@ -40,14 +35,13 @@ const coreCompetencyStack = [
       'Feature Prioritization',
       'Product Analytics',
       'KPI Trees',
-      'Experimentation & A/B Testing',
-      'User Journey & Funnel Design'
+      'Experimentation'
     ],
     capabilities: [
-      'Framing user pain points into structured PRDs, roadmaps, and measurable metrics',
-      'Prioritizing features across early-stage discovery and AI product workflows',
-      'Designing event taxonomy, conversion funnels, and retention KPI trees',
-      'Formulating AI product governance frameworks and compliance rubrics'
+      'Framing user pain points into structured PRDs, discovery roadmaps, and measurable metrics',
+      'Prioritizing features across early-stage discovery and AI governance workflows',
+      'Defining event tracking taxonomies, conversion funnels, and retention KPI trees',
+      'Formulating AI product governance frameworks and compliance review rubrics'
     ],
     proofOfWork: [
       { label: 'Humara Sheher – City Discovery Platform', link: '/projects/humara-sheher' },
@@ -63,47 +57,47 @@ const coreCompetencyStack = [
       'NLP (Natural Language Processing)',
       'Deep Learning',
       'Transformers (XLM-RoBERTa, BERT)',
-      'LLM APIs & Prompt Engineering',
-      'RAG (Retrieval-Augmented Generation)',
-      'LangChain',
-      'NER & Sentiment Analysis'
+      'LLM APIs',
+      'Prompt Engineering',
+      'RAG',
+      'LangChain'
     ],
     capabilities: [
-      'Multilingual customer complaint triage with XLM-RoBERTa, BERT, and NER',
+      'Multilingual customer complaint triage with fine-tuned XLM-RoBERTa and BERT models',
+      'Sentiment analysis, urgency detection, and Named Entity Recognition (NER)',
       'Retrieval-Augmented Generation (RAG) with vector search and document grounding',
-      'Prompt chaining, automated guardrails, and context-aware resolution drafting',
-      'Computer vision for room detection, lighting analysis, and visual recommendations'
+      'Prompt chaining, automated guardrails, and context-aware resolution drafting'
     ],
     proofOfWork: [
       { label: 'Customer Complaint Auto Resolver (IEEE CONIT 2026)', link: '/projects/customer-complaint-auto-resolver' },
-      { label: 'Wallcurry AI Recommendation Model (88% Accuracy)', link: '/projects/wallcurry-ai-recommendation' },
+      { label: 'Wallcurry Model (AI Mural Recommendation)', link: '/projects/wallcurry-ai-recommendation' },
       { label: 'Published IEEE Research Paper [DOI: 11621397]', link: 'https://ieeexplore.ieee.org/abstract/document/11621397', external: true }
     ]
   },
   {
     category: 'Programming & Development',
     icon: <TbCode size={24} style={{ color: '#3b82f6' }} />,
-    tagline: 'Engineering full-stack web platforms and backend automation',
+    tagline: 'Clean, maintainable software and automation development',
     skillsList: [
       'Python',
       'SQL',
-      'JavaScript & TypeScript',
+      'JavaScript',
       'C++',
       'HTML/CSS',
       'REST APIs',
       'Git / GitHub',
-      'Next.js & React (VS Code)'
+      'VS Code'
     ],
     capabilities: [
-      'Building performant, responsive web apps using Next.js App Router and React',
-      'Automated data collection, cleaning, and deduplication pipelines in Python',
-      'Designing RESTful API endpoints, server actions, and relational SQL queries',
-      'Version-controlled collaborative development with Git and GitHub CI/CD workflows'
+      'Developing automated data ingestion, event scraping, and deduplication scripts in Python',
+      'Designing RESTful API endpoints and querying relational SQL databases',
+      'Building responsive, structured interfaces with JavaScript, HTML, and CSS',
+      'Version-controlled collaborative development using Git and GitHub workflows in VS Code'
     ],
     proofOfWork: [
-      { label: 'Humara Sheher Discovery Engine', link: '/projects/humara-sheher' },
-      { label: 'High-Performance Web Portfolio Engine', link: '/projects/nextjs-portfolio-engine' },
-      { label: 'Brand Sutra Codebase on GitHub', link: 'https://github.com/div874/Brand-Sutra', external: true }
+      { label: 'Humara Sheher Discovery Pipeline', link: '/projects/humara-sheher' },
+      { label: 'Brand Sutra AI Codebase on GitHub', link: 'https://github.com/div874/Brand-Sutra', external: true },
+      { label: 'Customer Complaint Auto Resolver Codebase', link: '/projects/customer-complaint-auto-resolver' }
     ]
   },
   {
@@ -115,33 +109,33 @@ const coreCompetencyStack = [
       'Google Search Console (GSC)',
       'Power BI',
       'Tableau',
-      'Technical SEO & Audits',
-      'Keyword Research & Strategy'
+      'SEO (Technical & Content)',
+      'Keyword Research'
     ],
     capabilities: [
-      'Managing SEO & keyword strategies across 30+ client websites with 9.3+ SEO scores',
-      'Building automated data extraction pipelines interfacing with GSC API and GA4 API',
-      'Topical authority clustering, crawl budget optimization, and JSON-LD schemas',
-      'Designing interactive executive dashboards in Power BI, Tableau, and Looker Studio'
+      'Managing SEO & keyword strategies across 30+ client websites, achieving 9.3+ SEO scores',
+      'Building automated data reporting workflows interfacing with GSC API and GA4 API',
+      'Designing executive visual dashboards and performance reports in Power BI and Tableau',
+      'Topical authority clustering, keyword gap teardowns, and crawl budget optimization'
     ],
     proofOfWork: [
       { label: '1page.info Growth Systems (30+ Clients, 9.3+ Scores)', link: '/experience' },
       { label: 'B2B SEO & AI Automation Case Study (+240% Traffic)', link: '/case-studies/b2b-seo-ai-traffic-growth' },
-      { label: 'SEO Reporting Automation Dashboard (Saved 6 hrs/wk)', link: '/projects/seo-reporting-automation' }
+      { label: 'Brandloom WordPress & AI Campaign Workflows', link: '/experience' }
     ]
   }
 ];
 
-// Tools & Platforms Verified in Active Development
-const toolsList = [
-  { name: 'Python', role: 'Data, AI & Automation', icon: <SiPython size={26} />, color: '#3776AB' },
-  { name: 'Next.js & React', role: 'Full-stack frontend', icon: <SiNextdotjs size={26} />, color: '#171717' },
-  { name: 'TypeScript', role: 'Type-safe applications', icon: <SiTypescript size={26} />, color: '#3178C6' },
-  { name: 'OpenAI / Claude', role: 'LLM APIs & Prompting', icon: <SiOpenai size={26} />, color: '#10A37F' },
-  { name: 'Pandas & SQL', role: 'Data transformations', icon: <SiPandas size={26} />, color: '#150458' },
+// Supporting Development Tools
+const supportingTools = [
+  { name: 'VS Code', role: 'Primary development environment', icon: <VscVscode size={26} />, color: '#007ACC' },
+  { name: 'Git & GitHub', role: 'Version control & collaboration', icon: <SiGit size={26} />, color: '#F05032' },
   { name: 'GA4 & GSC', role: 'Search & web analytics', icon: <SiGoogleanalytics size={26} />, color: '#E37400' },
-  { name: 'Git & GitHub', role: 'Version control', icon: <SiGit size={26} />, color: '#F05032' },
-  { name: 'Tailwind CSS', role: 'Design systems & UI', icon: <SiTailwindcss size={26} />, color: '#06B6D4' }
+  { name: 'Power BI & Tableau', role: 'Business intelligence & reporting', icon: <TbBrandGoogleAnalytics size={26} />, color: '#F2C811' },
+  { name: 'WordPress', role: 'Content management & AI plugins', icon: <SiWordpress size={26} />, color: '#21759B' },
+  { name: 'Looker Studio', role: 'Secondary reporting dashboards', icon: <TbBrandGoogleAnalytics size={26} />, color: '#4285F4' },
+  { name: 'Docker', role: 'Local containerization', icon: <SiDocker size={26} />, color: '#2496ED' },
+  { name: 'OpenAI / Claude', role: 'LLM APIs & Prompting', icon: <SiOpenai size={26} />, color: '#10A37F' }
 ];
 
 const Skills = () => {
@@ -160,7 +154,7 @@ const Skills = () => {
           Technical Skills & Capabilities
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '800px', lineHeight: 1.6 }}>
-          A clear breakdown of my competencies across <strong>Product Management, AI & Machine Learning, Software Development, and Growth Analytics</strong>, supported by concrete proof of work.
+          Directly aligned with my academic training in Computer Engineering and practical experience across <strong>Product Management, AI & Machine Learning, Software Development, and Analytics</strong>.
         </p>
       </motion.div>
 
@@ -178,7 +172,7 @@ const Skills = () => {
       }}>
         <TbShieldCheck size={28} style={{ color: '#a855f7', flexShrink: 0 }} />
         <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-          <strong style={{ color: 'var(--text-primary)' }}>Recruiter Verification:</strong> Every skill listed here represents hands-on, independent implementation applied across published academic research, live client campaigns, or shipped platforms.
+          <strong style={{ color: 'var(--text-primary)' }}>Recruiter Verification:</strong> Every skill listed here represents verified, hands-on implementation applied across published academic research, live client campaigns, or shipped platforms.
         </div>
       </div>
 
@@ -323,19 +317,19 @@ const Skills = () => {
         </div>
       </div>
 
-      {/* Primary Toolset Grid */}
+      {/* Supporting Tools Grid */}
       <div style={{ marginBottom: '50px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
           <h2 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0 }}>
-            Applied Development Tools & Platforms
+            Applied Development Tools & Environments
           </h2>
           <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
-            • Daily development environment & tools
+            • Daily development, analytics & version control tools
           </span>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-          {toolsList.map((tool, index) => (
+          {supportingTools.map((tool, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -379,7 +373,7 @@ const Skills = () => {
           Need these skills on your product or engineering team?
         </h3>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '600px', margin: '0 auto 24px' }}>
-          I am actively exploring roles in AI Product Management, MarTech & Analytics, and AI Solutions Engineering.
+          I am actively exploring roles in AI Product Management, MarTech & Analytics, and AI Solutions.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <Link href="/projects" className="glow-button" style={{ textDecoration: 'none', padding: '12px 24px' }}>

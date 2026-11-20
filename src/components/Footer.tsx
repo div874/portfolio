@@ -49,24 +49,24 @@ const featuredWork = [
     tag: 'SEO & AI'
   },
   {
-    label: 'Wallcurry AI Product Recommendation Engine',
-    href: '/projects/wallcurry-ai-recommendation',
-    tag: 'Python & FAISS'
+    label: 'Customer Complaint Auto Resolver (IEEE CONIT 2026)',
+    href: '/projects/customer-complaint-auto-resolver',
+    tag: 'DL & NLP'
+  },
+  {
+    label: 'Humara Sheher – City Discovery Platform',
+    href: '/projects/humara-sheher',
+    tag: 'Product'
   },
   {
     label: 'Brand Sutra: AI Brand Governance Platform',
     href: '/projects/brand-sutra',
-    tag: 'Next.js & LLM'
+    tag: 'AI Strategy'
   },
   {
-    label: 'Automated SEO Reporting & Analytics Pipeline',
-    href: '/projects/seo-reporting-automation',
-    tag: 'GSC & GA4 API'
-  },
-  {
-    label: 'Multi-Touch Marketing Attribution Engine',
-    href: '/projects/attribution-marketing-analytics',
-    tag: 'Marketing Analytics'
+    label: 'Wallcurry Model: AI Mural Recommendation',
+    href: '/projects/wallcurry-ai-recommendation',
+    tag: 'Python & CV'
   },
 ];
 

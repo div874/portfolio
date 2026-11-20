@@ -4,7 +4,7 @@ export interface ProjectDetail {
   id?: string;
   slug: string;
   title: string;
-  category: 'AI Projects' | 'SEO Projects' | 'Digital Marketing Projects' | 'Web Development Projects' | 'Product Management' | string;
+  category: 'AI Projects' | 'Product Management' | string;
   role: string;
   type: string;
   tagline: string;
@@ -25,10 +25,7 @@ export interface ProjectDetail {
 export const PROJECT_CATEGORIES = [
   'All',
   'AI Projects',
-  'Product Management',
-  'SEO Projects',
-  'Digital Marketing Projects',
-  'Web Development Projects'
+  'Product Management'
 ] as const;
 
 export const projectDetails: ProjectDetail[] = [
@@ -78,8 +75,8 @@ export const projectDetails: ProjectDetail[] = [
       'Implemented seamless ticket-booking redirects and Google Maps location integration to streamline user conversion.',
     ],
     architecture:
-      'Event Crawlers & User Submissions → Deduplication Engine → Categorization Pipeline → Curated Discovery Database → Next.js / React UI → Ticket Redirects',
-    technologies: ['Product Strategy', 'Python', 'Feature Prioritization', 'Product Analytics', 'Data Deduplication', 'REST APIs', 'Next.js', 'React'],
+      'Event Crawlers & User Submissions → Deduplication Engine → Categorization Pipeline → Curated Discovery Database → Web UI → Ticket Redirects',
+    technologies: ['Problem Framing', 'Feature Prioritization', 'Product Analytics', 'KPI Trees', 'Python', 'SQL', 'JavaScript', 'HTML/CSS', 'REST APIs', 'Git/GitHub', 'VS Code'],
     results: [
       'Automated event ingestion eliminating manual data entry across city events',
       'Unified event categorization covering nightlife, workshops, eateries, and culture',
@@ -108,7 +105,7 @@ export const projectDetails: ProjectDetail[] = [
     ],
     architecture:
       'Marketing Draft Input → Brand Rule Parser → LLM Compliance Evaluator → Fact-Checking Engine → Violation Highlighting UI → Remediation Generator',
-    technologies: ['AI Product Strategy', 'LLM APIs', 'Prompt Engineering', 'LangChain', 'Python', 'Product Analytics', 'Compliance Workflows'],
+    technologies: ['Problem Framing', 'Feature Prioritization', 'Product Analytics', 'LLM APIs', 'Prompt Engineering', 'LangChain', 'Python', 'REST APIs', 'Git/GitHub', 'VS Code'],
     results: [
       'Established deterministic brand compliance scoring system for written and visual content',
       'Automated violation detection across tone, claim verification, and visual styling',
@@ -122,117 +119,31 @@ export const projectDetails: ProjectDetail[] = [
   },
   {
     slug: 'wallcurry-ai-recommendation',
-    title: 'Wallcurry AI Recommendation Model',
+    title: 'Wallcurry Model (AI Mural Recommendation System)',
     category: 'AI Projects',
     role: 'Design and Development',
     type: 'AI/ML Project',
-    tagline: 'AI-driven personalized mural recommendation system integrating wall and object detection, lighting analysis, and user tastes.',
+    tagline: 'AI-driven personalized mural recommendation system integrating wall and object detection, lighting analysis, and user preferences.',
     problem:
-      'Wallcurry, an art platform featuring 10,000+ mural listings, had no personalized discovery mechanism. Customers found it difficult to visualize how murals would match their specific wall dimensions, room lighting, and furniture aesthetics.',
+      'Wallcurry had no personalized discovery mechanism for mural designs. Customers found it difficult to select murals that suited their specific wall boundaries, room lighting conditions, and aesthetic preferences.',
     approach: [
-      'Developed computer vision pipelines for wall boundary detection, room layout analysis, and lighting condition evaluation.',
-      'Extracted visual feature embeddings using deep convolutional architectures to understand mural color palettes and artistic themes.',
-      'Layered user taste preferences and room context over visual embeddings to compute personalized recommendation scores.',
-      'Built a fast similarity retrieval engine using FAISS and exposed recommendations via a Python REST API.',
+      'Developed computer vision pipelines for wall and object detection across room photos.',
+      'Implemented lighting condition analysis to evaluate ambient luminescence and color temperature.',
+      'Combined room visual features with user design preferences to deliver personalized mural recommendations.',
+      'Constructed recommendation ranking algorithms in Python within VS Code.',
     ],
     architecture:
-      'Room Image → Wall & Object Detection → Lighting Analysis → Visual Embeddings (ResNet/FAISS) → Re-ranking Engine → Recommendation API',
-    technologies: ['Python', 'Computer Vision', 'Deep Learning', 'TensorFlow', 'FAISS', 'Flask', 'NumPy', 'VS Code'],
+      'Room Image Input → Wall & Object Detection → Lighting Condition Analysis → User Preference Scoring → Personalized Recommendation Output',
+    technologies: ['Python', 'Deep Learning', 'Computer Vision', 'Object Detection', 'Lighting Analysis', 'Recommendation Algorithms', 'VS Code'],
     results: [
-      'Recommendation accuracy reached 88% based on user taste validation studies',
-      '30% lift in mural conversions post-recommendation deployment',
-      '45% of platform discovery shifted from manual search to personalized recommendations',
+      'Engineered end-to-end mural recommendation pipeline for personalized suggestions',
+      'Accurate wall boundary and room object segmentation across diverse room layouts',
+      'Demonstrated high user satisfaction in matching mural art with room lighting conditions',
     ],
     learnings:
-      'Learned the critical value of contextual inputs in visual recommendations. Recommending art is not just about catalog visual similarity; room lighting, wall dimensions, and surrounding furniture drastically impact aesthetic suitability.',
+      'Learned the critical value of contextual inputs in visual recommendations. Recommending art is not just about catalog similarity; room lighting, wall dimensions, and surrounding furniture drastically impact aesthetic suitability.',
     links: { live: '#', code: '#' },
     featured: true,
     order_index: 4,
-  },
-  {
-    slug: 'seo-reporting-automation',
-    title: 'SEO Reporting Automation Dashboard',
-    category: 'SEO Projects',
-    role: 'Automation Developer',
-    type: 'Professional Project',
-    tagline: 'Automated SEO reporting pipeline that eliminated 6 hours of weekly manual work across 3 client accounts.',
-    problem:
-      'Manual SEO reporting consumed 6 hours per week across 3 client accounts. Reports were inconsistent, delayed, and dependent on manual data pulls from Google Search Console and GA4. Clients often received reports late, and issues were caught reactively.',
-    approach: [
-      'Built automated data extraction scripts in Python interfacing with Google Search Console API and GA4 Data API.',
-      'Designed data aggregation and transform pipelines to calculate MoM keyword rank changes, traffic trends, and conversion shifts.',
-      'Generated automated PDF client reports scheduled via Python cron to email clients every Monday.',
-      'Built a Flask dashboard for internal monitoring of keyword trends and drop-off alerts in real time.',
-    ],
-    architecture:
-      'GSC API + GA4 API → Python (Pandas) → MoM trend calculation → PDF generation → automated email delivery → Flask monitoring dashboard',
-    technologies: ['Python', 'Google Search Console API', 'GA4 API', 'Pandas', 'Flask', 'SMTP', 'ReportLab', 'VS Code'],
-    results: [
-      'Reporting time reduced from 6 hours → 15 minutes per week',
-      'Tracked 45+ keywords across 3 accounts in real time',
-      'Identified 8 ranking drop-off issues proactively — before clients noticed',
-      'Client satisfaction score: 4.9/5 for faster, consistent reporting',
-    ],
-    learnings:
-      'This project reinforced that automation\'s biggest value is not just speed — it\'s consistency. Manual reports introduce human error and delay. Once automated, the system caught issues I would have missed in manual review. I also learned how to work with OAuth2 and service account authentication for Google APIs at a production level.',
-    links: { live: '#', code: '#' },
-    featured: false,
-    order_index: 5,
-  },
-  {
-    slug: 'attribution-marketing-analytics',
-    title: 'Multi-Touch Marketing Attribution Engine',
-    category: 'Digital Marketing Projects',
-    role: 'Growth Marketing Engineer',
-    type: 'Client Project',
-    tagline: 'Custom data analytics model mapping multi-channel customer touchpoints to measure true ROI per ad channel.',
-    problem:
-      'Last-click attribution in Google Analytics gave 100% credit to bottom-funnel Search ads, starving top-funnel Social campaigns. The marketing team was misallocating budget without knowing true path-to-conversion performance.',
-    approach: [
-      'Ingested raw web interaction logs and ad spend data from Facebook Ads, Google Ads, and CRM APIs.',
-      'Built Markov Chain & Data-Driven Attribution models in Python to calculate channel contribution scores.',
-      'Created automated Looker Studio & Python dashboards displaying multi-touch conversion paths.',
-    ],
-    architecture:
-      'Ad APIs & GA4 Event Stream → Python Data Pipeline → Markov Chain Model → BigQuery → Interactive Dashboards',
-    technologies: ['Python', 'Pandas', 'BigQuery', 'GA4 Data API', 'Looker Studio', 'SQL', 'Product Analytics'],
-    results: [
-      'Reallocated 22% of ad budget to high-performing mid-funnel campaigns',
-      'Lowered Customer Acquisition Cost (CAC) by 18% across paid channels',
-      'Enabled real-time attribution tracking for $50k+ monthly ad spend',
-    ],
-    learnings:
-      'Understood the mathematical limitations of single-touch attribution models and how Markov chain transition probabilities reveal hidden assist channels in B2B customer journeys.',
-    links: { live: '#', code: '#' },
-    featured: false,
-    order_index: 6,
-  },
-  {
-    slug: 'nextjs-portfolio-engine',
-    title: 'High-Performance Web Portfolio & Content Hub',
-    category: 'Web Development Projects',
-    role: 'Full-Stack Developer',
-    type: 'Personal Project',
-    tagline: 'Lightning-fast Next.js App Router web application with dark mode UI, structured JSON-LD, and dynamic hubs.',
-    problem:
-      'Traditional static portfolios lack rich content organization, programmatic SEO capabilities, and smooth interactive animations needed to showcase multidisciplinary expertise.',
-    approach: [
-      'Engineered modular UI components using Next.js, React 19, TypeScript, and Framer Motion.',
-      'Implemented full OpenGraph metadata, Google-compliant JSON-LD structured schemas, and dynamic routing.',
-      'Designed custom glassmorphic dark-theme design tokens in vanilla CSS for optimal visual experience.',
-    ],
-    architecture:
-      'Next.js App Router → TypeScript → Tailwind & Custom CSS → Supabase / Static Data → Vercel Edge Hosting',
-    technologies: ['Next.js', 'React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Git/GitHub', 'Vercel'],
-    results: [
-      '100/100 Lighthouse performance and SEO scores',
-      'Sub-50ms page transitions with zero layout shift',
-      'Full mobile responsiveness and accessible keyboard navigation',
-    ],
-    learnings:
-      'Leveraged Next.js Server Components and client hydration boundaries to deliver rich animations without compromising fast initial paint metrics.',
-    links: { live: 'https://www.divyanshchandra.online', code: 'https://github.com/div874/portfolio' },
-    featured: false,
-    order_index: 7,
   },
 ];

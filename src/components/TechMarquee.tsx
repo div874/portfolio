@@ -6,32 +6,14 @@ import {
   SiPython, 
   SiWordpress,
   SiJavascript,
-  SiTypescript,
-  SiReact,
-  SiNodedotjs,
   SiHtml5,
-  SiTailwindcss,
   SiGit,
   SiGithub,
-  SiDocker,
-  SiPostgresql,
-  SiMysql,
-  SiMongodb,
-  SiOpenai,
-  SiPandas,
-  SiScikitlearn,
-  SiTensorflow,
-  SiPytorch,
-  SiZapier,
-  SiFigma,
-  SiGooglecloud,
-  SiVercel,
-  SiNextdotjs,
-  SiSelenium,
-  SiFastapi
+  SiOpenai
 } from 'react-icons/si';
 import { TbBrandGoogleAnalytics } from 'react-icons/tb';
-import { FaChartLine, FaAws, FaCss3Alt } from 'react-icons/fa6';
+import { FaChartLine, FaCss3Alt } from 'react-icons/fa6';
+import { VscVscode } from 'react-icons/vsc';
 
 const SiLangchain = (props: any) => (
   <svg 
@@ -50,29 +32,26 @@ const SiLangchain = (props: any) => (
 
 const slidingTechSkillsRow1 = [
   { name: 'Python', icon: SiPython, color: '#3776AB' },
-  { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
-  { name: 'React', icon: SiReact, color: '#61DAFB' },
-  { name: 'Next.js', icon: SiNextdotjs, color: '#171717' },
-  { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
-  { name: 'PostgreSQL', icon: SiPostgresql, color: '#4169E1' },
-  { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
-  { name: 'Docker', icon: SiDocker, color: '#2496ED' },
+  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
+  { name: 'SQL', icon: TbBrandGoogleAnalytics, color: '#4169E1' },
+  { name: 'C++', icon: VscVscode, color: '#00599C' },
+  { name: 'HTML5', icon: SiHtml5, color: '#E34F26' },
+  { name: 'CSS3', icon: FaCss3Alt, color: '#1572B6' },
+  { name: 'VS Code', icon: VscVscode, color: '#007ACC' },
   { name: 'Git', icon: SiGit, color: '#F05032' },
-  { name: 'GitHub', icon: SiGithub, color: '#171717' },
-  { name: 'Vercel', icon: SiVercel, color: '#171717' }
+  { name: 'GitHub', icon: SiGithub, color: '#171717' }
 ];
 
 const slidingTechSkillsRow2 = [
-  { name: 'OpenAI / LLMs', icon: SiOpenai, color: '#10A37F' },
+  { name: 'Transformers', icon: SiOpenai, color: '#a855f7' },
+  { name: 'XLM-RoBERTa / BERT', icon: SiOpenai, color: '#10A37F' },
   { name: 'LangChain', icon: SiLangchain, color: '#38A3F1' },
-  { name: 'Pandas', icon: SiPandas, color: '#150458' },
+  { name: 'LLM APIs & Prompting', icon: SiOpenai, color: '#10A37F' },
   { name: 'Google Analytics 4', icon: SiGoogleanalytics, color: '#E37400' },
   { name: 'Search Console', icon: SiGoogle, color: '#4285F4' },
-  { name: 'Ahrefs / SEO', icon: FaChartLine, color: '#FF6900' },
-  { name: 'Looker Studio', icon: TbBrandGoogleAnalytics, color: '#4285F4' },
-  { name: 'Selenium', icon: SiSelenium, color: '#43B02A' },
-  { name: 'WordPress', icon: SiWordpress, color: '#21759B' },
-  { name: 'Figma', icon: SiFigma, color: '#F24E1E' }
+  { name: 'Power BI & Tableau', icon: TbBrandGoogleAnalytics, color: '#F2C811' },
+  { name: 'Technical SEO', icon: FaChartLine, color: '#FF6900' },
+  { name: 'WordPress', icon: SiWordpress, color: '#21759B' }
 ];
 
 const TechMarquee = () => {
@@ -82,22 +61,23 @@ const TechMarquee = () => {
   return (
     <section className="section" style={{ paddingTop: '20px', paddingBottom: '60px' }}>
       <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-        <span className="section-label" style={{ opacity: 0.85 }}>PRODUCTION TOOLKIT</span>
+        <span className="section-label" style={{ opacity: 0.85 }}>APPLIED TOOLKIT</span>
         <h3 style={{ fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)', color: 'var(--text-primary)', margin: '4px 0 8px', fontWeight: 700 }}>
-          Technologies Used Across Shipped Work
+          Core Programming & Technical Toolset
         </h3>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', maxWidth: '650px', margin: '0 auto' }}>
-          Production languages, modern web frameworks, AI libraries, and deployment tools verified in my projects.
+          Programming languages, machine learning architectures, and analytics platforms applied in my academic and commercial work.
         </p>
       </div>
+
       <div className="tech-marquee-wrapper">
         {/* Track Row 1 - Left Sliding */}
         <div className="tech-marquee-mask">
           <div className="tech-marquee-track">
             {marqueeRow1.map((item, idx) => (
-              <div key={idx} className="tech-marquee-card">
+              <div key={`row1-${idx}`} className="tech-marquee-item">
                 <span className="tech-marquee-icon" style={{ color: item.color }}>
-                  <item.icon title={item.name} aria-label={item.name} />
+                  <item.icon />
                 </span>
                 <span className="tech-marquee-name">{item.name}</span>
               </div>
@@ -105,13 +85,13 @@ const TechMarquee = () => {
           </div>
         </div>
 
-        {/* Track Row 2 - Right Sliding (Reverse) */}
-        <div className="tech-marquee-mask">
-          <div className="tech-marquee-track-reverse">
+        {/* Track Row 2 - Right Sliding */}
+        <div className="tech-marquee-mask" style={{ marginTop: '16px' }}>
+          <div className="tech-marquee-track tech-marquee-track--reverse">
             {marqueeRow2.map((item, idx) => (
-              <div key={idx} className="tech-marquee-card">
+              <div key={`row2-${idx}`} className="tech-marquee-item">
                 <span className="tech-marquee-icon" style={{ color: item.color }}>
-                  <item.icon title={item.name} aria-label={item.name} />
+                  <item.icon />
                 </span>
                 <span className="tech-marquee-name">{item.name}</span>
               </div>

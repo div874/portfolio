@@ -87,11 +87,21 @@ const expertiseData = [
 
 const featuredProjects = [
   {
+    title: 'Customer Complaint Auto Resolver (DL & NLP)',
+    category: 'Deep Learning & Multilingual NLP',
+    desc: 'Built an end-to-end multilingual AI system for automated complaint classification, sentiment analysis, urgency detection, and context-aware LLM response generation.',
+    metric: 'Published IEEE Research: 2026 6th CONIT, IEEE [DOI: 11621397]',
+    tags: ['Python', 'NLP', 'Transformers', 'XLM-RoBERTa', 'BERT', 'LLM APIs', 'VS Code'],
+    slug: 'customer-complaint-auto-resolver',
+    role: 'Design and Development',
+    type: 'Research & Academic Project'
+  },
+  {
     title: 'Humara Sheher – City Discovery Platform',
     category: 'Product Development & Discovery',
     desc: 'Building a hyper-local platform for discovering events, eateries, and unique city experiences with automated event aggregation, categorization, and deduplication.',
     metric: 'Automated event collection & deduplication pipeline with instant ticket redirects',
-    tags: ['Product Strategy', 'Python', 'Product Analytics', 'Next.js', 'React'],
+    tags: ['Problem Framing', 'Feature Prioritization', 'Product Analytics', 'Python', 'SQL'],
     slug: 'humara-sheher',
     role: 'Product Development',
     type: 'Product Project'
@@ -101,17 +111,17 @@ const featuredProjects = [
     category: 'AI Product Strategy & LLMs',
     desc: 'Conceptualized an AI platform that audits and reviews marketing content against brand guidelines, facts, tone of voice, and visual assets before publication.',
     metric: 'Deterministic brand compliance auditing & automated guideline verification',
-    tags: ['AI Product Strategy', 'LLM APIs', 'Prompt Engineering', 'LangChain'],
+    tags: ['AI Product Strategy', 'LLM APIs', 'Prompt Engineering', 'LangChain', 'Python'],
     slug: 'brand-sutra',
     role: 'AI Product Strategy',
     type: 'AI Product Strategy'
   },
   {
-    title: 'Wallcurry AI Recommendation Model',
-    category: 'Computer Vision & Recommendations',
-    desc: 'Developed an AI-driven personalized mural recommendation system integrating wall and object detection, lighting analysis, and user tastes for an art catalog.',
-    metric: '88% recommendation accuracy & 30% increase in mural purchases',
-    tags: ['Python', 'Deep Learning', 'Computer Vision', 'FAISS', 'VS Code'],
+    title: 'Wallcurry Model (AI Mural Recommendation System)',
+    category: 'Computer Vision & Deep Learning',
+    desc: 'Developed an AI-driven personalized mural recommendation system integrating wall and object detection, lighting analysis, and user preferences for mural art.',
+    metric: 'Wall & object detection with room lighting condition analysis',
+    tags: ['Python', 'Deep Learning', 'Computer Vision', 'Object Detection', 'VS Code'],
     slug: 'wallcurry-ai-recommendation',
     role: 'Design and Development',
     type: 'AI/ML Project'
